@@ -29,4 +29,13 @@ export default defineConfig({
       autoInstall: true, // Automatically install missing icon packages
     }),
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://cafenomad.tw/api/v1.2/cafes', // 目標 API URL
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''), // 將 /api 替換為空
+      },
+    },
+  },
 })

@@ -137,7 +137,7 @@ export default {
       { to: '/work/works', text: 'nav.item2' },             // work page
       { to: '/blog/blog', text: 'nav.item3' },         // Blog listing page
       { to: '/others', text: 'nav.item4' },       // Others page
-      { to: '/about', text: 'nav.item5' },        // About page
+      { to: '/test', text: 'nav.item5' },        // About page
     ];
 
     // Check if a menu item should be active based on the current route
