@@ -128,7 +128,7 @@ const fetchAllCafes = async () => {
 async function fetchCafeImages() {
   const accessKey = '_9F7po_Bi4VFYiC6StcE3DhxvqlOSyldaXLdHTzBpNI'; // Replace with your Unsplash Access Key
   const query = 'cafe'; // Theme for the images
-  const count = 9; // Number of images to fetch
+  const count = 24; // Number of images to fetch
 
   try {
     const response = await fetch(
