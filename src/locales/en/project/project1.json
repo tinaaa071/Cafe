@@ -1,0 +1,20 @@
+{
+    "core":{
+        "title": "Health Academy",
+        "desc": "Taiwan International Medical Education"
+    },
+    "infoContent":{
+        "item1": "XX Company",
+        "item2": "Business Website",
+        "item3": "UI / UX",
+        "item4": "Coding",
+        "item5": "Front-end engineer"
+    },
+    "briefCard":{
+        "item1": "The team wanted to redesign the existing search experience on Indeed for Japanese job seekers. Also, we wanted to refactor our infrastructure for the future scale.",
+        "item2": "Role & Deliverables",
+        "item3": "Challenges",
+        "item4": "Outcome & Impact"
+    }
+    
+}

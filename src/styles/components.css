@@ -1,0 +1,13 @@
+@layer components {
+    .card {
+        .link {
+            @apply font-bold text-2xl
+        }
+    }
+    .text-outline {
+        @apply text-transparent;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke-color: currentColor;
+        -webkit-text-stroke-width: .03em;
+    }
+}

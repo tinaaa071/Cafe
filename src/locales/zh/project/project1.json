@@ -1,0 +1,20 @@
+{
+    "core":{
+        "title": "海外醫事人員培訓平台",
+        "desc": "提供世界各地醫護人員來台培訓課程"
+    },
+    "infoContent":{
+        "item1": "XX 公司",
+        "item2": "形象網站",
+        "item3": "UI / UX",
+        "item4": "切版",
+        "item5": "前端工程師"
+    },
+    "briefCard":{
+        "item1": "我們的團隊想要為日本的求職者重新設計目前的 Indeed 工作搜尋體驗，同時也想要重新整理產品系統架構增加未來產品擴展彈性。",
+        "item2": "Role & Deliverables",
+        "item3": "Challenges",
+        "item4": "Outcome & Impact"
+    }
+    
+}

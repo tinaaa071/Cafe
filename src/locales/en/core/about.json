@@ -1,0 +1,58 @@
+{
+    "info":{
+        "item1": "Hello! Nice to meet you. 👋🏻",
+        "item2": "View Project",
+        "item3": "UI/UX",
+        "item4": "Coding",
+        "item5": "View Site"
+    },
+    "value":{
+        "T1": "My Values",
+        "S1": "Empathize others",
+        "S2": "Keep learning & sharing",
+        "S3": "Create values",
+        "V1": "Coding",
+        "V2": "View Site",
+        "V3": "View Site"
+    },
+    "skill":{
+        "T1": "I specialize in",
+        "S1": "Interaction Design",
+        "S2": "Visual Design",
+        "S3": "User Research"
+    },
+    "language":{
+        "T1": "I speak",
+        "S1": "🇹🇼\u00A0\u00A0Chinese (Mandarin)",
+        "S2": "🇺🇸\u00A0\u00A0English",
+        "L1": "Native Speaker",
+        "L2": "Full Working Proficiency"
+    },
+    "education":{
+        "T1": "Education",
+        "S1": "TUniversity",
+        "L1": "Native Speaker",
+        "L2": "Native Speaker"
+    },
+    "certificate":{
+        "T1": "Self-Learning",
+        "S1": "TUniversity",
+        "S2": "TUniversity",
+        "S3": "TUniversity",
+        "S4": "TUniversity",
+        "S5": "TUniversity",
+        "S6": "TUniversity",
+        "L1": "Native Speaker",
+        "L2": "Native Speaker",
+        "L3": "Native Speaker",
+        "L4": "Native Speaker",
+        "L5": "Native Speaker",
+        "L6": "Native Speaker"
+    },
+    "tool":{
+        "T1": "Tools"
+    },
+    "work":{
+        "T1": "Working Experience"
+    }
+}

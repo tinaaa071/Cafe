@@ -1,0 +1,42 @@
+{
+    "core":{
+        "item1": "WORKS",
+        "item2": "View Project",
+        "item3": "UI/UX",
+        "item4": "Coding",
+        "item5": "View Site"
+    },
+    "title":{
+        "item1": "Info",
+        "item2": "Overview",
+        "item3": "Background",
+        "item4": "Design System"
+    },
+    "info":{
+        "item1": "Duration",
+        "item2": "My Role",
+        "item3": "Responsibility",
+        "item4": "Company"
+    },
+    "infoCard":{
+        "item1": "Service Client",
+        "item2": "Demand Services",
+        "item3": "Role",
+        "item4": "Team"
+    },
+    "briefCard":{
+        "item1": "Objective",
+        "item2": "Role & Deliverables",
+        "item3": "Challenges",
+        "item4": "Outcome & Impact"
+    },
+    "designSystem":{
+        "item1": "Colours",
+        "item2": "Typography",
+        "item3": "Icons",
+        "item4": "Spacing",
+        "item5": "Components",
+        "item6": "Illustrations",
+        "item7": "Logo"
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "core":{
+        "item1": "專案項目",
+        "item2": "了解專案細節",
+        "item5": "前往網站"
+    },
+    "title":{
+        "item1": "專案資訊",
+        "item2": "專案概覽",
+        "item3": "專案背景",
+        "item4": "設計系統"
+    },
+    "info":{
+        "item1": "專案期間",
+        "item2": "主要負責項目",
+        "item3": "專案成果",
+        "item4": "服務公司"
+    },
+    "infoCard":{
+        "item1": "服務對象",
+        "item2": "需求服務",
+        "item3": "角色",
+        "item4": "團隊成員"
+    },
+    "briefCard":{
+        "item1": "團隊目標",
+        "item2": "角色與產出",
+        "item3": "專案挑戰",
+        "item4": "專案成果與影響"
+    },
+    "designSystem":{
+        "item1": "顏色",
+        "item2": "字型",
+        "item3": "Icons",
+        "item4": "間距",
+        "item5": "元件",
+        "item6": "插畫",
+        "item7": "Logo"
+    }
+}
