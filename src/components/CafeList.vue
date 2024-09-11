@@ -81,7 +81,6 @@ const cities = [
 
 // Computed property to filter cafes based on search query and city
 const filteredCafes = computed(() => {
-  if (!searchQuery.value && cityName.value === 'all') return cafes.value;
   return cafes.value.filter(cafe => {
     const matchesCity = cityName.value === 'all' || cafe.address.includes(cityName.value);
     const matchesQuery = cafe.name.toLowerCase().includes(searchQuery.value.toLowerCase());
@@ -97,7 +96,6 @@ const fetchCafes = async (city) => {
   displayTitle.value = city;
   searchQuery.value = ''; // Clear search input
   try {
-    // Fetch cafes from the API and filter by city address
     cafes.value = await getCafes(city);
     await fetchCafeImages(); // Fetch images when cafes are loaded
   } catch (err) {
