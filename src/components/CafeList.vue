@@ -31,10 +31,18 @@
         <li v-for="cafe in filteredCafes" :key="cafe.id">
           <h2>{{ cafe.name }}</h2>
           <p>Address: {{ cafe.address }}</p>
+          <p>Open Time: {{ cafe.open_time }}</p>
           <p>Limited Time: {{ cafe.limited_time ? 'Yes' : 'No' }}</p>
           <p>Socket Availability: {{ cafe.socket }}</p>
           <p>Standing Desk: {{ cafe.standing_desk ? 'Yes' : 'No' }}</p>
           <p>Music: {{ cafe.music }}</p>
+          <p>Wifi: {{ cafe.wifi }}</p>
+          <p>Seat: {{ cafe.seat }}</p>
+          <p>Quiet: {{ cafe.quiet }}</p>
+          <p>Tasty: {{ cafe.tasty }}</p>
+          <p>Price: {{ cafe.cheap }}</p>
+          <p>Url: {{ cafe.url }}</p>
+          <p>MRT: {{ cafe.mrt }}</p>
         </li>
       </ul>
       <p v-else>Loading...</p>
@@ -59,7 +67,7 @@
   const isLoading = ref(true);
   
   // 可選擇的城市列表
-  const cities = ['taipei', 'taichung', 'kaohsiung', 'tainan', 'hualien'];
+  const cities = ['taipei', 'hsinchu', 'taichung', 'kaohsiung', 'tainan', 'hualien'];
   
   const fetchCafes = async (city) => {
     error.value = null;
