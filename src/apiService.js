@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: '/api', // 使用 Proxy 設定的 API 路徑
+  baseURL: '/api', // 使用 proxy 設置的 API 路徑
   headers: {
     'Content-Type': 'application/json',
   },
