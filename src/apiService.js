@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: '/api', // 使用 proxy 設置的 API 路徑
+  baseURL: '', // 使用空字串以便能夠請求 `public` 目錄下的檔案
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,7 +10,8 @@ const apiClient = axios.create({
 
 export const getCafes = async (city) => {
   try {
-    const response = await apiClient.get(`/${city}`);
+    // 假設你的 JSON 檔案位於 `public` 目錄下的 `/city.json`
+    const response = await apiClient.get(`/data.json`);
     return response.data;
   } catch (error) {
     console.error('Failed to fetch cafes:', error);
