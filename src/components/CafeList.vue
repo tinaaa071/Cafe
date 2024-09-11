@@ -1,4 +1,3 @@
-<!-- src/components/CafeList.vue -->
 <template>
   <div>
     <h1>{{ displayTitle }} Cafes</h1>
@@ -64,27 +63,31 @@ import { getCafes } from '../apiService.js';
 
 const cafes = ref([]);
 const images = ref([]);
-const filteredCafes = computed(() => {
-  if (!searchQuery.value) return cafes.value;
-  return cafes.value.filter((cafe) =>
-    cafe.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
-});
 const searchQuery = ref('');
-const error = ref(null);
-const cityName = ref('taipei'); // Default city
+const cityName = ref('台北市'); // Default city
 const displayTitle = ref(cityName.value);
+const error = ref(null);
 const isLoading = ref(true);
 
 // List of available cities
 const cities = [
-  'taipei',
-  'hsinchu',
-  'taichung',
-  'kaohsiung',
-  'tainan',
-  'hualien',
+  '台北市',
+  '新竹市',
+  '台中市',
+  '高雄市',
+  '台南市',
+  '花蓮縣',
 ];
+
+// Computed property to filter cafes based on search query and city
+const filteredCafes = computed(() => {
+  if (!searchQuery.value && cityName.value === 'all') return cafes.value;
+  return cafes.value.filter(cafe => {
+    const matchesCity = cityName.value === 'all' || cafe.address.includes(cityName.value);
+    const matchesQuery = cafe.name.toLowerCase().includes(searchQuery.value.toLowerCase());
+    return matchesCity && matchesQuery;
+  });
+});
 
 // Fetch cafes for a specific city
 const fetchCafes = async (city) => {
@@ -94,6 +97,7 @@ const fetchCafes = async (city) => {
   displayTitle.value = city;
   searchQuery.value = ''; // Clear search input
   try {
+    // Fetch cafes from the API and filter by city address
     cafes.value = await getCafes(city);
     await fetchCafeImages(); // Fetch images when cafes are loaded
   } catch (err) {
