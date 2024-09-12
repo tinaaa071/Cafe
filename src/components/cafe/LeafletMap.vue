@@ -5,8 +5,12 @@
   
   <script setup>
   import { onMounted, defineProps } from 'vue';
+  import 'leaflet/dist/leaflet.css';
   import L from 'leaflet';
-  import 'leaflet/dist/leaflet.css'; // 確保 Leaflet 樣式被加載
+  import 'leaflet/dist/images/marker-icon.png';
+  import 'leaflet/dist/images/marker-icon-2x.png';
+  import 'leaflet/dist/images/marker-shadow.png';
+
   
   const props = defineProps({
     lat: {
