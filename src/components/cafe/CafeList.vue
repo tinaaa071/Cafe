@@ -61,6 +61,7 @@
         <p>Quiet: {{ cafe.quiet }}</p>
         <p>Tasty: {{ cafe.tasty }}</p>
         <p>Price: {{ cafe.cheap }}</p>
+        <p>MRT: {{ cafe.mrt }}</p>
         <p>Url: {{ cafe.url }}</p>
         <Map :cafes="[cafe]" />
       </div>
