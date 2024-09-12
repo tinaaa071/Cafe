@@ -1,5 +1,11 @@
 <template>
   <div>
+    <input
+      v-model="searchQuery"
+      @input="filterCafes"
+      placeholder="Search cafes..."
+      class="search-input"
+    />
     <h1>{{ displayTitle }} Cafes</h1>
     <div>
       <button
@@ -17,49 +23,42 @@
         全部城市
       </button>
     </div>
-    <div>
-      <input
-        v-model="searchQuery"
-        @input="filterCafes"
-        placeholder="Search cafes..."
-        class="search-input"
-      />
-    </div>
     <div v-if="error" class="error">{{ error }}</div>
-      <div v-else-if="paginatedCafes.length" class="grid grid-cols-3 gap-4">
-        <div
-          v-for="(cafe, index) in paginatedCafes"
-          :key="cafe.id"
-          class="cafe-card"
-        >
-          <h2>{{ cafe.name }}</h2>
-          <img
-            :src="getImageUrl(index)"
-            :alt="getImageAlt(index)"
-            class="object-cover w-full rounded-lg shadow-md aspect-video"
-          />
-          <p>Address: {{ cafe.address }}</p>
-          <p>Open Time: {{ cafe.open_time }}</p>
-          <p>Limited Time: {{ cafe.limited_time ? 'Yes' : 'No' }}</p>
-          <p>Socket Availability: {{ cafe.socket }}</p>
-          <p>Standing Desk: {{ cafe.standing_desk ? 'Yes' : 'No' }}</p>
-          <p>Music: {{ cafe.music }}</p>
-          <p>Wifi: {{ cafe.wifi }}</p>
-          <p>Seat: {{ cafe.seat }}</p>
-          <p>Quiet: {{ cafe.quiet }}</p>
-          <p>Tasty: {{ cafe.tasty }}</p>
-          <p>Price: {{ cafe.cheap }}</p>
-          <p>Url: {{ cafe.url }}</p>
-          <Map :cafes="[cafe]" />
-        </div>
-      </div> 
-      <p v-else>Loading...</p>
-      <Paginator
-        :total-items="filteredCafes.length"
-        :items-per-page="itemsPerPage"
-        @page-changed="handlePageChanged"
-      />
+    <div v-else-if="filteredCafes.length" class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div
+        v-for="(cafe, index) in paginatedCafes"
+        :key="cafe.id"
+        class="cafe-card"
+      >
+        <h2>{{ cafe.name }}</h2>
+        <img
+          :src="getImageUrl(index)"
+          :alt="getImageAlt(index)"
+          class="object-cover w-full rounded-lg shadow-md aspect-video"
+        />
+        <p>Address: {{ cafe.address }}</p>
+        <p>Open Time: {{ cafe.open_time }}</p>
+        <p>Limited Time: {{ cafe.limited_time ? 'Yes' : 'No' }}</p>
+        <p>Socket Availability: {{ cafe.socket }}</p>
+        <p>Standing Desk: {{ cafe.standing_desk ? 'Yes' : 'No' }}</p>
+        <p>Music: {{ cafe.music }}</p>
+        <p>Wifi: {{ cafe.wifi }}</p>
+        <p>Seat: {{ cafe.seat }}</p>
+        <p>Quiet: {{ cafe.quiet }}</p>
+        <p>Tasty: {{ cafe.tasty }}</p>
+        <p>Price: {{ cafe.cheap }}</p>
+        <p>Url: {{ cafe.url }}</p>
+        <Map :cafes="[cafe]" />
+      </div>
     </div>
+    <p v-else-if="filteredCafes.length === 0">無搜尋結果</p>
+    <p v-else>Loading...</p>
+    <Paginator
+      :total-items="filteredCafes.length"
+      :items-per-page="itemsPerPage"
+      @page-changed="handlePageChanged"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -68,6 +67,7 @@ import { getCafes } from '../../apiService.js';
 import Map from './Map.vue'; // 確保正確引用 Map 元件
 
 const cafes = ref([]);
+const allCafes = ref([]); // 用來存儲所有咖啡館數據
 const images = ref([]);
 const searchQuery = ref('');
 const cityName = ref('台北市'); // Default city
@@ -79,14 +79,29 @@ const itemsPerPage = ref(6); // 每頁顯示 6 筆資料
 const cities = ['台北市', '新竹市', '台中市', '高雄市', '台南市', '花蓮縣'];
 
 const filteredCafes = computed(() => {
-  return cafes.value.filter((cafe) => {
+  const searchQueryLower = searchQuery.value.toLowerCase();
+
+  // 過濾符合條件的咖啡館
+  const filtered = allCafes.value.filter((cafe) => {
     const matchesCity =
       cityName.value === 'all' || cafe.address.includes(cityName.value);
     const matchesQuery = cafe.name
       .toLowerCase()
-      .includes(searchQuery.value.toLowerCase());
+      .includes(searchQueryLower);
     return matchesCity && matchesQuery;
   });
+
+  // 去除 cafe.name 重複的項目
+  const uniqueCafes = [];
+  const cafeNames = new Set();
+  filtered.forEach(cafe => {
+    if (!cafeNames.has(cafe.name)) {
+      cafeNames.add(cafe.name);
+      uniqueCafes.push(cafe);
+    }
+  });
+
+  return uniqueCafes;
 });
 
 const paginatedCafes = computed(() => {
@@ -108,7 +123,9 @@ const fetchCafes = async (city) => {
   displayTitle.value = city;
   searchQuery.value = '';
   try {
-    cafes.value = await getCafes(city);
+    const cityCafes = await getCafes(city);
+    allCafes.value = [...new Set([...allCafes.value, ...cityCafes])]; // 更新 allCafes
+    cafes.value = cityCafes;
     await fetchCafeImages();
   } catch (err) {
     error.value = 'Failed to load cafes.';
@@ -122,13 +139,25 @@ const fetchAllCafes = async () => {
   isLoading.value = true;
   cityName.value = 'all';
   displayTitle.value = 'All Cities';
-  cafes.value = [];
   searchQuery.value = '';
 
   try {
     const promises = cities.map((city) => getCafes(city));
     const results = await Promise.all(promises);
-    cafes.value = results.flat();
+    const all = results.flat();
+
+    // 去除 cafe.name 重複的項目
+    const uniqueCafes = [];
+    const cafeNames = new Set();
+    all.forEach(cafe => {
+      if (!cafeNames.has(cafe.name)) {
+        cafeNames.add(cafe.name);
+        uniqueCafes.push(cafe);
+      }
+    });
+
+    allCafes.value = uniqueCafes;
+    cafes.value = uniqueCafes;
     await fetchCafeImages();
   } catch (err) {
     error.value = 'Failed to load cafes.';
