@@ -19,6 +19,15 @@
   const mapInstance = ref(null);
   const marker = ref(null);
   
+  // 自訂圖示的路徑
+  const customIcon = L.icon({
+    iconUrl: '/icons/marker-icon.png', // 這裡是相對於 public 文件夾的路徑
+    iconSize: [25, 41], // 圖示的尺寸
+    iconAnchor: [12, 41], // 圖示的錨點位置
+    popupAnchor: [1, -34] // 彈出框的錨點位置
+  });
+  
+  // 初始化地圖
   const initMap = () => {
     if (props.cafes.length === 0) return;
   
@@ -36,7 +45,7 @@
     }).addTo(mapInstance.value);
   
     // 添加標記
-    marker.value = L.marker([latitude, longitude])
+    marker.value = L.marker([latitude, longitude], { icon: customIcon })
       .addTo(mapInstance.value)
       .bindPopup(`<strong>${cafe.name}</strong><br>${cafe.address}<br><a href="${cafe.url}" target="_blank">更多資訊</a>`)
       .openPopup();
@@ -63,7 +72,7 @@
         }
   
         // 添加新的標記
-        marker.value = L.marker([latitude, longitude])
+        marker.value = L.marker([latitude, longitude], { icon: customIcon })
           .addTo(mapInstance.value)
           .bindPopup(`<strong>${cafe.name}</strong><br>${cafe.address}<br><a href="${cafe.url}" target="_blank">更多資訊</a>`)
           .openPopup();
