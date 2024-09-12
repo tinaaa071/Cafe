@@ -38,4 +38,10 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      external: ['leaflet']
+    }
+  },
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.svg'],
 })
