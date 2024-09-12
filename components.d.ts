@@ -15,7 +15,7 @@ declare module 'vue' {
     Banner: typeof import('./src/components/work/Banner.vue')['default']
     Banner1: typeof import('./src/components/core/Banner1.vue')['default']
     Brief: typeof import('./src/components/blog/post/Brief.vue')['default']
-    CafeList: typeof import('./src/components/CafeList.vue')['default']
+    CafeList: typeof import('./src/components/cafe/CafeList.vue')['default']
     Callout: typeof import('./src/components/blog/post/Callout.vue')['default']
     CardTilt: typeof import('./src/components/effect/CardTilt.vue')['default']
     ChatBubble: typeof import('./src/components/effect/ChatBubble.vue')['default']

@@ -36,7 +36,7 @@
         <img
           :src="getImageUrl(index)"
           :alt="getImageAlt(index)"
-          class="w-full h-full object-cover rounded-lg shadow-md aspect-video"
+          class="object-cover w-full h-full rounded-lg shadow-md aspect-video"
         />
         <p>Address: {{ cafe.address }}</p>
         <p>Open Time: {{ cafe.open_time }}</p>
@@ -51,6 +51,7 @@
         <p>Price: {{ cafe.cheap }}</p>
         <p>Url: {{ cafe.url }}</p>
         <p>MRT: {{ cafe.mrt }}</p>
+        <Map :cafes="[cafe]" />
       </li>
     </ul>
     <p v-else>Loading...</p>
@@ -59,7 +60,8 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { getCafes } from '../apiService.js';
+import { getCafes } from '../../apiService.js';
+import Map from './Map.vue'; // 確保正確引用 Map 元件
 
 const cafes = ref([]);
 const images = ref([]);
@@ -69,35 +71,28 @@ const displayTitle = ref(cityName.value);
 const error = ref(null);
 const isLoading = ref(true);
 
-// List of available cities
-const cities = [
-  '台北市',
-  '新竹市',
-  '台中市',
-  '高雄市',
-  '台南市',
-  '花蓮縣',
-];
+const cities = ['台北市', '新竹市', '台中市', '高雄市', '台南市', '花蓮縣'];
 
-// Computed property to filter cafes based on search query and city
 const filteredCafes = computed(() => {
-  return cafes.value.filter(cafe => {
-    const matchesCity = cityName.value === 'all' || cafe.address.includes(cityName.value);
-    const matchesQuery = cafe.name.toLowerCase().includes(searchQuery.value.toLowerCase());
+  return cafes.value.filter((cafe) => {
+    const matchesCity =
+      cityName.value === 'all' || cafe.address.includes(cityName.value);
+    const matchesQuery = cafe.name
+      .toLowerCase()
+      .includes(searchQuery.value.toLowerCase());
     return matchesCity && matchesQuery;
   });
 });
 
-// Fetch cafes for a specific city
 const fetchCafes = async (city) => {
   error.value = null;
   isLoading.value = true;
   cityName.value = city;
   displayTitle.value = city;
-  searchQuery.value = ''; // Clear search input
+  searchQuery.value = '';
   try {
     cafes.value = await getCafes(city);
-    await fetchCafeImages(); // Fetch images when cafes are loaded
+    await fetchCafeImages();
   } catch (err) {
     error.value = 'Failed to load cafes.';
   } finally {
@@ -105,20 +100,19 @@ const fetchCafes = async (city) => {
   }
 };
 
-// Fetch all cafes from all cities
 const fetchAllCafes = async () => {
   error.value = null;
   isLoading.value = true;
   cityName.value = 'all';
   displayTitle.value = 'All Cities';
   cafes.value = [];
-  searchQuery.value = ''; // Clear search input
+  searchQuery.value = '';
 
   try {
     const promises = cities.map((city) => getCafes(city));
     const results = await Promise.all(promises);
     cafes.value = results.flat();
-    await fetchCafeImages(); // Fetch images when all cafes are loaded
+    await fetchCafeImages();
   } catch (err) {
     error.value = 'Failed to load cafes.';
   } finally {
@@ -126,11 +120,10 @@ const fetchAllCafes = async () => {
   }
 };
 
-// Fetch images from Unsplash API
 async function fetchCafeImages() {
-  const accessKey = '_9F7po_Bi4VFYiC6StcE3DhxvqlOSyldaXLdHTzBpNI'; // Replace with your Unsplash Access Key
-  const query = 'cafe'; // Theme for the images
-  const count = 24; // Number of images to fetch
+  const accessKey = '_9F7po_Bi4VFYiC6StcE3DhxvqlOSyldaXLdHTzBpNI';
+  const query = 'cafe';
+  const count = 8;
 
   try {
     const response = await fetch(
@@ -142,17 +135,14 @@ async function fetchCafeImages() {
   }
 }
 
-// Get the image URL for the current cafe
 const getImageUrl = (index) => {
   return images.value[index]?.urls.regular || 'https://via.placeholder.com/400';
 };
 
-// Get the alt description for the current cafe
 const getImageAlt = (index) => {
   return images.value[index]?.alt_description || 'Cafe Image';
 };
 
-// Load default cafes when the component is mounted
 onMounted(() => {
   fetchCafes(cityName.value);
 });
