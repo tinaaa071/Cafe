@@ -26,36 +26,40 @@
       />
     </div>
     <div v-if="error" class="error">{{ error }}</div>
-    <ul v-else-if="filteredCafes.length">
-      <li
-        v-for="(cafe, index) in filteredCafes"
-        :key="cafe.id"
-        class="cafe-card"
-      >
-        <h2>{{ cafe.name }}</h2>
-        <img
-          :src="getImageUrl(index)"
-          :alt="getImageAlt(index)"
-          class="object-cover w-full h-full rounded-lg shadow-md aspect-video"
-        />
-        <p>Address: {{ cafe.address }}</p>
-        <p>Open Time: {{ cafe.open_time }}</p>
-        <p>Limited Time: {{ cafe.limited_time ? 'Yes' : 'No' }}</p>
-        <p>Socket Availability: {{ cafe.socket }}</p>
-        <p>Standing Desk: {{ cafe.standing_desk ? 'Yes' : 'No' }}</p>
-        <p>Music: {{ cafe.music }}</p>
-        <p>Wifi: {{ cafe.wifi }}</p>
-        <p>Seat: {{ cafe.seat }}</p>
-        <p>Quiet: {{ cafe.quiet }}</p>
-        <p>Tasty: {{ cafe.tasty }}</p>
-        <p>Price: {{ cafe.cheap }}</p>
-        <p>Url: {{ cafe.url }}</p>
-        <p>MRT: {{ cafe.mrt }}</p>
-        <Map :cafes="[cafe]" />
-      </li>
-    </ul>
-    <p v-else>Loading...</p>
-  </div>
+      <div v-else-if="paginatedCafes.length" class="grid grid-cols-3 gap-4">
+        <div
+          v-for="(cafe, index) in paginatedCafes"
+          :key="cafe.id"
+          class="cafe-card"
+        >
+          <h2>{{ cafe.name }}</h2>
+          <img
+            :src="getImageUrl(index)"
+            :alt="getImageAlt(index)"
+            class="object-cover w-full rounded-lg shadow-md aspect-video"
+          />
+          <p>Address: {{ cafe.address }}</p>
+          <p>Open Time: {{ cafe.open_time }}</p>
+          <p>Limited Time: {{ cafe.limited_time ? 'Yes' : 'No' }}</p>
+          <p>Socket Availability: {{ cafe.socket }}</p>
+          <p>Standing Desk: {{ cafe.standing_desk ? 'Yes' : 'No' }}</p>
+          <p>Music: {{ cafe.music }}</p>
+          <p>Wifi: {{ cafe.wifi }}</p>
+          <p>Seat: {{ cafe.seat }}</p>
+          <p>Quiet: {{ cafe.quiet }}</p>
+          <p>Tasty: {{ cafe.tasty }}</p>
+          <p>Price: {{ cafe.cheap }}</p>
+          <p>Url: {{ cafe.url }}</p>
+          <Map :cafes="[cafe]" />
+        </div>
+      </div> 
+      <p v-else>Loading...</p>
+      <Paginator
+        :total-items="filteredCafes.length"
+        :items-per-page="itemsPerPage"
+        @page-changed="handlePageChanged"
+      />
+    </div>
 </template>
 
 <script setup>
@@ -70,6 +74,7 @@ const cityName = ref('台北市'); // Default city
 const displayTitle = ref(cityName.value);
 const error = ref(null);
 const isLoading = ref(true);
+const itemsPerPage = ref(6); // 每頁顯示 6 筆資料
 
 const cities = ['台北市', '新竹市', '台中市', '高雄市', '台南市', '花蓮縣'];
 
@@ -83,6 +88,18 @@ const filteredCafes = computed(() => {
     return matchesCity && matchesQuery;
   });
 });
+
+const paginatedCafes = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  const end = start + itemsPerPage.value;
+  return filteredCafes.value.slice(start, end);
+});
+
+const currentPage = ref(1);
+
+const handlePageChanged = (page) => {
+  currentPage.value = page;
+};
 
 const fetchCafes = async (city) => {
   error.value = null;

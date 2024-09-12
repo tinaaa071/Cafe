@@ -1,14 +1,5 @@
 <template>
   <div class="flex items-center justify-center text-center text-stone-900 dark:text-white">
-    <!-- <button
-      @click="goToPage(1)"
-      :disabled="currentPage === 1"
-      class="px-3 py-1 bg-gray-200 hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
-    >
-      First
-    </button> -->
-    
-    <!-- Previous Button -->
     <button
       @click="goToPage(currentPage - 1)"
       :disabled="currentPage === 1"
@@ -44,14 +35,6 @@
     >
       <OcticonChevronRight24 />
     </button>
-    
-    <!-- <button
-      @click="goToPage(totalPages)"
-      :disabled="currentPage === totalPages"
-      class="px-3 py-1 bg-gray-200 hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
-    >
-      Last
-    </button> -->
   </div>
 </template>
 
