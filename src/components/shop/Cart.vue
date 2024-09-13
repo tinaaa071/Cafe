@@ -29,7 +29,7 @@
             :key="index"
             class="flex flex-col pb-2 mb-2 border-b"
           >
-          <img :src="item.image" :alt="item.name" class="object-cover w-24 h-24 rounded" />
+            <img :src="item.image" :alt="item.name" class="object-cover w-24 h-24 rounded" />
             <div class="flex items-center justify-between">
               <span>{{ item.name }} (x{{ item.quantity }})</span>
               <span>${{ (item.price * item.quantity).toFixed(2) }}</span>
@@ -38,7 +38,7 @@
               <button
                 @click="updateQuantity(item.name, item.quantity - 1)"
                 class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-                :disabled="item.quantity === 1"
+                :disabled="item.quantity <= 0"
               >
                 -
               </button>
@@ -46,7 +46,6 @@
                 v-model.number="item.quantity"
                 @input="updateQuantity(item.name, item.quantity)"
                 class="w-12 text-center border rounded"
-                min="1"
               />
               <button
                 @click="updateQuantity(item.name, item.quantity + 1)"
@@ -102,7 +101,11 @@
   const cartTotal = computed(() => store.getters.cartTotal);
   
   function updateQuantity(itemName, quantity) {
-    store.dispatch('updateQuantity', { itemName, quantity });
+    if (quantity <= 0) {
+      removeFromCart(itemName);
+    } else {
+      store.dispatch('updateQuantity', { itemName, quantity });
+    }
   }
   
   function removeFromCart(itemName) {

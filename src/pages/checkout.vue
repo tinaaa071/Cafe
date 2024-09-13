@@ -13,14 +13,18 @@
               {{ ((item.price / item.quantity) * item.quantity).toFixed(2) }}
             </div>
             <div class="flex items-center gap-2 mt-2">
-              <button
+                <button
                 @click="updateQuantity(item.name, item.quantity - 1)"
-                class="px-2 py-1 text-white bg-gray-500 rounded hover:bg-gray-600"
-                :disabled="item.quantity === 1"
+                class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+                :disabled="item.quantity <= 0"
               >
                 -
               </button>
-              <span>{{ item.quantity }}</span>
+              <input
+                v-model.number="item.quantity"
+                @input="updateQuantity(item.name, item.quantity)"
+                class="w-12 text-center border rounded"
+              />
               <button
                 @click="updateQuantity(item.name, item.quantity + 1)"
                 class="px-2 py-1 text-white bg-gray-500 rounded hover:bg-gray-600"
