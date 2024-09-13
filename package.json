@@ -21,7 +21,8 @@
     "vue": "^3.3.11",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.2.5",
-    "vue-spline": "^0.0.4"
+    "vue-spline": "^0.0.4",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.172",
