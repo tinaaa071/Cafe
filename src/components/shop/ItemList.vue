@@ -18,27 +18,12 @@
   <script setup>
   import { defineEmits } from 'vue';
   import { useStore } from 'vuex';
+  import itemsData from '@/data/items.json'; // Import the JSON file
   
   const store = useStore();
   const emit = defineEmits(['add-to-cart']);
   
-  const items = [
-    { 
-        name: 'Item 1', 
-        price: 20, 
-        image: 'https://images.unsplash.com/photo-1725714354934-2977a57f8fd5?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
-    },
-    { 
-        name: 'Item 2', 
-        price: 30, 
-        image: 'https://images.unsplash.com/photo-1726134212431-c794fd3d0c34?q=80&w=2835&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
-    },
-    { 
-        name: 'Item 3', 
-        price: 40, 
-        image: 'https://images.unsplash.com/photo-1726047306929-acb47a105e82?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D' 
-    },
-  ];
+  const items = itemsData; // Assign the imported data
   
   function addToCart(item) {
     store.commit('addToCart', item);
