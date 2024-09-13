@@ -23,7 +23,6 @@
             v-model.number="quantity"
             @input="handleInput"
             class="w-12 text-center border rounded"
-            type="number"
             min="1"
           />
           <button
@@ -44,13 +43,11 @@
   </div>
 </template>
 
-
 <script setup>
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import itemsData from '@/data/items.json'; // Import the JSON file
-
+import itemsData from '@/data/items.json';
 
 const route = useRoute();
 const store = useStore();
@@ -73,7 +70,7 @@ const handleInput = (event) => {
 
 const addToCart = () => {
   if (item.value) {
-    store.dispatch('addToCart', { ...item.value, quantity: quantity.value });
+    store.dispatch('addOrUpdateCart', { id: item.value.id, quantity: quantity.value });
     isCartOpen.value = true; // Automatically open the cart when an item is added
   }
 };

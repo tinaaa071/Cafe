@@ -1,11 +1,9 @@
-// store.js
 import { createStore } from 'vuex';
 
-const store = createStore({
-  state() {
-    return {
-      cartItems: [],
-    };
+export default createStore({
+  state: {
+    cartItems: [], // To store items added from ItemList.vue with default quantity
+    cart: [],      // To store items added from [id].vue with specific quantity
   },
   getters: {
     cartItems: (state) => state.cartItems,
@@ -13,42 +11,50 @@ const store = createStore({
       state.cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
   },
   mutations: {
-    addToCart(state, item) {
-      const existingItem = state.cartItems.find((i) => i.name === item.name);
+    // Mutation to add item from ItemList.vue
+    ADD_TO_CART(state, item) {
+      const existingItem = state.cartItems.find((i) => i.id === item.id);
       if (existingItem) {
-        // If the item already exists, increment the quantity
-        existingItem.quantity += 1;
+        existingItem.quantity += 1; // Default increment by 1
       } else {
-        // Otherwise, add the item with quantity 1
-        state.cartItems.push({ ...item, quantity: 1 });
+        state.cartItems.push({ ...item, quantity: 1 }); // Default quantity of 1
       }
     },
-    removeFromCart(state, itemName) {
-      const index = state.cartItems.findIndex((item) => item.name === itemName);
-      if (index !== -1) {
-        state.cartItems.splice(index, 1);
+    // Mutation to add or update item from [id].vue
+    ADD_OR_UPDATE_CART(state, { id, quantity }) {
+      const existingItem = state.cartItems.find((i) => i.id === id);
+      if (existingItem) {
+        existingItem.quantity += quantity; // Adjust quantity
+      } else {
+        state.cartItems.push({ id, quantity }); // Add new item with specific quantity
       }
     },
-    updateQuantity(state, { itemName, quantity }) {
-      const item = state.cartItems.find((i) => i.name === itemName);
-      if (item && quantity > 0) {
-        item.quantity = quantity;
-      } else if (item && quantity <= 0) {
-        state.cartItems = state.cartItems.filter((i) => i.name !== itemName);
+    REMOVE_FROM_CART(state, id) {
+      state.cartItems = state.cartItems.filter((item) => item.id !== id);
+    },
+    UPDATE_ITEM_QUANTITY(state, { id, quantity }) {
+      const item = state.cartItems.find((item) => item.id === id);
+      if (item) {
+        if (quantity <= 0) {
+          state.cartItems = state.cartItems.filter((item) => item.id !== id);
+        } else {
+          item.quantity = quantity;
+        }
       }
     },
   },
   actions: {
     addToCart({ commit }, item) {
-      commit('addToCart', item);
-    },
-    removeFromCart({ commit }, itemName) {
-      commit('removeFromCart', itemName);
+      commit('ADD_TO_CART', item);
     },
     updateQuantity({ commit }, payload) {
-      commit('updateQuantity', payload);
+      commit('UPDATE_ITEM_QUANTITY', payload);
+    },
+    addOrUpdateCart({ commit }, payload) {
+      commit('ADD_OR_UPDATE_CART', payload);
+    },
+    removeFromCart({ commit }, id) {
+      commit('REMOVE_FROM_CART', id);
     },
   },
 });
-
-export default store;
