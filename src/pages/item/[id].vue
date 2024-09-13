@@ -10,7 +10,30 @@
         <h1 class="text-3xl font-bold">{{ item.name }}</h1>
         <p class="text-xl">${{ item.price }}</p>
         <p class="mt-4">{{ item.description }}</p>
-        <button @click="addToCart(item)" class="px-4 py-2 mt-4 text-white bg-blue-500 rounded">
+        <!-- Quantity control -->
+        <div class="flex items-center mt-1 space-x-2">
+          <button
+            @click="updateQuantity(-1)"
+            class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+            :disabled="quantity <= 1"
+          >
+            -
+          </button>
+          <input
+            v-model.number="quantity"
+            @input="handleInput"
+            class="w-12 text-center border rounded"
+            type="number"
+            min="1"
+          />
+          <button
+            @click="updateQuantity(1)"
+            class="px-2 py-1 text-white bg-green-500 rounded hover:bg-green-600"
+          >
+            +
+          </button>
+        </div>
+        <button @click="addToCart" class="px-4 py-2 mt-4 text-white bg-blue-500 rounded">
           Add to Cart
         </button>
       </div>
@@ -21,33 +44,41 @@
   </div>
 </template>
 
+
 <script setup>
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import itemsData from '@/data/items.json'; // Import the JSON file
 
+
 const route = useRoute();
-const router = useRouter();
 const store = useStore();
 
 const isCartOpen = ref(false);
+const quantity = ref(1); // Default quantity
 
 const item = computed(() => {
   const id = parseInt(route.params.id, 10);
   return itemsData[id] || null;
 });
 
-const addToCart = (item) => {
-  store.dispatch('addToCart', item); // Use Vuex action to add item to cart
-  isCartOpen.value = true; // Automatically open the cart when an item is added
+const updateQuantity = (change) => {
+  quantity.value = Math.max(quantity.value + change, 1); // Ensure quantity is at least 1
+};
+
+const handleInput = (event) => {
+  quantity.value = Math.max(Number(event.target.value) || 1, 1); // Ensure quantity is at least 1
+};
+
+const addToCart = () => {
+  if (item.value) {
+    store.dispatch('addToCart', { ...item.value, quantity: quantity.value });
+    isCartOpen.value = true; // Automatically open the cart when an item is added
+  }
 };
 
 const closeCart = () => {
   isCartOpen.value = false;
 };
 </script>
-
-<style scoped>
-/* Add any necessary styling here */
-</style>

@@ -1,22 +1,25 @@
+// store.js
 import { createStore } from 'vuex';
 
 const store = createStore({
   state() {
     return {
-      cartItems: []
+      cartItems: [],
     };
   },
   getters: {
     cartItems: (state) => state.cartItems,
     cartTotal: (state) =>
-      state.cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
+      state.cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
   },
   mutations: {
     addToCart(state, item) {
       const existingItem = state.cartItems.find((i) => i.name === item.name);
       if (existingItem) {
-        existingItem.quantity += item.quantity;
+        // If the item already exists, increment the quantity
+        existingItem.quantity += 1;
       } else {
+        // Otherwise, add the item with quantity 1
         state.cartItems.push({ ...item, quantity: 1 });
       }
     },
@@ -33,7 +36,7 @@ const store = createStore({
       } else if (item && quantity <= 0) {
         state.cartItems = state.cartItems.filter((i) => i.name !== itemName);
       }
-    }
+    },
   },
   actions: {
     addToCart({ commit }, item) {
@@ -44,8 +47,8 @@ const store = createStore({
     },
     updateQuantity({ commit }, payload) {
       commit('updateQuantity', payload);
-    }
-  }
+    },
+  },
 });
 
 export default store;
