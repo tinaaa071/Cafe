@@ -1,17 +1,44 @@
+<!-- Checkout.vue -->
 <template>
     <div class="checkout-container">
       <h1 class="mb-4 text-3xl font-bold">Checkout</h1>
-      
+  
       <div class="cart-summary">
         <h2 class="mb-2 text-2xl font-semibold">Cart Summary</h2>
         <ul class="pl-5 mb-4 list-disc">
           <li v-for="(item, index) in cartItems" :key="index" class="mb-2">
-            <span>{{ item.name }}</span> - ${{ item.price }}
+            <div class="flex items-center justify-between">
+             <img :src="item.image" :alt="item.name" class="object-cover w-24 h-24 rounded" />
+              <span>{{ item.name }} (x{{ item.quantity }})</span> - $
+              {{ ((item.price / item.quantity) * item.quantity).toFixed(2) }}
+            </div>
+            <div class="flex items-center gap-2 mt-2">
+              <button
+                @click="updateQuantity(item.name, item.quantity - 1)"
+                class="px-2 py-1 text-white bg-gray-500 rounded hover:bg-gray-600"
+                :disabled="item.quantity === 1"
+              >
+                -
+              </button>
+              <span>{{ item.quantity }}</span>
+              <button
+                @click="updateQuantity(item.name, item.quantity + 1)"
+                class="px-2 py-1 text-white bg-gray-500 rounded hover:bg-gray-600"
+              >
+                +
+              </button>
+              <button
+                @click="removeFromCart(item.name)"
+                class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
           </li>
         </ul>
         <div class="flex justify-between text-lg font-bold">
           <span>Total:</span>
-          <span>${{ cartTotal }}</span>
+          <span>${{ cartTotal.toFixed(2) }}</span>
         </div>
       </div>
   
@@ -74,9 +101,16 @@
   });
   
   function handleSubmit() {
-    // Handle form submission
     console.log('Form submitted:', form.value);
     alert('Order placed successfully!');
+  }
+  
+  function updateQuantity(itemName, quantity) {
+    store.commit('updateQuantity', { itemName, quantity });
+  }
+  
+  function removeFromCart(itemName) {
+    store.commit('removeFromCart', itemName);
   }
   </script>
   

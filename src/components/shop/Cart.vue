@@ -27,16 +27,40 @@
           <li
             v-for="(item, index) in cartItems"
             :key="index"
-            class="flex items-center justify-between pb-2 mb-2 border-b"
+            class="flex flex-col pb-2 mb-2 border-b"
           >
-            <span>{{ item.name }}</span>
-            <span>${{ item.price }}</span>
-            <button
-              @click="removeFromCart(index)"
-              class="text-red-500 hover:text-red-700"
-            >
-              Remove
-            </button>
+          <img :src="item.image" :alt="item.name" class="object-cover w-24 h-24 rounded" />
+            <div class="flex items-center justify-between">
+              <span>{{ item.name }} (x{{ item.quantity }})</span>
+              <span>${{ (item.price * item.quantity).toFixed(2) }}</span>
+            </div>
+            <div class="flex items-center mt-1 space-x-2">
+              <button
+                @click="updateQuantity(item.name, item.quantity - 1)"
+                class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+                :disabled="item.quantity === 1"
+              >
+                -
+              </button>
+              <input
+                v-model.number="item.quantity"
+                @input="updateQuantity(item.name, item.quantity)"
+                class="w-12 text-center border rounded"
+                min="1"
+              />
+              <button
+                @click="updateQuantity(item.name, item.quantity + 1)"
+                class="px-2 py-1 text-white bg-green-500 rounded hover:bg-green-600"
+              >
+                +
+              </button>
+              <button
+                @click="removeFromCart(item.name)"
+                class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
           </li>
         </ul>
         <p v-if="!cartItems.length" class="text-center text-gray-500">
@@ -45,7 +69,7 @@
         <div class="mt-4">
           <div class="flex items-center justify-between text-lg font-bold">
             <span>Total:</span>
-            <span>${{ cartTotal }}</span>
+            <span>${{ cartTotal.toFixed(2) }}</span>
           </div>
           <router-link to="/checkout">
             <button
@@ -77,12 +101,16 @@
   const cartItems = computed(() => store.getters.cartItems);
   const cartTotal = computed(() => store.getters.cartTotal);
   
-  function removeFromCart(index) {
-    store.commit('removeFromCart', index);
+  function updateQuantity(itemName, quantity) {
+    store.dispatch('updateQuantity', { itemName, quantity });
+  }
+  
+  function removeFromCart(itemName) {
+    store.dispatch('removeFromCart', itemName);
   }
   
   function navigateToCheckout() {
-    emit('checkout');
+    emit('close-cart');
   }
   </script>
   

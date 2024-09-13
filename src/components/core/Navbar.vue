@@ -159,7 +159,7 @@ export default {
     const lastScrollY = ref(window.scrollY);
 
     const cartItems = computed(() => store.getters.cartItems);
-    const cartCount = computed(() => cartItems.value.length);
+    const cartCount = computed(() => cartItems.value.reduce((acc, item) => acc + item.quantity, 0));
 
     const toggleMenu = () => showMenu.value = !showMenu.value;
 
