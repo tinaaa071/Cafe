@@ -7,6 +7,11 @@
         <div>
           <h3 class="text-xl">{{ item.name }}</h3>
           <p class="text-lg">${{ item.price }}</p>
+          <router-link :to="{ path: `/item/${index}` }">
+            <button class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
+                View Details
+            </button>
+          </router-link>
           <button @click="addToCart(item)" class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
             Add to Cart
           </button>
