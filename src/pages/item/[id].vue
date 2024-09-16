@@ -1,7 +1,7 @@
 <template>
   <!-- Navbar with cart badge -->
   <Navbar :cartItems="cartItems" @toggle-cart="toggleCart" />
-  <div v-if="item" class="p-4">
+  <div v-if="item" class="p-4 pt-32">
     <button @click="$router.back()" class="px-4 py-2 mb-4 text-white bg-gray-500 rounded">
       Back to List
     </button>
@@ -76,19 +76,19 @@
 </template>
 
 <script>
-import itemsData from '@/data/items.json';
+import { ref as dbRef, onValue } from "firebase/database";
+import { database } from "@/firebaseConfig"; // 引入 Firebase 配置
 import SolarHeartBold from '~icons/solar/heart-bold';
 import SolarHeartLinear from '~icons/solar/heart-linear';
-
 
 export default {
   components: {
     SolarHeartBold,
     SolarHeartLinear,
-
   },
   data() {
     return {
+      item: null,
       quantity: 1, // Default quantity
       isCartOpen: false,
       isModalVisible: false,
@@ -97,10 +97,6 @@ export default {
     };
   },
   computed: {
-    item() {
-      const id = parseInt(this.$route.params.id, 10);
-      return itemsData[id] || null;
-    },
     isInWishlist() {
       return this.$store.getters.wishlistItems.some((i) => i.id === this.item?.id);
     }
@@ -149,6 +145,20 @@ export default {
         this.isRemovalModalVisible = false;
       }
     }
+  },
+  mounted() {
+    const id = this.$route.params.id;
+
+    // 從 Firebase 獲取商品資料
+    const itemRef = dbRef(database, `items/item${id}`);
+    onValue(itemRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        this.item = { id, ...data };
+      } else {
+        this.item = null; // 處理不存在的商品
+      }
+    });
   }
 };
 </script>

@@ -7,7 +7,7 @@
       <div>
         <h3 class="text-xl">{{ item.name }}</h3>
         <p class="text-lg">${{ item.price }}</p>
-        <router-link :to="{ path: `/item/${index}` }">
+        <router-link :to="{ path: `/item/${item.id}` }">
           <button class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
               View Details
           </button>
@@ -53,18 +53,18 @@
 import { useStore } from 'vuex';
 import SolarHeartBold from '~icons/solar/heart-bold';
 import SolarHeartLinear from '~icons/solar/heart-linear';
-import itemsData from '@/data/items.json'; // Import the JSON file
-
+import { ref, onMounted } from "vue";
+import { database } from "@/firebaseConfig"; // 引入 Firebase 設定
+import { ref as dbRef, onValue } from "firebase/database"; // 使用 Firebase database 的 ref 和 onValue
 
 export default {
   components: {
     SolarHeartBold,
-    SolarHeartLinear,
-    
+    SolarHeartLinear
   },
   data() {
     return {
-      items: itemsData,
+      items: [], // 將 itemsData 改為從 Firebase 獲取資料
       isModalVisible: false,
       isRemovalModalVisible: false,
       selectedItem: null
@@ -74,6 +74,14 @@ export default {
     store() {
       return useStore();
     }
+  },
+  mounted() {
+    // 從 Firebase 讀取資料
+    const itemsRef = dbRef(database, 'items'); // 指向 'items' 路徑
+    onValue(itemsRef, (snapshot) => {
+      const data = snapshot.val();
+      this.items = data ? Object.entries(data).map(([id, item]) => ({ id, ...item })) : [];
+    });
   },
   methods: {
     addToCart(item) {
@@ -88,7 +96,6 @@ export default {
         this.store.dispatch('addToWishlist', item);
         this.selectedItem = item;
         this.isModalVisible = true;
-        // Auto close the modal after 2 seconds
         setTimeout(() => {
           this.isModalVisible = false;
         }, 1200);
@@ -104,4 +111,3 @@ export default {
   }
 };
 </script>
-
