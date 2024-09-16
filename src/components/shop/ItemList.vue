@@ -15,27 +15,41 @@
         <button @click="addToCart(item)" class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
           Add to Cart
         </button>
+        <!-- Add to Wishlist Button -->
+        <button @click="showModal(item)" class="px-4 py-2 mt-2 text-white bg-green-500 rounded">
+          Add to Wishlist
+        </button>
       </div>
     </div>
+    
+    <!-- Modal Component -->
+    <Modal :show="isModalVisible" @close="isModalVisible = false">
+      <div class="p-4 bg-white rounded">
+        <h3 class="text-xl">Item Added to Wishlist</h3>
+        <p>{{ selectedItem.name }} has been added to your wishlist!</p>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script setup>
-import { defineEmits } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
 import itemsData from '@/data/items.json'; // Import the JSON file
 
 const store = useStore();
-const emit = defineEmits(['add-to-cart']);
+const items = itemsData;
 
-const items = itemsData; // Assign the imported data
+const isModalVisible = ref(false);
+const selectedItem = ref(null);
 
 function addToCart(item) {
   store.dispatch('addToCart', item);
-  emit('add-to-cart');
+}
+
+function showModal(item) {
+  store.dispatch('addToWishlist', item);
+  selectedItem.value = item;
+  isModalVisible.value = true;
 }
 </script>
-
-<style scoped>
-/* Add any necessary styling here */
-</style>
