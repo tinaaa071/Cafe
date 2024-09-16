@@ -190,7 +190,7 @@ export default {
       { to: '/work/works', text: 'nav.item2' }, // Work page
       { to: '/blog/blog', text: 'nav.item3' }, // Blog listing page
       { to: '/others', text: 'nav.item4' }, // Other page
-      { to: '/contact', text: 'nav.item5' }, // Contact page
+      { to: '/cafe', text: 'nav.item5' }, // Contact page
     ];
 
     const isActive = (path) => route.path === path;
