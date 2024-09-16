@@ -9,7 +9,7 @@
         <p class="text-lg">${{ item.price }}</p>
         <router-link :to="{ path: `/item/${index}` }">
           <button class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
-            View Details
+              View Details
           </button>
         </router-link>
         <button @click="addToCart(item)" class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
@@ -24,7 +24,7 @@
         </button>
       </div>
     </div>
-    
+
     <!-- Add to Wishlist Modal -->
     <Modal :show="isModalVisible" @close="isModalVisible = false">
       <div class="p-4 bg-white rounded">
@@ -55,10 +55,12 @@ import SolarHeartBold from '~icons/solar/heart-bold';
 import SolarHeartLinear from '~icons/solar/heart-linear';
 import itemsData from '@/data/items.json'; // Import the JSON file
 
+
 export default {
   components: {
     SolarHeartBold,
     SolarHeartLinear,
+    
   },
   data() {
     return {
@@ -75,7 +77,8 @@ export default {
   },
   methods: {
     addToCart(item) {
-      this.store.dispatch('addToCart', item);
+      this.$store.dispatch('addToCart', item);
+      this.$emit('add-to-cart');
     },
     toggleWishlist(item) {
       if (this.isInWishlist(item)) {
@@ -97,3 +100,4 @@ export default {
   }
 };
 </script>
+

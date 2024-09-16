@@ -35,54 +35,111 @@
         <button @click="addToCart" class="px-4 py-2 mt-4 text-white bg-blue-500 rounded">
           Add to Cart
         </button>
+        
+        <!-- Add to Wishlist Button -->
+        <button @click="toggleWishlist" class="px-4 py-2 mt-4 text-white rounded">
+          <component
+            :is="isInWishlist ? 'SolarHeartBold' : 'SolarHeartLinear'"
+            class="text-red-500"
+          />
+        </button>
       </div>
     </div>
     
     <!-- Shopping Cart Drawer -->
     <Cart :isOpen="isCartOpen" @close-cart="closeCart" />
+    
+    <!-- Modal Component for Wishlist -->
+    <Modal :show="isModalVisible" @close="isModalVisible = false">
+      <div class="p-4 bg-white rounded">
+        <h3 class="text-xl">Item Added to Wishlist</h3>
+        <p>{{ selectedItem?.name }} has been added to your wishlist!</p>
+      </div>
+    </Modal>
+    
+    <!-- Remove from Wishlist Confirmation Modal -->
+    <Modal :show="isRemovalModalVisible" @close="isRemovalModalVisible = false">
+      <div class="p-4 bg-white rounded">
+        <h3 class="text-xl">Confirm Removal</h3>
+        <p>Are you sure you want to remove {{ selectedItem?.name }} from your wishlist?</p>
+        <button @click="removeFromWishlist" class="px-4 py-2 mt-2 text-white bg-red-500 rounded">
+          Yes, Remove
+        </button>
+        <button @click="isRemovalModalVisible = false" class="px-4 py-2 mt-2 text-white bg-gray-500 rounded">
+          Cancel
+        </button>
+      </div>
+    </Modal>
   </div>
 </template>
 
-<script setup>
-import { computed, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+<script>
 import itemsData from '@/data/items.json';
+import SolarHeartBold from '~icons/solar/heart-bold';
+import SolarHeartLinear from '~icons/solar/heart-linear';
 
-const route = useRoute();
-const store = useStore();
-
-const isCartOpen = ref(false);
-const quantity = ref(1); // Default quantity
-
-const item = computed(() => {
-  const id = parseInt(route.params.id, 10);
-  return itemsData[id] || null;
-});
-
-const updateQuantity = (change) => {
-  quantity.value = Math.max(quantity.value + change, 1); // Ensure quantity is at least 1
-};
-
-const handleInput = (event) => {
-  quantity.value = Math.max(Number(event.target.value) || 1, 1); // Ensure quantity is at least 1
-};
-
-const addToCart = () => {
-  if (item.value) {
-    const itemData = {
-      id: item.value.id,
-      name: item.value.name,
-      price: item.value.price,
-      image: item.value.image,
+export default {
+  components: {
+    SolarHeartBold,
+    SolarHeartLinear,
+  },
+  data() {
+    return {
+      quantity: 1, // Default quantity
+      isCartOpen: false,
+      isModalVisible: false,
+      isRemovalModalVisible: false,
+      selectedItem: null
     };
-    // 调用 Vuex action，传递商品的完整信息和数量
-    store.dispatch('addOrUpdateCart', { id: item.value.id, quantity: quantity.value, itemData });
-    isCartOpen.value = true; // 打开购物车
+  },
+  computed: {
+    item() {
+      const id = parseInt(this.$route.params.id, 10);
+      return itemsData[id] || null;
+    },
+    isInWishlist() {
+      return this.$store.getters.wishlistItems.some((i) => i.id === this.item?.id);
+    }
+  },
+  methods: {
+    updateQuantity(change) {
+      this.quantity = Math.max(this.quantity + change, 1); // Ensure quantity is at least 1
+    },
+    handleInput(event) {
+      this.quantity = Math.max(Number(event.target.value) || 1, 1); // Ensure quantity is at least 1
+    },
+    addToCart() {
+      if (this.item) {
+        const itemData = {
+          id: this.item.id,
+          name: this.item.name,
+          price: this.item.price,
+          image: this.item.image,
+        };
+        // Call Vuex action to add/update cart with item data and quantity
+        this.$store.dispatch('addOrUpdateCart', { id: this.item.id, quantity: this.quantity, itemData });
+        this.isCartOpen = true; // Open the cart
+      }
+    },
+    closeCart() {
+      this.isCartOpen = false;
+    },
+    toggleWishlist() {
+      if (this.isInWishlist) {
+        this.selectedItem = this.item;
+        this.isRemovalModalVisible = true;
+      } else {
+        this.$store.dispatch('addToWishlist', this.item);
+        this.selectedItem = this.item;
+        this.isModalVisible = true;
+      }
+    },
+    removeFromWishlist() {
+      if (this.selectedItem) {
+        this.$store.dispatch('removeFromWishlist', this.selectedItem.id);
+        this.isRemovalModalVisible = false;
+      }
+    }
   }
-};
-
-const closeCart = () => {
-  isCartOpen.value = false;
 };
 </script>
