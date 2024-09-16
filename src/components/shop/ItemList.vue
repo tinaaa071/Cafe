@@ -88,6 +88,10 @@ export default {
         this.store.dispatch('addToWishlist', item);
         this.selectedItem = item;
         this.isModalVisible = true;
+        // Auto close the modal after 2 seconds
+        setTimeout(() => {
+          this.isModalVisible = false;
+        }, 1200);
       }
     },
     isInWishlist(item) {

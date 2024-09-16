@@ -1,4 +1,6 @@
 <template>
+  <!-- Navbar with cart badge -->
+  <Navbar :cartItems="cartItems" @toggle-cart="toggleCart" />
   <div v-if="item" class="p-4">
     <button @click="$router.back()" class="px-4 py-2 mb-4 text-white bg-gray-500 rounded">
       Back to List
@@ -49,7 +51,7 @@
     <!-- Shopping Cart Drawer -->
     <Cart :isOpen="isCartOpen" @close-cart="closeCart" />
     
-    <!-- Modal Component for Wishlist -->
+    <!-- Modal Component for Add Wishlist -->
     <Modal :show="isModalVisible" @close="isModalVisible = false">
       <div class="p-4 bg-white rounded">
         <h3 class="text-xl">Item Added to Wishlist</h3>
@@ -78,10 +80,12 @@ import itemsData from '@/data/items.json';
 import SolarHeartBold from '~icons/solar/heart-bold';
 import SolarHeartLinear from '~icons/solar/heart-linear';
 
+
 export default {
   components: {
     SolarHeartBold,
     SolarHeartLinear,
+
   },
   data() {
     return {
@@ -132,6 +136,11 @@ export default {
         this.$store.dispatch('addToWishlist', this.item);
         this.selectedItem = this.item;
         this.isModalVisible = true;
+
+        // Auto close the modal after 2 seconds
+        setTimeout(() => {
+          this.isModalVisible = false;
+        }, 1200);
       }
     },
     removeFromWishlist() {

@@ -40,7 +40,7 @@ declare module 'vue' {
     Marquee: typeof import('./src/components/effect/Marquee.vue')['default']
     MingcuteArrowRightLine: typeof import('~icons/mingcute/arrow-right-line')['default']
     Modal: typeof import('./src/components/core/Modal.vue')['default']
-    'Modal(old)': typeof import('./src/components/core/Modal(old).vue')['default']
+    'Modal(old)': typeof import('./src/components/core/Alert.vue')['default']
     ModalCard: typeof import('./src/components/other/ModalCard.vue')['default']
     ModalList: typeof import('./src/components/other/ModalList.vue')['default']
     More: typeof import('./src/components/blog/More.vue')['default']

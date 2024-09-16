@@ -1,5 +1,5 @@
 <template>
-    <Navbar />
+    <Navbar :cartItems="cartItems" @toggle-cart="toggleCart" />
     <div class="px-4 py-8 mx-auto">
       <h1 class="mb-6 text-3xl font-bold">My Wishlist</h1>
       
@@ -10,7 +10,9 @@
       
       <!-- Display wishlist items -->
       <div v-else class="grid grid-cols-3 gap-6 md:grid-cols-4">
-        <div v-for="(item, index) in wishlistItems" :key="index" class="p-4 border rounded-md shadow-md">
+        <RouterLink 
+        :to="{ path: `/item/${index}` }"
+        v-for="(item, index) in wishlistItems" :key="index" class="p-4 border rounded-md shadow-md">
           <img :src="item.image" :alt="item.name" class="object-cover w-full h-48 rounded-md" />
           <h2 class="mt-4 text-xl font-semibold">{{ item.name }}</h2>
           <p class="mt-2 text-gray-600">${{ item.price }}</p>
@@ -21,7 +23,7 @@
           >
             <SolarHeartBold class="text-red-500" />
           </button>
-        </div>
+        </RouterLink>
       </div>
   
       <!-- Remove from Wishlist Confirmation Modal -->

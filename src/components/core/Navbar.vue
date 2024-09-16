@@ -3,16 +3,16 @@
       'fixed z-20 w-full px-6 pt-6 xl:px-28 md:px-10 transition-transform duration-300',
       isVisible ? 'translate-y-0' : '-translate-y-full',
       showMenu ? 'h-full ' : 'h-fit',
-    ]" >
+    ]">
     <!-- Navbar -->
     <div 
-    :class="[
-        showMenu ? 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' : 'bg-white/20 dark:bg-stone-500/30 backdrop-blur-md',
-        showMenu ? 'rounded-3xl ' : 'rounded-full',
-        'shadow-md',
-        'bg-blur-lg',
-        'transition-colors ease-in-out duration-500'
-    ]"
+      :class="[
+          showMenu ? 'bg-stone-900 text-white dark:bg-white dark:text-stone-900' : 'bg-white/20 dark:bg-stone-500/30 backdrop-blur-md',
+          showMenu ? 'rounded-3xl ' : 'rounded-full',
+          'shadow-md',
+          'bg-blur-lg',
+          'transition-colors ease-in-out duration-500'
+      ]"
     >
       <div class="relative flex flex-row items-center justify-between w-full px-4 py-2.5 md:py-3.5 xl:text-stone-900 sm:flex-row dark:xl:text-white">
         <!-- Logo -->
@@ -23,9 +23,9 @@
               <div :class="showMenu ? 'text-white dark:text-stone-900' : 'text-stone-900 dark:text-white'" class="flex items-center gap-3 group">
                 <div class="flex items-center transition-colors duration-300 md:block group-hover:text-stone-400">
                   <svg 
-                  class="h-9 sm:h-11" 
-                  xmlns="http://www.w3.org/2000/svg"  fill="currentColor" 
-                  viewBox="0 0 32 40"
+                    class="h-9 sm:h-11" 
+                    xmlns="http://www.w3.org/2000/svg"  fill="currentColor" 
+                    viewBox="0 0 32 40"
                   >
                     <!-- Your SVG Path Here -->
                   </svg>
@@ -52,42 +52,27 @@
                   </RouterLink>
                 </li>
                 <!-- Heart Icon for Wishlist -->
-                <li class="relative">
-                  <RouterLink to="/wishlist" class="relative p-2">
+                <li class="">
+                  <RouterLink to="/wishlist">
                     <!-- Heart Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                      fill="none" viewBox="0 0 24 24"
-                      stroke-width="1.5" stroke="currentColor"
-                      class="w-6 h-6 text-gray-700">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                    </svg>
+                    <div class="p-2">
+                      <SolarHeartLinear class="text-xl " />
+                    </div>
                   </RouterLink>
                 </li>
                 <!-- Cart Icon -->
                 <li class="relative">
-                  <button @click="$emit('toggle-cart')" class="relative p-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6 text-gray-700"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 3h2l.4 2m0 0L7 14m1.68 0h8.64m-8.64 0L5.4 5h13.2l-1.4 7H8.68zm8.64 0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5zm-9 0a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z"
-                      />
-                    </svg>
-                    <!-- Badge showing cart item count -->
-                    <span
-                      v-if="cartCount > 0"
-                      class="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full -top-1 -right-1"
-                    >
-                      {{ cartCount }}
-                    </span>
+                  <button @click="isCartOpen = !isCartOpen" class="relative">
+                    <div class="p-2">
+                      <SolarCart3Linear class="text-xl" />
+                      <!-- Badge showing cart item count -->
+                      <span
+                        v-if="cartCount > 0"
+                        class="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full -top-1 -right-1"
+                      >
+                        {{ cartCount }}
+                      </span>
+                    </div>
                   </button>
                 </li>
                 <!-- Resume -->
@@ -110,6 +95,26 @@
           </div>
         </div>
         <!-- Pass the toggleMenu method and isOpen state -->
+        <!-- Heart Icon for Wishlist -->
+        <RouterLink to="/wishlist" class="block lg:hidden">
+          <!-- Heart Icon -->
+          <div class="">
+            <SolarHeartLinear class="text-xl " />
+          </div>
+        </RouterLink>
+        <!-- Cart Icon -->
+        <button @click="isCartOpen = !isCartOpen" class="relative block mx-4 lg:hidden">
+            <div class="p-2">
+              <SolarCart3Linear class="text-xl" />
+              <!-- Badge showing cart item count -->
+              <span
+                v-if="cartCount > 0"
+                class="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full -top-1 -right-1"
+              >
+                {{ cartCount }}
+              </span>
+            </div>
+          </button>
         <Hamburger :toggleMenu="toggleMenu" :isOpen="showMenu" />
       </div>
       <!-- Mobile Menu -->
@@ -125,7 +130,6 @@
                 {{ $t(item.text) }}
               </RouterLink>
             </li>
-            
             <li class="flex gap-2">
               <!-- Resume -->
               <DefaultButton 
@@ -145,7 +149,10 @@
         </div>
       </div>
     </div>
+
   </div>
+  <!-- Shopping Cart Drawer -->
+  <Cart :isOpen="isCartOpen" @close-cart="isCartOpen = false" />
 </template>
 
 <script>
@@ -161,6 +168,7 @@ export default {
   data() {
     return {
       icon: MingcuteEarth3Fill,
+      isCartOpen: false, // Add this line to manage the cart drawer state
     };
   },
   setup() {
@@ -181,43 +189,25 @@ export default {
       { to: '/', text: 'nav.item1' }, // Home page
       { to: '/work/works', text: 'nav.item2' }, // Work page
       { to: '/blog/blog', text: 'nav.item3' }, // Blog listing page
-      { to: '/others', text: 'nav.item4' }, // Others page
-      { to: '/test', text: 'nav.item5' }, // About page
+      { to: '/others', text: 'nav.item4' }, // Other page
+      { to: '/contact', text: 'nav.item5' }, // Contact page
     ];
 
-    // Check if a menu item should be active based on the current route
-    const isActive = (path) => {
-      if (path === '/blog/blog') {
-        return route.path.startsWith('/blog');
-      }
-      if (path === '/work/works') {
-        return route.path.startsWith('/work');
-      }
-      return route.path === path;
-    }
+    const isActive = (path) => route.path === path;
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      isVisible.value = currentScrollY < lastScrollY.value || currentScrollY < 100;
-      lastScrollY.value = currentScrollY;
+      isVisible.value = window.scrollY <= 10;
+      lastScrollY.value = window.scrollY;
     };
 
-    onMounted(() => {
-      window.addEventListener('scroll', handleScroll);
-    });
+    onMounted(() => window.addEventListener('scroll', handleScroll));
+    onBeforeUnmount(() => window.removeEventListener('scroll', handleScroll));
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('scroll', handleScroll);
-    });
-
-    return {
-      showMenu,
-      isVisible,
-      toggleMenu,
-      menuItems,
-      isActive,
-      cartCount,
-    };
+    return { cartCount, menuItems, toggleMenu, isActive, showMenu, isVisible };
   },
 };
 </script>
+
+<style scoped>
+/* Add styles if needed */
+</style>
