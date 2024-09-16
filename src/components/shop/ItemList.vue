@@ -9,47 +9,91 @@
         <p class="text-lg">${{ item.price }}</p>
         <router-link :to="{ path: `/item/${index}` }">
           <button class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
-              View Details
+            View Details
           </button>
         </router-link>
         <button @click="addToCart(item)" class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
           Add to Cart
         </button>
         <!-- Add to Wishlist Button -->
-        <button @click="showModal(item)" class="px-4 py-2 mt-2 text-white bg-green-500 rounded">
-          Add to Wishlist
+        <button @click="toggleWishlist(item)" class="px-4 py-2 mt-2 text-white rounded">
+          <component
+            :is="isInWishlist(item) ? 'SolarHeartBold' : 'SolarHeartLinear'"
+            class="text-red-500"
+          />
         </button>
       </div>
     </div>
     
-    <!-- Modal Component -->
+    <!-- Add to Wishlist Modal -->
     <Modal :show="isModalVisible" @close="isModalVisible = false">
       <div class="p-4 bg-white rounded">
         <h3 class="text-xl">Item Added to Wishlist</h3>
         <p>{{ selectedItem.name }} has been added to your wishlist!</p>
       </div>
     </Modal>
+
+    <!-- Remove from Wishlist Confirmation Modal -->
+    <Modal :show="isRemovalModalVisible" @close="isRemovalModalVisible = false">
+      <div class="p-4 bg-white rounded">
+        <h3 class="text-xl">Confirm Removal</h3>
+        <p>Are you sure you want to remove {{ selectedItem.name }} from your wishlist?</p>
+        <button @click="removeFromWishlist" class="px-4 py-2 mt-2 text-white bg-red-500 rounded">
+          Yes, Remove
+        </button>
+        <button @click="isRemovalModalVisible = false" class="px-4 py-2 mt-2 text-white bg-gray-500 rounded">
+          Cancel
+        </button>
+      </div>
+    </Modal>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script>
 import { useStore } from 'vuex';
+import SolarHeartBold from '~icons/solar/heart-bold';
+import SolarHeartLinear from '~icons/solar/heart-linear';
 import itemsData from '@/data/items.json'; // Import the JSON file
 
-const store = useStore();
-const items = itemsData;
-
-const isModalVisible = ref(false);
-const selectedItem = ref(null);
-
-function addToCart(item) {
-  store.dispatch('addToCart', item);
-}
-
-function showModal(item) {
-  store.dispatch('addToWishlist', item);
-  selectedItem.value = item;
-  isModalVisible.value = true;
-}
+export default {
+  components: {
+    SolarHeartBold,
+    SolarHeartLinear,
+  },
+  data() {
+    return {
+      items: itemsData,
+      isModalVisible: false,
+      isRemovalModalVisible: false,
+      selectedItem: null
+    };
+  },
+  computed: {
+    store() {
+      return useStore();
+    }
+  },
+  methods: {
+    addToCart(item) {
+      this.store.dispatch('addToCart', item);
+    },
+    toggleWishlist(item) {
+      if (this.isInWishlist(item)) {
+        this.selectedItem = item;
+        this.isRemovalModalVisible = true;
+      } else {
+        this.store.dispatch('addToWishlist', item);
+        this.selectedItem = item;
+        this.isModalVisible = true;
+      }
+    },
+    isInWishlist(item) {
+      return this.store.getters.wishlistItems.some((i) => i.id === item.id);
+    },
+    removeFromWishlist() {
+      this.store.dispatch('removeFromWishlist', this.selectedItem.id);
+      this.isRemovalModalVisible = false;
+    }
+  }
+};
 </script>
