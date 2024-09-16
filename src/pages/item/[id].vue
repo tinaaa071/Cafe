@@ -70,8 +70,15 @@ const handleInput = (event) => {
 
 const addToCart = () => {
   if (item.value) {
-    store.dispatch('addOrUpdateCart', { id: item.value.id, quantity: quantity.value });
-    isCartOpen.value = true; // Automatically open the cart when an item is added
+    const itemData = {
+      id: item.value.id,
+      name: item.value.name,
+      price: item.value.price,
+      image: item.value.image,
+    };
+    // 调用 Vuex action，传递商品的完整信息和数量
+    store.dispatch('addOrUpdateCart', { id: item.value.id, quantity: quantity.value, itemData });
+    isCartOpen.value = true; // 打开购物车
   }
 };
 

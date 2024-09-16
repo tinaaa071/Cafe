@@ -21,12 +21,12 @@ export default createStore({
       }
     },
     // Mutation to add or update item from [id].vue
-    ADD_OR_UPDATE_CART(state, { id, quantity }) {
+    ADD_OR_UPDATE_CART(state, { id, quantity, itemData }) {
       const existingItem = state.cartItems.find((i) => i.id === id);
       if (existingItem) {
-        existingItem.quantity += quantity; // Adjust quantity
+        existingItem.quantity += quantity;
       } else {
-        state.cartItems.push({ id, quantity }); // Add new item with specific quantity
+        state.cartItems.push({ ...itemData, id, quantity }); // 添加完整的商品信息
       }
     },
     REMOVE_FROM_CART(state, id) {
