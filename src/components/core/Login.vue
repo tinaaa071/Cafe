@@ -48,6 +48,7 @@
       toggleAuthMode() {
         this.isLogin = !this.isLogin; // Toggle between login and register modes
         this.error = ''; // Clear error message
+        this.$emit('auth-mode-changed', this.isLogin ? '登入' : '註冊'); // Emit event on auth mode change
       }
     }
   };
