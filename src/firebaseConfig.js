@@ -1,6 +1,7 @@
 // src/firebaseConfig.js
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import { getAuth } from 'firebase/auth'; // 引入 Firebase 認證
 
 const firebaseConfig = {
   apiKey: "AIzaSyBdfmdw6dSzzqxpvJyeUR2lzDOue0KY4hY",
@@ -18,4 +19,7 @@ const app = initializeApp(firebaseConfig);
 // 初始化 Realtime Database 並匯出
 const database = getDatabase(app);
 
-export { database };
+const auth = getAuth(app); // 初始化認證服務
+
+
+export { auth, database };

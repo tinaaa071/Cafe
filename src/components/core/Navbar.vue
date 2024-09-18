@@ -61,7 +61,7 @@
                   </RouterLink>
                 </li>
                 <!-- Cart Icon -->
-                <li class="relative">
+                <li class="relative flex items-center">
                   <button @click="isCartOpen = !isCartOpen" class="relative">
                     <div class="p-2">
                       <SolarCart3Linear class="text-xl" />
@@ -75,6 +75,12 @@
                     </div>
                   </button>
                 </li>
+                <!-- User Icon -->
+                <button @click="isSignupDrawerOpen = !isSignupDrawerOpen" class="">
+                  <div class="p-2">
+                    <SolarUserLinear class="text-xl" />
+                  </div>
+                </button>
                 <!-- Resume -->
                 <li>
                   <DefaultButton 
@@ -103,18 +109,18 @@
           </div>
         </RouterLink>
         <!-- Cart Icon -->
-        <button @click="isCartOpen = !isCartOpen" class="relative block mx-4 lg:hidden">
-            <div class="p-2">
-              <SolarCart3Linear class="text-xl" />
-              <!-- Badge showing cart item count -->
-              <span
-                v-if="cartCount > 0"
-                class="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full -top-1 -right-1"
-              >
-                {{ cartCount }}
-              </span>
-            </div>
-          </button>
+        <button  class="relative block mx-4 lg:hidden">
+          <div class="p-2">
+            <SolarCart3Linear class="text-xl" />
+            <!-- Badge showing cart item count -->
+            <span
+              v-if="cartCount > 0"
+              class="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full -top-1 -right-1"
+            >
+              {{ cartCount }}
+            </span>
+          </div>
+        </button>
         <Hamburger :toggleMenu="toggleMenu" :isOpen="showMenu" />
       </div>
       <!-- Mobile Menu -->
@@ -153,6 +159,9 @@
   </div>
   <!-- Shopping Cart Drawer -->
   <Cart :isOpen="isCartOpen" @close-cart="isCartOpen = false" />
+  <!-- Signup Drawer -->
+  <SignupDrawer :isOpen="isSignupDrawerOpen" @close="isSignupDrawerOpen = false" />
+
 </template>
 
 <script>
@@ -169,6 +178,7 @@ export default {
     return {
       icon: MingcuteEarth3Fill,
       isCartOpen: false, // Add this line to manage the cart drawer state
+      isSignupDrawerOpen: false,
     };
   },
   setup() {
