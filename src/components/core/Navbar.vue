@@ -100,28 +100,36 @@
             </div>
           </div>
         </div>
-        <!-- Pass the toggleMenu method and isOpen state -->
-        <!-- Heart Icon for Wishlist -->
-        <RouterLink to="/wishlist" class="block lg:hidden">
-          <!-- Heart Icon -->
-          <div class="">
-            <SolarHeartLinear class="text-xl " />
-          </div>
-        </RouterLink>
-        <!-- Cart Icon -->
-        <button  class="relative block mx-4 lg:hidden">
-          <div class="p-2">
-            <SolarCart3Linear class="text-xl" />
-            <!-- Badge showing cart item count -->
-            <span
-              v-if="cartCount > 0"
-              class="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full -top-1 -right-1"
-            >
-              {{ cartCount }}
-            </span>
-          </div>
-        </button>
-        <Hamburger :toggleMenu="toggleMenu" :isOpen="showMenu" />
+        <div class="flex items-center gap-2">
+          <!-- Pass the toggleMenu method and isOpen state -->
+          <!-- Heart Icon for Wishlist -->
+          <RouterLink to="/wishlist" class=" lg:hidden">
+            <!-- Heart Icon -->
+            <div class="p-2">
+              <SolarHeartLinear class="text-xl " />
+            </div>
+          </RouterLink>
+          <!-- Cart Icon -->
+          <button  class="relative block lg:hidden">
+            <div class="p-2">
+              <SolarCart3Linear class="text-xl" />
+              <!-- Badge showing cart item count -->
+              <span
+                v-if="cartCount > 0"
+                class="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full -top-1 -right-1"
+              >
+                {{ cartCount }}
+              </span>
+            </div>
+          </button>
+          <!-- User Icon -->
+          <button @click="isSignupDrawerOpen = !isSignupDrawerOpen" class="lg:hidden">
+            <div class="p-2">
+              <SolarUserLinear class="text-xl" />
+            </div>
+          </button>
+          <Hamburger :toggleMenu="toggleMenu" :isOpen="showMenu" />
+        </div>
       </div>
       <!-- Mobile Menu -->
       <div class="lg:hidden">
