@@ -8,6 +8,11 @@
         <h2 class="mb-2 text-xl font-semibold">Profile Information</h2>
         <form @submit.prevent="saveProfile">
           <div class="mb-4">
+            <label for="account" class="block text-sm font-medium text-gray-700">Account</label>
+            <!-- Display UID here -->
+            <input v-model="uid" type="text" id="account" class="block w-full px-4 py-3 text-gray-500 bg-gray-200 border-gray-100 rounded-md disabled:opacity-50 disabled:pointer-events-none" disabled />
+          </div>
+          <div class="mb-4">
             <label for="displayName" class="block text-sm font-medium text-gray-700">Display Name</label>
             <input v-model="displayName" type="text" id="displayName" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm" required />
           </div>
@@ -54,56 +59,80 @@
   </template>
   
   <script setup>
-  import { ref, provide } from 'vue';
-  import { auth } from '@/firebaseConfig';
-  import { reauthenticateWithCredential, updatePassword, EmailAuthProvider } from 'firebase/auth';
+import { ref, onMounted } from 'vue';
+import { auth } from '../firebaseConfig';
+import { reauthenticateWithCredential, updatePassword, EmailAuthProvider } from 'firebase/auth';
+
+// Reactive states
+const displayName = ref(localStorage.getItem('displayName') || '');
+const email = ref(localStorage.getItem('email') || '');
+const currentPassword = ref('');
+const newPassword = ref('');
+const errorMessage = ref('');
+const showProfileModal = ref(false);
+const showPasswordModal = ref(false);
+
+// Reactive UID
+const uid = ref('');
+
+// Function to initialize UID
+const initializeUid = () => {
+  const user = auth.currentUser;
+  if (user) {
+    uid.value = user.email || '';
+  } else {
+    uid.value = ''; // Handle case where user is not logged in
+  }
+};
+
+// Set up onAuthStateChanged listener
+onMounted(() => {
+  initializeUid();
+  const unsubscribe = auth.onAuthStateChanged(user => {
+    uid.value = user?.email || '';
+  });
   
-  // Make displayName reactive and provide it for other components
-  const displayName = ref('');
-  const email = ref('');
-  const currentPassword = ref('');
-  const newPassword = ref('');
-  const errorMessage = ref('');
-  const showProfileModal = ref(false);
-  const showPasswordModal = ref(false);
-  
-  provide('displayName', displayName); // Provide the displayName ref
-  
-  const saveProfile = async () => {
+  // Clean up listener when component is unmounted
+  return () => unsubscribe();
+});
+
+// Save profile information
+const saveProfile = async () => {
+  try {
+    localStorage.setItem('displayName', displayName.value);
+    localStorage.setItem('email', email.value);
+
+    showProfileModal.value = true;
+    errorMessage.value = '';
+  } catch (error) {
+    errorMessage.value = 'Error saving profile: ' + error.message;
+  }
+};
+
+// Change password
+const changePassword = async () => {
+  const user = auth.currentUser;
+
+  if (user) {
+    const credential = EmailAuthProvider.credential(user.email, currentPassword.value);
+
     try {
-      // Assume userProfileUpdate() is a function that updates user profile
-      // await userProfileUpdate(displayName.value, email.value);
-  
-      showProfileModal.value = true;
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, newPassword.value);
+      showPasswordModal.value = true;
       errorMessage.value = '';
     } catch (error) {
-      errorMessage.value = 'Error saving profile: ' + error.message;
+      errorMessage.value = 'Error updating password: ' + error.message;
     }
-  };
-  
-  const changePassword = async () => {
-    const user = auth.currentUser;
-  
-    if (user) {
-      const credential = EmailAuthProvider.credential(user.email, currentPassword.value);
-  
-      try {
-        await reauthenticateWithCredential(user, credential);
-        await updatePassword(user, newPassword.value);
-        showPasswordModal.value = true;
-        errorMessage.value = '';
-      } catch (error) {
-        errorMessage.value = 'Error updating password: ' + error.message;
-      }
-    } else {
-      errorMessage.value = 'User not authenticated.';
-    }
-  };
-  </script>
-  
-  <style scoped>
-  .container {
-    max-width: 600px;
+  } else {
+    errorMessage.value = 'User not authenticated.';
   }
-  </style>
+};
+</script>
+
+<style scoped>
+.container {
+  max-width: 600px;
+}
+</style>
   
