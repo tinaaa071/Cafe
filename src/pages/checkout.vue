@@ -16,7 +16,7 @@
             <button
               @click="updateQuantity(item.id, item.quantity - 1)"
               class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-              :disabled="item.quantity <= 1"
+              :disabled="item.quantity <= 0"
             >
               -
             </button>
@@ -62,6 +62,7 @@
             required
           />
         </div>
+
         <div class="mb-4">
           <label for="email" class="block mb-1">Email</label>
           <input
@@ -72,6 +73,51 @@
             required
           />
         </div>
+
+        <!-- Phone Field -->
+        <div class="mb-4">
+          <label for="phone" class="block mb-1">Phone</label>
+          <input
+            id="phone"
+            v-model="form.phone"
+            type="tel"
+            class="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+
+        <!-- Payment Radio Group -->
+        <div class="mb-4">
+          <label class="block mb-1">Payment Method</label>
+          <div class="flex items-center gap-4">
+            <label>
+              <input
+                type="radio"
+                v-model="form.payment"
+                value="credit"
+                required
+              />
+              Credit Card
+            </label>
+            <label>
+              <input
+                type="radio"
+                v-model="form.payment"
+                value="paypal"
+              />
+              PayPal
+            </label>
+            <label>
+              <input
+                type="radio"
+                v-model="form.payment"
+                value="bank"
+              />
+              Bank Transfer
+            </label>
+          </div>
+        </div>
+
         <div class="mb-4">
           <label for="address" class="block mb-1">Address</label>
           <input
@@ -82,6 +128,7 @@
             required
           />
         </div>
+
         <button
           type="submit"
           class="w-full py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
@@ -96,17 +143,16 @@
       <h2 class="mb-4 text-2xl font-semibold">Order Confirmation</h2>
       <p class="mb-4">Thank you, <strong>{{ orderInfo.name }}</strong>, for your order!</p>
       <p class="mb-4">We will send a confirmation email to <strong>{{ orderInfo.email }}</strong> shortly.</p>
+      <p class="mb-4">Phone: <strong>{{ orderInfo.phone }}</strong></p>
+      <p class="mb-4">Payment Method: <strong>{{ orderInfo.payment }}</strong></p>
       <p class="mb-4">Shipping to: <strong>{{ orderInfo.address }}</strong></p>
 
       <h3 class="mb-2 text-xl font-semibold">Your Order:</h3>
       <ul class="pl-5 mb-4 list-disc">
-        <li v-for="item in orderInfo.items" :key="item.id" class="flex items-center gap-4 mb-2">
-          <!-- Add the image here -->
-          <img :src="item.image" :alt="item.name" class="object-cover w-16 h-16 rounded" />
-          <div>
-            <span>{{ item.name }} (x{{ item.quantity }})</span> - $
-            {{ (item.price * item.quantity).toFixed(2) }}
-          </div>
+        <li v-for="item in orderInfo.items" :key="item.id" class="mb-2">
+          <img :src="item.image" :alt="item.name" class="object-cover w-16 h-16 mr-4 rounded" />
+          <span>{{ item.name }} (x{{ item.quantity }})</span> - $
+          {{ (item.price * item.quantity).toFixed(2) }}
         </li>
       </ul>
 
@@ -114,21 +160,24 @@
         <span>Total:</span> ${{ orderInfo.total.toFixed(2) }}
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 const store = useStore();
+const router = useRouter();
 const cartItems = computed(() => store.getters.cartItems);
 const cartTotal = computed(() => store.getters.cartTotal);
 
 const form = ref({
   name: '',
   email: '',
+  phone: '',  // Added phone field
+  payment: '',  // Updated for radio group
   address: ''
 });
 
@@ -140,19 +189,21 @@ function handleSubmit() {
   orderInfo.value = {
     name: form.value.name,
     email: form.value.email,
+    phone: form.value.phone,  // Store phone in order info
+    payment: form.value.payment,  // Store payment in order info
     address: form.value.address,
     items: cartItems.value,
     total: cartTotal.value
   };
 
-  // Mark the order as placed
-  orderPlaced.value = true;
-
-  // Dispatch the order to Vuex store (optional, depending on your setup)
+  // Place the order in Vuex store
   store.dispatch('placeOrder', orderInfo.value);
 
-  // Clear the cart after placing the order
+  // Empty the cart (optional)
   store.dispatch('clearCart');
+
+  // Mark order as placed
+  orderPlaced.value = true;
 }
 
 function updateQuantity(id, quantity) {

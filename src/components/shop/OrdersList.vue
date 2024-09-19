@@ -10,14 +10,23 @@
         >
           <h2 class="mb-2 text-xl font-semibold">Order #{{ index + 1 }}</h2>
           <p><strong>Name:</strong> {{ order.name }}</p>
+          <p><strong>Phone:</strong> {{ order.phone }}</p>
           <p><strong>Email:</strong> {{ order.email }}</p>
           <p><strong>Address:</strong> {{ order.address }}</p>
+          <p><strong>Payment Method:</strong> {{ order.payment }}</p> <!-- Display Payment Method -->
   
           <h3 class="mt-4 text-lg font-semibold">Items:</h3>
           <ul class="pl-5 list-disc">
-            <li v-for="item in order.items" :key="item.id" class="flex items-center gap-4 mb-2">
-              <!-- Add the image here -->
-              <img :src="item.image" :alt="item.name" class="object-cover w-16 h-16 rounded" />
+            <li
+              v-for="item in order.items"
+              :key="item.id"
+              class="flex items-center gap-4 mb-2"
+            >
+              <img
+                :src="item.image"
+                :alt="item.name"
+                class="object-cover w-16 h-16 rounded"
+              />
               <div>
                 <span>{{ item.name }} (x{{ item.quantity }})</span> - $
                 {{ (item.price * item.quantity).toFixed(2) }}
@@ -34,6 +43,7 @@
       </div>
     </div>
   </template>
+  
   
   <script setup>
   import { computed } from 'vue';
