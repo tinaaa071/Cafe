@@ -17,6 +17,13 @@
             </div>
           </RouterLink>
           <!-- Wishlist -->
+          <RouterLink to="/orders">
+            <div class="flex gap-2 text-xl">
+              <SolarHeartLinear />
+              <p>我的訂單</p>
+            </div>
+          </RouterLink>
+          <!-- Wishlist -->
           <RouterLink to="/wishlist">
             <div class="flex gap-2 text-xl">
               <SolarHeartLinear />

@@ -2,7 +2,8 @@
   <div class="checkout-container">
     <h1 class="mb-4 text-3xl font-bold">Checkout</h1>
 
-    <div class="cart-summary">
+    <!-- Cart Summary -->
+    <div v-if="!orderPlaced" class="cart-summary">
       <h2 class="mb-2 text-2xl font-semibold">Cart Summary</h2>
       <ul class="pl-5 mb-4 list-disc">
         <li v-for="item in cartItems" :key="item.id" class="mb-2">
@@ -15,7 +16,7 @@
             <button
               @click="updateQuantity(item.id, item.quantity - 1)"
               class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-              :disabled="item.quantity <= 0"
+              :disabled="item.quantity <= 1"
             >
               -
             </button>
@@ -47,7 +48,8 @@
       </div>
     </div>
 
-    <div class="mt-6 checkout-form">
+    <!-- Billing Information -->
+    <div v-if="!orderPlaced" class="mt-6 checkout-form">
       <h2 class="mb-2 text-2xl font-semibold">Billing Information</h2>
       <form @submit.prevent="handleSubmit">
         <div class="mb-4">
@@ -89,11 +91,35 @@
       </form>
     </div>
 
+    <!-- Order Confirmation Card -->
+    <div v-if="orderPlaced" class="p-6 bg-gray-100 rounded shadow-md order-card">
+      <h2 class="mb-4 text-2xl font-semibold">Order Confirmation</h2>
+      <p class="mb-4">Thank you, <strong>{{ orderInfo.name }}</strong>, for your order!</p>
+      <p class="mb-4">We will send a confirmation email to <strong>{{ orderInfo.email }}</strong> shortly.</p>
+      <p class="mb-4">Shipping to: <strong>{{ orderInfo.address }}</strong></p>
+
+      <h3 class="mb-2 text-xl font-semibold">Your Order:</h3>
+      <ul class="pl-5 mb-4 list-disc">
+        <li v-for="item in orderInfo.items" :key="item.id" class="flex items-center gap-4 mb-2">
+          <!-- Add the image here -->
+          <img :src="item.image" :alt="item.name" class="object-cover w-16 h-16 rounded" />
+          <div>
+            <span>{{ item.name }} (x{{ item.quantity }})</span> - $
+            {{ (item.price * item.quantity).toFixed(2) }}
+          </div>
+        </li>
+      </ul>
+
+      <div class="text-lg font-bold">
+        <span>Total:</span> ${{ orderInfo.total.toFixed(2) }}
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -106,9 +132,27 @@ const form = ref({
   address: ''
 });
 
+const orderPlaced = ref(false);
+const orderInfo = ref(null);
+
 function handleSubmit() {
-  console.log('Form submitted:', form.value);
-  alert('Order placed successfully!');
+  // Store the form and cart data in the order info
+  orderInfo.value = {
+    name: form.value.name,
+    email: form.value.email,
+    address: form.value.address,
+    items: cartItems.value,
+    total: cartTotal.value
+  };
+
+  // Mark the order as placed
+  orderPlaced.value = true;
+
+  // Dispatch the order to Vuex store (optional, depending on your setup)
+  store.dispatch('placeOrder', orderInfo.value);
+
+  // Clear the cart after placing the order
+  store.dispatch('clearCart');
 }
 
 function updateQuantity(id, quantity) {
@@ -129,5 +173,9 @@ function removeFromCart(id) {
   max-width: 800px;
   margin: auto;
   padding: 20px;
+}
+
+.order-card {
+  margin-top: 20px;
 }
 </style>

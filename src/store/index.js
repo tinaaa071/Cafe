@@ -4,15 +4,17 @@ const WISHLIST_STORAGE_KEY = 'wishlist';
 
 export default createStore({
   state: {
-    cartItems: [], // To store items added from ItemList.vue with default quantity
-    cart: [],      // To store items added from [id].vue with specific quantity
-    wishlist: JSON.parse(localStorage.getItem(WISHLIST_STORAGE_KEY)) || [], // Load wishlist from local storage or default to an empty array
+    cartItems: [], // Items added from ItemList.vue with default quantity
+    cart: [],      // Items added from [id].vue with specific quantity
+    wishlist: JSON.parse(localStorage.getItem(WISHLIST_STORAGE_KEY)) || [], // Load wishlist from local storage
+    orders: []     // Store for orders
   },
   getters: {
     cartItems: (state) => state.cartItems,
     cartTotal: (state) =>
       state.cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
-    wishlistItems: (state) => state.wishlist,  // New getter to retrieve wishlist items
+    wishlistItems: (state) => state.wishlist,  // Getter to retrieve wishlist items
+    orders: (state) => state.orders  // Getter to retrieve orders
   },
   mutations: {
     // Mutation to add item from ItemList.vue
@@ -30,7 +32,7 @@ export default createStore({
       if (existingItem) {
         existingItem.quantity += quantity;
       } else {
-        state.cartItems.push({ ...itemData, id, quantity }); // 添加完整的商品信息
+        state.cartItems.push({ ...itemData, id, quantity }); // Add complete product info
       }
     },
     REMOVE_FROM_CART(state, id) {
@@ -59,6 +61,17 @@ export default createStore({
       state.wishlist = state.wishlist.filter((item) => item.id !== id);
       localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(state.wishlist)); // Save updated wishlist to local storage
     },
+    // New Mutation to add an order
+    ADD_ORDER(state, order) {
+      state.orders.push(order); // Add order to the state
+    },
+    // Clear cart after placing an order
+    CLEAR_CART(state) {
+      state.cartItems = [];
+    },
+    CLEAR_CART(state) {
+      state.cartItems = [];
+    }
   },
   actions: {
     addToCart({ commit }, item) {
@@ -81,12 +94,26 @@ export default createStore({
     removeFromWishlist({ commit }, id) {
       commit('REMOVE_FROM_WISHLIST', id);
     },
-    // New action to load wishlist from local storage (called on app load)
+    // New action to load wishlist from local storage
     loadWishlistFromStorage({ commit }) {
       const wishlist = JSON.parse(localStorage.getItem(WISHLIST_STORAGE_KEY)) || [];
       wishlist.forEach((item) => {
         commit('ADD_TO_WISHLIST', item);
       });
     },
+    // New action to place an order
+    placeOrder({ commit, state }, orderDetails) {
+      const order = {
+        ...orderDetails,
+        items: state.cartItems,
+        total: state.cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
+        date: new Date().toISOString(),
+      };
+      commit('ADD_ORDER', order);
+      commit('CLEAR_CART'); // Clear cart after placing an order
+    },
+    clearCart({ commit }) {
+      commit('CLEAR_CART');
+    }
   },
 });
