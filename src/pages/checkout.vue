@@ -139,6 +139,7 @@
     </div>
 
     <!-- Order Confirmation Card -->
+    <!-- Order Confirmation Card -->
     <div v-if="orderPlaced" class="p-6 bg-gray-100 rounded shadow-md order-card">
       <h2 class="mb-4 text-2xl font-semibold">Order Confirmation</h2>
       <p class="mb-4">Thank you, <strong>{{ orderInfo.name }}</strong>, for your order!</p>
@@ -146,6 +147,11 @@
       <p class="mb-4">Phone: <strong>{{ orderInfo.phone }}</strong></p>
       <p class="mb-4">Payment Method: <strong>{{ orderInfo.payment }}</strong></p>
       <p class="mb-4">Shipping to: <strong>{{ orderInfo.address }}</strong></p>
+      
+      <!-- Display the order date -->
+      <p class="mb-4"><strong>Order Date:</strong> {{ new Date(orderInfo.date).toLocaleDateString() }}</p> 
+
+      <p class="mb-4"><strong>Order Number:</strong> {{ orderInfo.orderNumber }}</p>
 
       <h3 class="mb-2 text-xl font-semibold">Your Order:</h3>
       <ul class="pl-5 mb-4 list-disc">
@@ -159,6 +165,15 @@
       <div class="text-lg font-bold">
         <span>Total:</span> ${{ orderInfo.total.toFixed(2) }}
       </div>
+    </div>
+
+
+    <!-- Orders BTN -->
+    <div v-if="orderPlaced" class="">
+      <RouterLink to="/orders" class="flex items-center gap-2 p-4 text-xl bg-slate-300">
+        <SolarHeartLinear />
+        <p>我的訂單</p>
+      </RouterLink>
     </div>
   </div>
 </template>
@@ -185,25 +200,32 @@ const orderPlaced = ref(false);
 const orderInfo = ref(null);
 
 function handleSubmit() {
-  // Store the form and cart data in the order info
-  orderInfo.value = {
+  // Generate the order info with the current order number
+  const newOrderInfo = {
     name: form.value.name,
     email: form.value.email,
-    phone: form.value.phone,  // Store phone in order info
-    payment: form.value.payment,  // Store payment in order info
+    phone: form.value.phone,
+    payment: form.value.payment,
     address: form.value.address,
     items: cartItems.value,
-    total: cartTotal.value
+    total: cartTotal.value,
+    date: new Date().toISOString()
   };
 
   // Place the order in Vuex store
-  store.dispatch('placeOrder', orderInfo.value);
+  store.dispatch('placeOrder', newOrderInfo);
 
   // Empty the cart (optional)
   store.dispatch('clearCart');
 
   // Mark order as placed
   orderPlaced.value = true;
+
+  // Store the order number in orderInfo for display
+  orderInfo.value = {
+    ...newOrderInfo,
+    orderNumber: store.state.lastOrderNumber // Get the latest order number from Vuex state
+  };
 }
 
 function updateQuantity(id, quantity) {

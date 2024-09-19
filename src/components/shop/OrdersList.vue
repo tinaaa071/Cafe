@@ -4,11 +4,15 @@
   
       <div v-if="orders.length > 0" class="grid grid-cols-1 gap-6">
         <div
-          v-for="(order, index) in orders"
-          :key="index"
+          v-for="order in reversedOrders"
+          :key="order.orderNumber"
           class="p-6 bg-gray-100 rounded shadow-md order-card"
         >
-          <h2 class="mb-2 text-xl font-semibold">Order #{{ index + 1 }}</h2>
+          <h2 class="mb-2 text-xl font-semibold">Order #{{ order.orderNumber }}</h2>
+          
+          <!-- Display the order date -->
+          <p class="mb-2"><strong>Date:</strong> {{ new Date(order.date).toLocaleDateString() }}</p>
+  
           <p><strong>Name:</strong> {{ order.name }}</p>
           <p><strong>Phone:</strong> {{ order.phone }}</p>
           <p><strong>Email:</strong> {{ order.email }}</p>
@@ -44,13 +48,14 @@
     </div>
   </template>
   
-  
   <script setup>
   import { computed } from 'vue';
   import { useStore } from 'vuex';
   
   const store = useStore();
   const orders = computed(() => store.state.orders);
+  // Create a reversedOrders computed property
+  const reversedOrders = computed(() => [...orders.value].reverse());
   </script>
   
   <style scoped>
