@@ -1,266 +1,243 @@
+```src/components/cafe/CafeList.vue
 <template>
   <div>
+    <!-- 搜尋欄 -->
     <div class="flex items-center mb-4">
-      <label for="city-select" class="mr-2">Select City:</label>
-      <select
-        id="city-select"
-        v-model="selectedCity"
-        @change="handleCityChange"
-        class="city-select"
-      >
-        <option value="all">全部城市</option>
-        <option v-for="city in cities" :key="city" :value="city">
-          {{ city }}
-        </option>
-      </select>
-      <input
-        v-model="searchQuery"
-        @input="filterCafes"
-        placeholder="Search cafes..."
-        class="ml-4 search-input"
-      />
+      <div class="flex w-full">
+        <select
+          id="city-select"
+          v-model="selectedCity"
+          @change="handleCityChange"
+          class="py-4 border-2 border-stone-900 focus:border-stone-500 bg-B4"
+        >
+          <option value="all">全部城市</option>
+          <option v-for="city in cities" :key="city" :value="city">
+            {{ city }}
+          </option>
+        </select>
+        <input
+          v-model="searchQuery"
+          @input="filterCafes"
+          placeholder="輸入關鍵字"
+          class="py-4 w-full bg-white border-2 border-l-0 border-stone-900 focus:border-stone-500 placeholder:text-stone-400"
+        />
+      </div>
+      <button type="button" class="px-6 py-4 text-white whitespace-nowrap border-2 bg-stone-900 border-stone-900">
+        搜尋
+      </button>
     </div>
-    <h1>{{ displayTitle }} Cafes</h1>
-    <div>
+    <!-- Tab -->
+    <div class="flex overflow-hidden overflow-x-auto flex-nowrap gap-4 mb-16 text-sm whitespace-nowrap">
+      <button
+        @click="fetchAllCafes"
+        :class="['px-6 py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 active:bg-stone-900 active:text-white text-stone-900 hover:text-white', { 'bg-gray-950 text-white': cityName === 'all' }]"
+      >
+        全部城市
+      </button>
       <button
         v-for="city in cities"
         :key="city"
         @click="fetchCafes(city)"
-        :class="['city-button', { active: city === cityName }]"
+        :class="['px-6 py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 active:bg-stone-900 active:text-white text-stone-900 hover:text-white', { 'bg-gray-950 text-white': city === cityName }]"
       >
         {{ city }}
       </button>
-      <button
-        @click="fetchAllCafes"
-        :class="['city-button', { active: cityName === 'all' }]"
-      >
-        全部城市
-      </button>
     </div>
-    <div v-if="error" class="error">{{ error }}</div>
-    <div v-else-if="filteredCafes.length" class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-      <div
-        v-for="(cafe, index) in paginatedCafes"
-        :key="cafe.id"
-        class="cafe-card"
-      >
-        <h2>{{ cafe.name }}</h2>
-        <img
-          :src="getImageUrl(index)"
-          :alt="getImageAlt(index)"
-          class="object-cover w-full rounded-lg shadow-md aspect-video"
-        />
-        <p>Address: {{ cafe.address }}</p>
-        <p>Open Time: {{ cafe.open_time }}</p>
-        <p>Limited Time: {{ cafe.limited_time ? 'Yes' : 'No' }}</p>
-        <p>Socket Availability: {{ cafe.socket }}</p>
-        <p>Standing Desk: {{ cafe.standing_desk ? 'Yes' : 'No' }}</p>
-        <p>Music: {{ cafe.music }}</p>
-        <p>Wifi: {{ cafe.wifi }}</p>
-        <p>Seat: {{ cafe.seat }}</p>
-        <p>Quiet: {{ cafe.quiet }}</p>
-        <p>Tasty: {{ cafe.tasty }}</p>
-        <p>Price: {{ cafe.cheap }}</p>
-        <p>MRT: {{ cafe.mrt }}</p>
-        <p>Url: {{ cafe.url }}</p>
-        <Map :cafes="[cafe]" />
+    <!-- Cafe 卡片 -->
+    <div class="mb-16">
+      <div v-if="error" class="error">{{ error }}</div>
+      <div v-else-if="filteredCafes.length" class="grid grid-cols-1 gap-y-12 gap-x-16 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          v-for="(cafe, index) in paginatedCafes"
+          :key="cafe.id"
+          class="text-center cafe-card"
+          @click="selectCafe(cafe)"
+        >
+          <div class="w-full rounded-full border-2 aspect-[3/2] border-stone-900 mb-4 overflow-hidden cursor-pointer">
+            <img
+              :src="getImageUrl(index)"
+              :alt="getImageAlt(index)"
+              class="object-cover transition-all duration-300 hover:scale-110"
+            />
+          </div>
+          <h2 class="text-lg font-bold">
+            {{ cafe.name }}
+          </h2>
+        </div>
       </div>
+      <p v-else-if="hasSearched">無搜尋結果</p>
+      <p v-else>Loading...</p>
     </div>
-    <p v-else-if="hasSearched">無搜尋結果</p>
-    <p v-else>Loading...</p>
+    <!-- 頁碼 -->
     <Paginator
       :total-items="filteredCafes.length"
       :items-per-page="itemsPerPage"
       @page-changed="handlePageChanged"
     />
+    
+    <!-- Cafe Drawer -->
+    <CafeDrawer :isOpen="isDrawerOpen" :selectedCafe="selectedCafe" @close="isDrawerOpen = false" />
   </div>
 </template>
 
-<script setup>
+<script>
 import { ref, onMounted, computed, watch } from 'vue';
 import { getCafes } from '../../apiService.js';
-import Map from './Map.vue'; // 確保正確引用 Map 元件
 
-const cafes = ref([]);
-const allCafes = ref([]); // 用來存儲所有咖啡館數據
-const images = ref([]);
-const searchQuery = ref('');
-const cityName = ref('台北市'); // Default city
-const displayTitle = ref(cityName.value);
-const error = ref(null);
-const isLoading = ref(true);
-const itemsPerPage = ref(6); // 每頁顯示 6 筆資料
-const hasSearched = ref(false); // 用來跟蹤是否已經進行過搜尋
 
-const cities = ['台北市', '新竹市', '台中市', '高雄市', '台南市', '花蓮縣'];
+export default {
 
-const selectedCity = ref(cityName.value);
+  data() {
+    return {
+      cafes: [],
+      allCafes: [],
+      images: [],
+      searchQuery: '',
+      cityName: '台北市',
+      displayTitle: '台北市',
+      error: null,
+      isLoading: true,
+      itemsPerPage: 6,
+      hasSearched: false,
+      cities: ['台北市', '新竹市', '台中市', '高雄市', '台南市', '花蓮縣'],
+      selectedCity: '台北市',
+      currentPage: 1,
+      isDrawerOpen: false, // 控制抽屜的開關
+      selectedCafe: null, // 存儲所選的咖啡館
+    };
+  },
+  computed: {
+    filteredCafes() {
+      const searchQueryLower = this.searchQuery.toLowerCase();
+      const filtered = this.allCafes.filter((cafe) => {
+        const matchesCity =
+          this.selectedCity === 'all' || cafe.address.includes(this.selectedCity);
+        const matchesQuery = cafe.name.toLowerCase().includes(searchQueryLower);
+        return matchesCity && matchesQuery;
+      });
+      const uniqueCafes = [];
+      const cafeNames = new Set();
+      filtered.forEach((cafe) => {
+        if (!cafeNames.has(cafe.name)) {
+          cafeNames.add(cafe.name);
+          uniqueCafes.push(cafe);
+        }
+      });
+      return uniqueCafes;
+    },
+    paginatedCafes() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.filteredCafes.slice(start, end);
+    },
+  },
+  methods: {
+    async fetchCafes(city) {
+      this.error = null;
+      this.isLoading = true;
+      this.cityName = city;
+      this.selectedCity = city;
+      this.displayTitle = city;
+      this.searchQuery = '';
+      this.hasSearched = true;
 
-const filteredCafes = computed(() => {
-  const searchQueryLower = searchQuery.value.toLowerCase();
-
-  // 過濾符合條件的咖啡館
-  const filtered = allCafes.value.filter((cafe) => {
-    const matchesCity =
-      selectedCity.value === 'all' || cafe.address.includes(selectedCity.value);
-    const matchesQuery = cafe.name
-      .toLowerCase()
-      .includes(searchQueryLower);
-    return matchesCity && matchesQuery;
-  });
-
-  // 去除 cafe.name 重複的項目
-  const uniqueCafes = [];
-  const cafeNames = new Set();
-  filtered.forEach(cafe => {
-    if (!cafeNames.has(cafe.name)) {
-      cafeNames.add(cafe.name);
-      uniqueCafes.push(cafe);
-    }
-  });
-
-  return uniqueCafes;
-});
-
-const paginatedCafes = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value;
-  const end = start + itemsPerPage.value;
-  return filteredCafes.value.slice(start, end);
-});
-
-const currentPage = ref(1);
-
-const handlePageChanged = (page) => {
-  currentPage.value = page;
-};
-
-const fetchCafes = async (city) => {
-  error.value = null;
-  isLoading.value = true;
-  cityName.value = city;
-  selectedCity.value = city;
-  displayTitle.value = city;
-  searchQuery.value = '';
-  hasSearched.value = true; // Set to true after fetching cafes
-  try {
-    const cityCafes = await getCafes(city);
-    allCafes.value = [...new Set([...allCafes.value, ...cityCafes])]; // 更新 allCafes
-    cafes.value = cityCafes;
-    await fetchCafeImages();
-  } catch (err) {
-    error.value = 'Failed to load cafes.';
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-const fetchAllCafes = async () => {
-  error.value = null;
-  isLoading.value = true;
-  cityName.value = 'all';
-  selectedCity.value = 'all';
-  displayTitle.value = '全部城市';
-  searchQuery.value = '';
-  hasSearched.value = true; // Set to true after fetching all cafes
-
-  try {
-    const promises = cities.map((city) => getCafes(city));
-    const results = await Promise.all(promises);
-    const all = results.flat();
-
-    // 去除 cafe.name 重複的項目
-    const uniqueCafes = [];
-    const cafeNames = new Set();
-    all.forEach(cafe => {
-      if (!cafeNames.has(cafe.name)) {
-        cafeNames.add(cafe.name);
-        uniqueCafes.push(cafe);
+      try {
+        const cityCafes = await getCafes(city);
+        this.allCafes = [...new Set([...this.allCafes, ...cityCafes])];
+        this.cafes = cityCafes;
+        await this.fetchCafeImages();
+      } catch (err) {
+        this.error = 'Failed to load cafes.';
+      } finally {
+        this.isLoading = false;
       }
-    });
+    },
+    async fetchAllCafes() {
+      this.error = null;
+      this.isLoading = true;
+      this.cityName = 'all';
+      this.selectedCity = 'all';
+      this.displayTitle = '全部城市';
+      this.searchQuery = '';
+      this.hasSearched = true;
 
-    allCafes.value = uniqueCafes;
-    cafes.value = uniqueCafes;
-    await fetchCafeImages();
-  } catch (err) {
-    error.value = 'Failed to load cafes.';
-  } finally {
-    isLoading.value = false;
-  }
-};
+      try {
+        const promises = this.cities.map((city) => getCafes(city));
+        const results = await Promise.all(promises);
+        const all = results.flat();
+        const uniqueCafes = [];
+        const cafeNames = new Set();
+        all.forEach((cafe) => {
+          if (!cafeNames.has(cafe.name)) {
+            cafeNames.add(cafe.name);
+            uniqueCafes.push(cafe);
+          }
+        });
+        this.allCafes = uniqueCafes;
+        this.cafes = uniqueCafes;
+        await this.fetchCafeImages();
+      } catch (err) {
+        this.error = 'Failed to load cafes.';
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async fetchCafeImages() {
+      const accessKey = '_9F7po_Bi4VFYiC6StcE3DhxvqlOSyldaXLdHTzBpNI';
+      const query = 'cafe';
+      const count = 8;
 
-async function fetchCafeImages() {
-  const accessKey = '_9F7po_Bi4VFYiC6StcE3DhxvqlOSyldaXLdHTzBpNI';
-  const query = 'cafe';
-  const count = 8;
-
-  try {
-    const response = await fetch(
-      `https://api.unsplash.com/photos/random?client_id=${accessKey}&query=${query}&count=${count}`
-    );
-    images.value = await response.json();
-  } catch (error) {
-    console.error('Error fetching the images:', error);
-  }
-}
-
-const getImageUrl = (index) => {
-  return images.value[index]?.urls.regular || 'https://via.placeholder.com/400';
-};
-
-const getImageAlt = (index) => {
-  return images.value[index]?.alt_description || 'Cafe Image';
-};
-
-// Watch for changes in selectedCity to fetch cafes accordingly
-watch(selectedCity, (newCity) => {
-  if (newCity === 'all') {
-    fetchAllCafes();
-  } else {
-    fetchCafes(newCity);
-  }
-});
-
-onMounted(() => {
-  fetchCafes(cityName.value);
-});
-
-const handleCityChange = () => {
-  // Trigger fetching cafes when city changes from the select
-  if (selectedCity.value === 'all') {
-    fetchAllCafes();
-  } else {
-    fetchCafes(selectedCity.value);
-  }
+      try {
+        const response = await fetch(
+          `https://api.unsplash.com/photos/random?client_id=${accessKey}&query=${query}&count=${count}`
+        );
+        this.images = await response.json();
+      } catch (error) {
+        console.error('Error fetching the images:', error);
+      }
+    },
+    getImageUrl(index) {
+      return this.images[index]?.urls.regular || 'https://via.placeholder.com/400';
+    },
+    getImageAlt(index) {
+      return this.images[index]?.alt_description || 'Cafe Image';
+    },
+    selectCafe(cafe) {
+      const imageUrl = this.getImageUrl(this.cafes.findIndex(c => c.id === cafe.id)); // 獲取所選咖啡館的圖片
+      this.selectedCafe = {
+        ...cafe,
+        imageUrl // 使用從 `getImageUrl` 獲取的圖片 URL
+      };
+      this.isDrawerOpen = true; // 打開抽屜
+    },
+    handlePageChanged(page) {
+      this.currentPage = page;
+    },
+    handleCityChange() {
+      if (this.selectedCity === 'all') {
+        this.fetchAllCafes();
+      } else {
+        this.fetchCafes(this.selectedCity);
+      }
+    },
+  },
+  watch: {
+    selectedCity(newCity) {
+      if (newCity === 'all') {
+        this.fetchAllCafes();
+      } else {
+        this.fetchCafes(newCity);
+      }
+    },
+  },
+  mounted() {
+    this.fetchCafes(this.cityName);
+  },
 };
 </script>
 
 <style scoped>
 .error {
   color: red;
-}
-.city-button {
-  margin: 5px;
-  padding: 8px 16px;
-  border: none;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.city-button:hover {
-  background-color: #dcdcdc;
-}
-
-.city-button.active {
-  background-color: #9e9e9e;
-  color: white;
-}
-
-.city-select {
-  padding: 5px;
-}
-
-.search-input {
-  padding: 5px;
 }
 </style>
