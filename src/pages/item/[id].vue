@@ -7,7 +7,8 @@
         Back to List
       </button> -->
       
-      <div class="grid grid-cols-1 md:grid-cols-2">
+      <div class="grid sticky top-0 z-10 grid-cols-1 md:grid-cols-2">
+        <!-- 圖片區塊 -->
         <div class="flex flex-col gap-2">
           <!-- 主圖 -->
           <img :src="currentImage" :alt="item.name" class="object-cover w-full aspect-[3/2] border-2 border-stone-900" />
@@ -57,7 +58,7 @@
             </li>
           </ul>
           <!-- 按鈕 -->
-          <div class="flex flex-col gap-2 md:gap-4 md:flex-row">
+          <div class="flex flex-col gap-2 sm:gap-4 sm:flex-row">
             <!-- 數量 -->
             <div class="flex items-center border-2 border-stone-900 text-stone-900">
               <button
@@ -88,29 +89,37 @@
           </div>
           <!-- 商品介紹 -->
           <div>
-            <div class="flex gap-3 items-center">
+            <!-- 標題 -->
+            <div class="flex gap-3 items-center mb-3 md:mb-6">
               <h2 class="font-bold whitespace-nowrap md:text-2xl">
                 商品介紹
               </h2>
               <hr class="w-full border-[1.5px] border-stone-900 dark:border-white">
             </div>
+            <!-- 資訊 -->
+            <ul class="text-xs font-medium list-disc list-inside md:text-xl text-stone-500">
+              <li v-for="(desc, index) in item.description" :key="index">
+                {{ desc }}
+              </li>
+            </ul>
           </div>
 
         </div>
       </div>
       
-      <!-- Shopping Cart Drawer -->
+      <!-- 購物車 Drawer -->
       <Cart :isOpen="isCartOpen" @close-cart="closeCart" />
       
-      <!-- Modal Component for Add Wishlist -->
+      <!-- 加入願望清單 Modal -->
       <Modal :show="isModalVisible" @close="isModalVisible = false">
         <div class="p-4 bg-white rounded">
-          <h3 class="text-xl">Item Added to Wishlist</h3>
+          <img :src="currentImage" :alt="item.name" class="object-cover w-full aspect-[3/2] border-2 border-stone-900" />
           <p>{{ selectedItem?.name }} has been added to your wishlist!</p>
+          <h3 class="text-xl">已加入願望清單！</h3>
         </div>
       </Modal>
       
-      <!-- Remove from Wishlist Confirmation Modal -->
+      <!-- 移除願望清單 Modal -->
       <Modal :show="isRemovalModalVisible" @close="isRemovalModalVisible = false">
         <div class="p-4 bg-white rounded">
           <h3 class="text-xl">Confirm Removal</h3>
@@ -189,7 +198,7 @@ export default {
         // Auto close the modal after 2 seconds
         setTimeout(() => {
           this.isModalVisible = false;
-        }, 1200);
+        }, 16000);
       }
     },
     removeFromWishlist() {

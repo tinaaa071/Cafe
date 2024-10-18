@@ -2,16 +2,16 @@
     <TransitionFade name="fade">
       <div
         v-if="show"
-        class="fixed inset-0 z-50 flex items-center justify-center w-full p-6 text-right bg-black/30 backdrop-blur-lg"
+        class="flex fixed inset-0 z-50 justify-center items-center p-6 w-full text-right backdrop-blur-lg bg-black/30"
         @click="handleOverlayClick"
       >
         <div
-          class="relative w-full mx-auto sm:max-w-5xl"
+          class="relative mx-auto w-[400px] bg-white text-center"
           @click.stop
         >
         <button
             type="button"
-            class="p-3 mb-4 text-white transition-colors border-2 border-white rounded-xl bg-white/10 group hover:bg-white/15"
+            class="p-3 ml-auto text-stone-900 group"
             @click="$emit('close')"
           >
             <span class="sr-only">Close</span>
