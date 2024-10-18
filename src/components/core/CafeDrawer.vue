@@ -28,7 +28,7 @@
         </button>
       </div>
 
-      <div class="overflow-y-scroll px-10 py-6 h-screen">
+      <div class="overflow-hidden overflow-y-scroll px-10 py-6 h-full">
         <div>
           <div v-if="error" class="error">{{ error }}</div>
           <div v-else-if="selectedCafe" class="space-y-6">

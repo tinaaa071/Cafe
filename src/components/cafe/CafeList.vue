@@ -30,7 +30,7 @@
     <div class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-16 text-sm whitespace-nowrap sm:gap-4">
       <button
         @click="fetchAllCafes"
-        :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white ', { 'bg-stone-950 text-white': cityName === 'all' }]"
+        :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white city-button', { active: cityName === 'all' }]"
       >
         全部城市
       </button>
@@ -38,7 +38,7 @@
         v-for="city in cities"
         :key="city"
         @click="fetchCafes(city)"
-        :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white ', { 'bg-stone-950 text-white': city === cityName }]"
+        :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white city-button', { active: city === cityName }]"
       >
         {{ city }}
       </button>
@@ -239,6 +239,10 @@ export default {
 <style scoped>
 .error {
   color: red;
+}
+.city-button.active {
+  background-color: #0c0a09;
+  color: white;
 }
 
 </style>
