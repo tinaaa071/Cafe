@@ -8,7 +8,7 @@
           id="city-select"
           v-model="selectedCity"
           @change="handleCityChange"
-          class="py-4 border-2 border-stone-900 focus:border-stone-500 bg-B4"
+          class="py-2.5 border-2 sm:py-4 border-stone-900 focus:border-stone-500 bg-B4"
         >
           <option value="all">全部城市</option>
           <option v-for="city in cities" :key="city" :value="city">
@@ -19,18 +19,18 @@
           v-model="searchQuery"
           @input="filterCafes"
           placeholder="輸入關鍵字"
-          class="py-4 w-full bg-white border-2 border-l-0 border-stone-900 focus:border-stone-500 placeholder:text-stone-400"
+          class="py-2.5 w-full bg-white border-2 border-l-0 sm:py-4 border-stone-900 focus:border-stone-500 placeholder:text-stone-400"
         />
       </div>
-      <button type="button" class="px-6 py-4 text-white whitespace-nowrap border-2 bg-stone-900 border-stone-900">
+      <button type="button" class="px-3 py-2.5 text-white whitespace-nowrap border-2 sm:py-4 sm:px-6 bg-stone-900 border-stone-900">
         搜尋
       </button>
     </div>
     <!-- Tab -->
-    <div class="flex overflow-hidden overflow-x-auto flex-nowrap gap-4 mb-16 text-sm whitespace-nowrap">
+    <div class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-16 text-sm whitespace-nowrap sm:gap-4">
       <button
         @click="fetchAllCafes"
-        :class="['px-6 py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 active:bg-stone-900 active:text-white text-stone-900 hover:text-white', { 'bg-gray-950 text-white': cityName === 'all' }]"
+        :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white ', { 'bg-stone-950 text-white': cityName === 'all' }]"
       >
         全部城市
       </button>
@@ -38,7 +38,7 @@
         v-for="city in cities"
         :key="city"
         @click="fetchCafes(city)"
-        :class="['px-6 py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 active:bg-stone-900 active:text-white text-stone-900 hover:text-white', { 'bg-gray-950 text-white': city === cityName }]"
+        :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white ', { 'bg-stone-950 text-white': city === cityName }]"
       >
         {{ city }}
       </button>
@@ -240,4 +240,5 @@ export default {
 .error {
   color: red;
 }
+
 </style>

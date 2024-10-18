@@ -1,5 +1,5 @@
 <template>
-    <div :id="mapId" class="map-container"></div>
+    <div :id="mapId" class="aspect-video"></div>
   </template>
   
   <script setup>
@@ -88,11 +88,5 @@
     }
   });
   </script>
-  
-  <style scoped>
-  .map-container {
-    width: 100%;
-    height: 300px;
-  }
-  </style>
+
   

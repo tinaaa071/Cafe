@@ -10,23 +10,25 @@
   <transition name="slide">
     <div
       v-if="isOpen"
-      class="fixed top-0 right-0 z-50 w-1/3 h-full bg-white shadow-lg transition-transform transform"
+      class="fixed top-0 right-0 z-50 w-full h-full bg-white shadow-lg transition-transform transform lg:w-1/3 sm:w-2/3"
       :class="{ 'translate-x-0': isOpen, 'translate-x-full': !isOpen }"
       @click.stop
     >
-      <div class="flex justify-between items-center px-10 py-6 mb-4 text-white bg-stone-900">
-        <h2 class="text-2xl font-bold">
-            {{ selectedCafe?.name }}
-          </h2> 
+      <div class="flex justify-between items-center px-10 py-6 text-white bg-stone-900">
+        <!-- 標題 -->
+        <h2 class="text-2xl font-bold line-clamp-1">
+          {{ selectedCafe?.name }}
+        </h2> 
+        <!-- 關閉按鈕 -->
         <button
           @click="$emit('close')"
-          class="text-gray-500 hover:text-gray-700"
+          class="text-xl font-bold text-white transition-all duration-300 hover:rotate-90"
         >
           &times;
         </button>
       </div>
 
-      <div class="overflow-y-scroll px-10 py-6 h-full drawer-content">
+      <div class="overflow-y-scroll px-10 py-6 h-screen">
         <div>
           <div v-if="error" class="error">{{ error }}</div>
           <div v-else-if="selectedCafe" class="space-y-6">
@@ -41,31 +43,55 @@
                   {{ selectedCafe.mrt }}
                 </p>
               </div>
-              <p class="text-xl font-light">
+              <p 
+              v-if="selectedCafe && selectedCafe.address"
+              class="text-xl font-light"
+              >
                 {{ selectedCafe.address }}
               </p>
             </div>
             <!-- Img -->
             <img v-if="selectedCafe?.imageUrl && selectedCafe.imageUrl !== 'https://via.placeholder.com/400'" :src="selectedCafe.imageUrl" alt="Cafe Image" class="object-cover mb-4 w-full border-2 aspect-video border-stone-900" />
             <!-- BTN -->
-            <button @click="window.open(selectedCafe.url, '_blank')" class="py-4 w-full text-center text-white bg-stone-900">
+            <a v-if="selectedCafe && selectedCafe.url" :href="selectedCafe.url" target="_blank" class="block py-4 w-full text-center text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500">
               更多資訊
-            </button>
+            </a>
             <!-- 其他資訊 -->
             <ul class="grid grid-cols-1 gap-4 list-disc list-inside sm:grid-cols-2">
-              <li>營業時間：{{ selectedCafe.open_time }}</li>
-              <li>限制時間：{{ selectedCafe.limited_time ? 'Yes' : 'No' }}</li>
-              <li>提供插座：{{ selectedCafe.socket }}</li>
-              <li>可站立工作：{{ selectedCafe.standing_desk ? 'Yes' : 'No' }}</li>
-              <li>裝潢音樂：{{ selectedCafe.music }}</li>
-              <li>Wifi 穩定：{{ selectedCafe.wifi }}</li>
-              <li>通常有位：{{ selectedCafe.seat }}</li>
-              <li>安靜程度：{{ selectedCafe.quiet }}</li>
-              <li>東西好吃：{{ selectedCafe.tasty }}</li>
-              <li>價格便宜：{{ selectedCafe.cheap }}</li>
-              <li>Url: {{ selectedCafe.url }}</li>
+              <li v-if="selectedCafe && selectedCafe.open_time">
+                營業時間：{{ selectedCafe.open_time }}
+              </li>
+              <li v-if="selectedCafe && selectedCafe.limited_time">
+                限制時間：{{ selectedCafe.limited_time ? '是' : '否' }}
+              </li>
+              <li v-if="selectedCafe && selectedCafe.socket">
+                提供插座：{{ selectedCafe.socket ? '是' : '否' }}
+              </li>
+              <li v-if="selectedCafe && selectedCafe.standing_desk">
+                可站立工作：{{ selectedCafe.standing_desk ? '是' : '否' }}
+              </li>
+              <li v-if="selectedCafe && selectedCafe.music">
+                裝潢音樂：⭐️&nbsp;{{ selectedCafe.music }}
+              </li>
+              <li v-if="selectedCafe && selectedCafe.wifi">
+                Wifi 穩定：⭐️&nbsp;{{ selectedCafe.wifi }}
+              </li>
+              <li v-if="selectedCafe && selectedCafe.seat">
+                通常有位：⭐️&nbsp;{{ selectedCafe.seat }}
+              </li>
+              <li v-if="selectedCafe && selectedCafe.quiet">
+                安靜程度：⭐️&nbsp;{{ selectedCafe.quiet }}
+              </li>
+              <li v-if="selectedCafe && selectedCafe.tasty">
+                東西好吃：⭐️&nbsp;{{ selectedCafe.tasty }}
+              </li>
+              <li v-if="selectedCafe && selectedCafe.cheap">
+                價格便宜：⭐️&nbsp;{{ selectedCafe.cheap }}
+              </li>
             </ul>
-            <Map :cafes="[selectedCafe]" />
+            <div class="border-2 border-stone-900">
+              <Map :cafes="[selectedCafe]" />
+            </div>
           </div>
         </div>
       </div>

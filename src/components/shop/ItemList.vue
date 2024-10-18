@@ -1,27 +1,40 @@
 <template>
-  <div>
-    <h2 class="mb-4 text-2xl font-bold">Item List</h2>
-    <div v-for="(item, index) in items" :key="index" class="flex items-center p-4 mb-4 space-x-4 border rounded">
+  <div class="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 sm:gap-y-12 lg:gap-x-16">
+    <div v-for="(item, index) in items" :key="index" class="flex flex-col items-center p-6 bg-white group">
       <!-- Display Item Image -->
-      <img :src="item.image" :alt="item.name" class="object-cover w-24 h-24 rounded" />
-      <div>
-        <h3 class="text-xl">{{ item.name }}</h3>
-        <p class="text-lg">${{ item.price }}</p>
-        <router-link :to="{ path: `/item/${item.id}` }">
-          <button class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
-              View Details
-          </button>
-        </router-link>
-        <button @click="addToCart(item)" class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">
-          Add to Cart
-        </button>
-        <!-- Add to Wishlist Button -->
-        <button @click="toggleWishlist(item)" class="px-4 py-2 mt-2 text-white rounded">
+      <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[3/2] border-stone-900 overflow-hidden">
+        <img :src="item.image" :alt="item.name" class="object-cover transition-all duration-300 group-hover:scale-110" />
+        <!-- 加入最愛 -->
+        <button @click="toggleWishlist(item)" 
+        class="absolute top-0 right-0 p-4 text-white"
+        >
           <component
             :is="isInWishlist(item) ? 'SolarHeartBold' : 'SolarHeartLinear'"
-            class="text-red-500"
+            class="text-xl text-white"
           />
         </button>
+      </div>
+      <!-- 資訊 -->
+      <div class="w-full text-center cursor-default">
+        <h3 class="mb-2 text-lg font-bold text-stone-900">
+          {{ item.name }}
+        </h3>
+        <p class="mb-4 font-bold text-stone-500">
+          ${{ item.price }}
+        </p>
+        <!-- 按鈕 -->
+        <div class="flex gap-2">
+          <!-- 看更多 -->
+          <router-link :to="{ path: `/item/${item.id}` }" class="w-full">
+            <button class="py-3 w-full text-sm text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500">
+              查看更多
+            </button>
+          </router-link>
+          <!-- 加入購物車 -->
+          <button @click="addToCart(item)" class="px-4 bg-white border-2 transition-colors duration-300 text-stone-900 border-stone-900 hover:bg-stone-200">
+            <SolarCart3Linear class="text-xl" />
+          </button>
+        </div>
       </div>
     </div>
 

@@ -1,16 +1,35 @@
 <template>
-    <div>
-      <h2>{{ isLogin ? '登入' : '註冊' }}</h2>
-      <form @submit.prevent="isLogin ? login() : register()">
-        <input v-model="email" type="email" placeholder="Email" required />
-        <input v-model="password" type="password" placeholder="Password" required />
-        <button type="submit">{{ isLogin ? '登入' : '註冊' }}</button>
+    <div class="space-y-10 text-center">
+      <h2 class="text-xl font-bold sm:text-4xl">
+        {{ isLogin ? '登入' : '註冊' }}
+      </h2>
+      <form @submit.prevent="isLogin ? login() : register()" class="space-y-5 text-left">
+        <!-- 信箱 -->
+        <div class="flex flex-col">
+          <label class="mb-2 text-sm font-bold sm:text-xl">
+            信箱：
+          </label>
+          <input v-model="email" type="email" placeholder="Email" required />
+        </div>
+        <!-- 密碼 -->
+        <div class="flex flex-col">
+          <label class="mb-2 text-sm font-bold sm:text-xl">
+            密碼：
+          </label>
+          <input v-model="password" type="password" placeholder="Password" required />
+        </div>
+        <!-- 按鈕 -->
+        <button type="submit" class="py-3 w-full font-bold text-white transition-colors duration-300 sm:text-xl sm:py-4 bg-stone-900 hover:bg-stone-500">
+          {{ isLogin ? '登入' : '註冊' }}
+        </button>
       </form>
   
       <p>{{ error }}</p>
-      <p>
+      <p class="font-bold sm:text-xl">
         {{ isLogin ? '還沒有帳號？' : '已經有帳號？' }}
-        <button @click="toggleAuthMode">{{ isLogin ? '註冊' : '登入' }}</button>
+        <button @click="toggleAuthMode" class="text-stone-500">
+          {{ isLogin ? '註冊' : '登入' }}
+        </button>
       </p>
     </div>
   </template>

@@ -10,23 +10,23 @@
     <transition name="slide">
       <div
         v-if="isOpen"
-        class="fixed top-0 right-0 z-50 h-full p-4 transition-transform transform bg-white shadow-lg w-80"
+        class="fixed top-0 right-0 z-50 w-full h-full bg-white shadow-lg transition-transform transform lg:w-1/3 sm:w-2/3"
         :class="{ 'translate-x-0': isOpen, 'translate-x-full': !isOpen }"
         @click.stop
       >
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex justify-between items-center px-10 py-6 text-white bg-stone-900">
           <slot name="header">
             <h2 class="text-2xl font-bold">{{ header }}</h2>
           </slot>
           <button
-            @click="$emit('close')"
-            class="text-gray-500 hover:text-gray-700"
-          >
+          @click="$emit('close')"
+          class="text-xl font-bold text-white transition-all duration-300 hover:rotate-90"
+        >
             &times;
           </button>
         </div>
   
-        <div class="drawer-content">
+        <div class="overflow-y-scroll px-10 py-6 h-screen drawer-content">
           <slot>
             <!-- Default slot content goes here -->
             <p>Your drawer content goes here.</p>
