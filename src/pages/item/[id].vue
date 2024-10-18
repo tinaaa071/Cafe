@@ -7,61 +7,95 @@
         Back to List
       </button> -->
       
-      <div class="grid grid-cols-1 lg:grid-cols-2">
+      <div class="grid grid-cols-1 md:grid-cols-2">
         <div class="flex flex-col gap-2">
           <!-- 主圖 -->
           <img :src="currentImage" :alt="item.name" class="object-cover w-full aspect-[3/2] border-2 border-stone-900" />
           <!-- 切換圖 -->
           <div class="grid grid-cols-4 gap-2">
-            <img @click="changeImage(item.image)" :src="item.image" :alt="item.name" class="object-cover w-full aspect-[3/2] cursor-pointer border-2 border-stone-900" />
-            <img @click="changeImage(item.image1)" :src="item.image1" :alt="item.name" class="object-cover w-full aspect-[3/2] cursor-pointer border-2 border-stone-900" />
-            <img @click="changeImage(item.image2)" :src="item.image2" :alt="item.name" class="object-cover w-full aspect-[3/2] cursor-pointer border-2 border-stone-900" />
-            <img @click="changeImage(item.image3)" :src="item.image3" :alt="item.name" class="object-cover w-full aspect-[3/2] cursor-pointer border-2 border-stone-900" />
+            <img 
+              v-for="(img, index) in item.image" 
+              :key="index" 
+              @click="changeImage(img)" 
+              :src="img" 
+              :alt="item.name" 
+              class="object-cover w-full border-2 transition-all duration-300 cursor-pointer aspect-square border-stone-900 hover:brightness-75" 
+            />
           </div>
         </div>
-        <div>
-          <h1 class="text-3xl font-bold">
-            {{ item.name }}
-          </h1>
-          <p class="text-xl">
-            ${{ item.price }}
-          </p>
-          <p class="mt-4">
-            {{ item.description }}
-          </p>
-          <!-- Quantity control -->
-          <div class="flex items-center mt-1 space-x-2">
-            <button
-              @click="updateQuantity(-1)"
-              class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-              :disabled="quantity <= 1"
-            >
-              -
-            </button>
-            <input
-              v-model.number="quantity"
-              @input="handleInput"
-              class="w-12 text-center rounded border"
-              min="1"
-            />
-            <button
-              @click="updateQuantity(1)"
-              class="px-2 py-1 text-white bg-green-500 rounded hover:bg-green-600"
-            >
-              +
+        <!-- 資訊 -->
+        <div class="p-5 space-y-6 bg-white md:p-10 md:space-y-10">
+          <!-- 商品資訊 -->
+          <div class="flex justify-between items-start mb-3 md:mb-6">
+            <!-- 資訊 -->
+            <div class="">
+              <!-- 標題 -->
+              <h1 class="mb-2 text-lg font-bold md:text-3xl md:mb-4">
+                {{ item.name }}
+              </h1>
+              <!-- 標籤 -->
+              <p class="px-3 py-1 mb-3 text-sm font-medium rounded-full cursor-default bg-B3 text-stone-500 w-fit md:mb-6">
+                {{ item.type }}
+              </p>
+              <!-- 價格 -->
+              <p class="text-base font-bold md:text-3xl text-stone-500">
+                ${{ item.price }}
+              </p>
+            </div>
+            <!-- 我的最愛 -->
+            <button @click="toggleWishlist" class="text-xl">
+              <component
+                :is="isInWishlist ? 'SolarHeartBold' : 'SolarHeartLinear'"
+                class="text-stone-900"
+              />
             </button>
           </div>
-          <button @click="addToCart" class="px-4 py-2 mt-4 text-white bg-blue-500 rounded">
-            Add to Cart
-          </button>
-          
-          <!-- Add to Wishlist Button -->
-          <button @click="toggleWishlist" class="px-4 py-2 mt-4 text-white rounded">
-            <component
-              :is="isInWishlist ? 'SolarHeartBold' : 'SolarHeartLinear'"
-              class="text-red-500"
-            />
-          </button>
+          <!-- 描述 -->
+          <ul class="text-xs font-medium list-disc list-inside md:text-xl text-stone-500">
+            <li v-for="(info, index) in item.info" :key="index">
+              {{ info }}
+            </li>
+          </ul>
+          <!-- 按鈕 -->
+          <div class="flex flex-col gap-2 md:gap-4 md:flex-row">
+            <!-- 數量 -->
+            <div class="flex items-center border-2 border-stone-900 text-stone-900">
+              <button
+                @click="updateQuantity(-1)"
+                class="px-3 py-2 border-r-2 border-stone-900"
+                :disabled="quantity <= 1"
+              >
+                <IcBaselineMinus />
+              </button>
+              <input
+                v-model.number="quantity"
+                @input="handleInput"
+                class="w-full text-center border-none"
+                min="1"
+              />
+              <button
+                @click="updateQuantity(1)"
+                class="px-3 py-2 border-l-2 border-stone-900"
+              >
+                <IcBaselinePlus />
+              </button>
+            </div>
+            <!-- 加入購物車 -->
+            <button @click="addToCart" class="flex gap-2 justify-center items-center py-3 w-full text-sm text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500">
+              加入購物車
+              <SolarCart3Linear />
+            </button>
+          </div>
+          <!-- 商品介紹 -->
+          <div>
+            <div class="flex gap-3 items-center">
+              <h2 class="font-bold whitespace-nowrap md:text-2xl">
+                商品介紹
+              </h2>
+              <hr class="w-full border-[1.5px] border-stone-900 dark:border-white">
+            </div>
+          </div>
+
         </div>
       </div>
       
