@@ -6,12 +6,12 @@
         @click="handleOverlayClick"
       >
         <div
-          class="relative mx-auto w-[400px] bg-white text-center"
+          class="mx-auto w-full text-right bg-white border-2 md:max-w-sm border-stone-900"
           @click.stop
         >
-        <button
+          <button
             type="button"
-            class="p-3 ml-auto text-stone-900 group"
+            class="pt-5 pr-5 text-stone-900 group"
             @click="$emit('close')"
           >
             <span class="sr-only">Close</span>

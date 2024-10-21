@@ -1,63 +1,87 @@
 <template>
-  <Drawer :isOpen="isOpen" @close="closeCart"
-  header="Cart"
-  >
-    <ul>
-      <li
-        v-for="item in cartItems"
-        :key="item.id"
-        class="flex flex-col pb-2 mb-2 border-b"
-      >
-        <img :src="item.image" :alt="item.name" class="object-cover w-24 h-24 rounded" />
-        <div class="flex items-center justify-between">
-          <span>{{ item.name }} (x{{ item.quantity }})</span>
-          <span>${{ (item.price * item.quantity).toFixed(2) }}</span>
-        </div>
-        <div class="flex items-center mt-1 space-x-2">
-          <button
-            @click="updateQuantity(item.id, item.quantity - 1)"
-            class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-            :disabled="item.quantity <= 0"
-          >
-            -
-          </button>
-          <input
-            v-model.number="item.quantity"
-            @input="updateQuantity(item.id, item.quantity)"
-            class="w-12 text-center border rounded"
-            type="number"
-            min="1"
-          />
-          <button
-            @click="updateQuantity(item.id, item.quantity + 1)"
-            class="px-2 py-1 text-white bg-green-500 rounded hover:bg-green-600"
-          >
-            +
-          </button>
-          <button
-            @click="removeFromCart(item.id)"
-            class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-          >
-            Delete
-          </button>
-        </div>
-      </li>
-    </ul>
-    <p v-if="!cartItems.length" class="text-center text-gray-500">
-      Your cart is empty.
-    </p>
-    <div class="mt-4">
-      <div class="flex items-center justify-between text-lg font-bold">
-        <span>Total:</span>
-        <span>${{ cartTotal.toFixed(2) }}</span>
+  <Drawer :isOpen="isOpen" @close="closeCart" header="購物車">
+    <!-- 商品區塊 -->
+    <div class="overflow-y-auto max-h-[calc(100vh-200px)] scrollbar-hidden">
+      <ul>
+        <li
+          v-for="item in cartItems"
+          :key="item.id"
+          class="flex flex-row gap-4 items-center py-8 border-b md:gap-6 border-stone-300"
+        >
+          <!-- 圖片 -->
+          <img :src="item.image" :alt="item.name" class="object-cover w-24 border-2 aspect-square border-stone-900" />
+          <!-- 商品 -->
+          <div class="flex gap-10 items-start w-full">
+            <!-- 商品資訊 -->
+            <div class="flex flex-col gap-4 w-full">
+              <!-- 商品名稱 -->
+              <span class="text-sm font-bold md:text-xl">
+                {{ item.name }}
+              </span>
+              <!-- 數量＆價錢 -->
+              <div class="flex justify-between items-center w-full">
+                <!-- 數量按鈕 -->
+                <div class="flex items-center text-xs border-2 border-stone-900 text-stone-900 sm:text-sm">
+                  <button
+                    @click="updateQuantity(item.id, item.quantity - 1)"
+                    class="p-1.5 border-r-2 sm:py-2 sm:px-3 border-stone-900"
+                    :disabled="item.quantity <= 0"
+                  >
+                    <IcBaselineMinus />
+                  </button>
+                  <input
+                    v-model.number="item.quantity"
+                    @input="updateQuantity(item.id, item.quantity)"
+                    class="w-8 h-8 text-center border-none sm:w-10"
+                    type="text"
+                    min="1"
+                  />
+                  <button
+                    @click="updateQuantity(item.id, item.quantity + 1)"
+                    class="p-1.5 border-l-2 sm:py-2 sm:px-3 border-stone-900"
+                  >
+                    <IcBaselinePlus />
+                  </button>
+                </div>
+                <!-- 價錢 -->
+                <span class="font-bold md:text-xl text-stone-500">
+                  ${{ (item.price * item.quantity).toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+                </span>
+              </div>
+            </div>
+            <!-- 刪除按鈕 -->
+            <button
+              @click="removeFromCart(item.id)"
+              class="p-2 text-sm rounded-lg transition-colors duration-300 sm:rounded-xl sm:p-3 bg-stone-100 text-stone-500 sm:text-base hover:bg-stone-200"
+            >
+              <SolarTrashBinTrashLinear />
+            </button>
+          </div>
+        </li>
+      </ul>
+      <p v-if="!cartItems.length" class="text-center text-stone-400 md:text-xl">
+        您的購物車是空的
+      </p>
+    </div>
+    <!-- 總金額區塊 -->
+    <div class="sticky bottom-0 left-0 pt-6">
+      <!-- 金額 -->
+      <div class="flex justify-between items-center mb-6 text-xl font-bold">
+        <span>
+          總金額：
+        </span>
+        <span class="text-stone-500">
+          ${{ cartTotal.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+        </span>
       </div>
+      <!-- 按鈕 -->
       <router-link to="/checkout">
         <button
           @click="navigateToCheckout"
-          class="w-full py-2 mt-2 text-white bg-green-500 rounded hover:bg-green-600"
+          class="py-3 w-full text-xl font-bold text-white transition-colors duration-300 md:py-4 bg-stone-900 hover:bg-stone-500"
           :disabled="!cartItems.length"
         >
-          Checkout
+          結帳
         </button>
       </router-link>
     </div>
@@ -100,3 +124,13 @@ function navigateToCheckout() {
   emit('close-cart');
 }
 </script>
+
+<style scoped>
+.scrollbar-hidden {
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+</style>

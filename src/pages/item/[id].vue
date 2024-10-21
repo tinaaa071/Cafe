@@ -71,6 +71,7 @@
               <input
                 v-model.number="quantity"
                 @input="handleInput"
+                type="text"
                 class="w-full text-center border-none"
                 min="1"
               />
@@ -110,26 +111,39 @@
       <!-- 購物車 Drawer -->
       <Cart :isOpen="isCartOpen" @close-cart="closeCart" />
       
-      <!-- 加入願望清單 Modal -->
+      <!-- 加入最愛 Modal -->
       <Modal :show="isModalVisible" @close="isModalVisible = false">
-        <div class="p-4 bg-white rounded">
-          <img :src="currentImage" :alt="item.name" class="object-cover w-full aspect-[3/2] border-2 border-stone-900" />
-          <p>{{ selectedItem?.name }} has been added to your wishlist!</p>
-          <h3 class="text-xl">已加入願望清單！</h3>
+        <div class="p-5 text-base font-bold text-center md:text-xl">
+          <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+          <p class="mb-3 text-stone-500">
+            {{ selectedItem.name }}
+          </p>
+          <p>
+            已加入願望清單！
+          </p>
         </div>
       </Modal>
       
-      <!-- 移除願望清單 Modal -->
+      <!-- 移除收藏 Modal -->
       <Modal :show="isRemovalModalVisible" @close="isRemovalModalVisible = false">
-        <div class="p-4 bg-white rounded">
-          <h3 class="text-xl">Confirm Removal</h3>
-          <p>Are you sure you want to remove {{ selectedItem?.name }} from your wishlist?</p>
-          <button @click="removeFromWishlist" class="px-4 py-2 mt-2 text-white bg-red-500 rounded">
-            Yes, Remove
-          </button>
-          <button @click="isRemovalModalVisible = false" class="px-4 py-2 mt-2 text-white bg-gray-500 rounded">
-            Cancel
-          </button>
+        <div class="p-5 text-base font-bold text-center md:text-xl">
+          <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+          <p class="mb-3 text-stone-500">
+            {{ selectedItem.name }}
+          </p>
+          <p class="mb-6">
+            確定要將此商品移除願望清單嗎？
+          </p>
+          <div class="grid grid-cols-2 gap-3 text-sm md:text-base">
+            <!-- 取消 -->
+            <button @click="isRemovalModalVisible = false" class="py-3 border-2 transition-colors duration-300 md:py-4 border-stone-900 hover:bg-stone-200">
+              取消
+            </button>
+            <!-- 移除 -->
+            <button @click="removeFromWishlist" class="py-3 text-white border-2 transition-colors duration-300 md:py-4 bg-stone-900 border-stone-900 hover:bg-stone-500">
+              確認移除
+            </button>
+          </div>
         </div>
       </Modal>
     </div>

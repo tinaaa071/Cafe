@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-3 justify-end sm:justify-between sm:flex-row sm:gap-4">
+  <div class="flex flex-col gap-3 justify-end mb-8 sm:justify-between sm:flex-row sm:gap-4 md:mb-12 lg:mb-16">
     <!-- Tab -->
     <div class="flex gap-3 text-sm font-bold sm:gap-4">
       <button @click="resetFilter" :class="{'bg-stone-900 text-white': isAllItemsActive(), 'bg-white': !isAllItemsActive()}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white">
@@ -16,7 +16,9 @@
       <option value="desc">價格：由高到低</option>
     </select>
   </div>
-  <div class="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 sm:gap-y-12 lg:gap-x-16">
+
+  <!-- 商品卡片 -->
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 sm:gap-y-12 lg:gap-x-16">
     <div v-for="(item, index) in filteredItems" :key="index" class="flex flex-col items-center p-6 bg-white group">
       <!-- 圖片 -->
       <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[3/2] border-stone-900 overflow-hidden">
@@ -59,25 +61,39 @@
       </div>
     </div>
 
-    <!-- Add to Wishlist Modal -->
+    <!-- 加入最愛 Modal -->
     <Modal :show="isModalVisible" @close="isModalVisible = false">
-      <div class="p-4 bg-white rounded">
-        <h3 class="text-xl">Item Added to Wishlist</h3>
-        <p>{{ selectedItem.name }} has been added to your wishlist!</p>
+      <div class="p-5 text-base font-bold text-center md:text-xl">
+        <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+        <p class="mb-3 text-stone-500">
+          {{ selectedItem.name }}
+        </p>
+        <p>
+          已加入願望清單！
+        </p>
       </div>
     </Modal>
 
-    <!-- Remove from Wishlist Confirmation Modal -->
+    <!-- 移除收藏 Modal -->
     <Modal :show="isRemovalModalVisible" @close="isRemovalModalVisible = false">
-      <div class="p-4 bg-white rounded">
-        <h3 class="text-xl">Confirm Removal</h3>
-        <p>Are you sure you want to remove {{ selectedItem.name }} from your wishlist?</p>
-        <button @click="removeFromWishlist" class="px-4 py-2 mt-2 text-white bg-red-500 rounded">
-          Yes, Remove
-        </button>
-        <button @click="isRemovalModalVisible = false" class="px-4 py-2 mt-2 text-white bg-gray-500 rounded">
-          Cancel
-        </button>
+      <div class="p-5 text-base font-bold text-center md:text-xl">
+        <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+        <p class="mb-3 text-stone-500">
+          {{ selectedItem.name }}
+        </p>
+        <p class="mb-6">
+          確定要將此商品移除願望清單嗎？
+        </p>
+        <div class="grid grid-cols-2 gap-3 text-sm md:text-base">
+          <!-- 取消 -->
+          <button @click="isRemovalModalVisible = false" class="py-3 border-2 transition-colors duration-300 md:py-4 border-stone-900 hover:bg-stone-200">
+            取消
+          </button>
+          <!-- 移除 -->
+          <button @click="removeFromWishlist" class="py-3 text-white border-2 transition-colors duration-300 md:py-4 bg-stone-900 border-stone-900 hover:bg-stone-500">
+            確認移除
+          </button>
+        </div>
       </div>
     </Modal>
   </div>
@@ -137,7 +153,7 @@ export default {
         this.isModalVisible = true;
         setTimeout(() => {
           this.isModalVisible = false;
-        }, 1200);
+        }, 2000);
       }
     },
     isInWishlist(item) {
