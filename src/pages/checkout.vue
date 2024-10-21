@@ -1,179 +1,274 @@
 <template>
   <Layout>
     <template #content>
-      <h1 class="mb-4 text-3xl font-bold">Checkout</h1>
-
-    <!-- Cart Summary -->
-    <div v-if="!orderPlaced" class="cart-summary">
-      <h2 class="mb-2 text-2xl font-semibold">Cart Summary</h2>
-      <ul class="pl-5 mb-4 list-disc">
-        <li v-for="item in cartItems" :key="item.id" class="mb-2">
-          <div class="flex justify-between items-center">
-            <img :src="item.image" :alt="item.name" class="object-cover w-24 h-24 rounded" />
-            <span>{{ item.name }} (x{{ item.quantity }})</span> - $
-            {{ (item.price * item.quantity).toFixed(2) }}
-          </div>
-          <div class="flex gap-2 items-center mt-2">
-            <button
-              @click="updateQuantity(item.id, item.quantity - 1)"
-              class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-              :disabled="item.quantity <= 0"
-            >
-              -
-            </button>
-            <input
-              v-model.number="item.quantity"
-              @change="updateQuantity(item.id, item.quantity)"
-              class="w-12 text-center rounded border"
-              type="number"
-              min="1"
-            />
-            <button
-              @click="updateQuantity(item.id, item.quantity + 1)"
-              class="px-2 py-1 text-white bg-gray-500 rounded hover:bg-gray-600"
-            >
-              +
-            </button>
-            <button
-              @click="removeFromCart(item.id)"
-              class="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-            >
-              Delete
-            </button>
-          </div>
-        </li>
-      </ul>
-      <div class="flex justify-between text-lg font-bold">
-        <span>Total:</span>
-        <span>${{ cartTotal.toFixed(2) }}</span>
-      </div>
-    </div>
-
-    <!-- Billing Information -->
-    <div v-if="!orderPlaced" class="mt-6 checkout-form">
-      <h2 class="mb-2 text-2xl font-semibold">Billing Information</h2>
-      <form @submit.prevent="handleSubmit">
-        <div class="mb-4">
-          <label for="name" class="block mb-1">Name</label>
-          <input
-            id="name"
-            v-model="form.name"
-            type="text"
-            class="p-2 w-full rounded border border-gray-300"
-            required
-          />
+      <div class="grid grid-cols-1 gap-8 lg:gap-10 lg:grid-cols-2">
+        <!-- 購物車總覽 -->
+        <div v-if="!orderPlaced" class="cart-summary lg:overflow-y-auto lg:h-[calc(100vh-200px)]">
+          <h2 class="pb-4 text-xl font-bold bg-white lg:z-10 lg:top-0 lg:sticky sm:mb-6 sm:text-3xl">
+            購物車總覽
+          </h2>
+          <!-- 商品卡 -->
+          <ul class="mb-4 md:mb-6">
+            <li v-for="item in cartItems" :key="item.id" class="flex flex-row gap-4 items-center py-8 border-b lg:gap-6 border-stone-300">
+              <!-- 圖片 -->
+              <img :src="item.image" :alt="item.name" class="object-cover w-24 border-2 aspect-square border-stone-900" />
+              <!-- 商品 -->
+              <div class="flex gap-10 justify-between items-start w-full">
+                <!-- 商品資訊 -->
+                <div class="flex flex-col gap-4 w-full lg:w-fit">
+                  <!-- 商品名稱 -->
+                  <span class="text-sm font-bold lg:text-xl">
+                    {{ item.name }}
+                  </span>
+                  <!-- 數量＆價錢 -->
+                  <div class="flex gap-10 justify-between items-center w-full">
+                    <!-- 數量按鈕 -->
+                    <div class="flex items-center text-xs border-2 border-stone-900 text-stone-900 sm:text-sm">
+                      <button
+                        @click="updateQuantity(item.id, item.quantity - 1)"
+                        class="p-1.5 border-r-2 sm:py-2 sm:px-3 border-stone-900"
+                        :disabled="item.quantity <= 0"
+                      >
+                        <IcBaselineMinus />
+                      </button>
+                      <input
+                        v-model.number="item.quantity"
+                        @change="updateQuantity(item.id, item.quantity)"
+                        class="w-8 h-8 text-center border-none sm:w-10"
+                        type="text"
+                        min="1"
+                      />
+                      <button
+                        @click="updateQuantity(item.id, item.quantity + 1)"
+                        class="p-1.5 border-l-2 sm:py-2 sm:px-3 border-stone-900"
+                      >
+                        <IcBaselinePlus />
+                      </button>
+                    </div>
+                    <!-- 價錢 -->
+                    <span class="font-bold md:text-xl text-stone-500">
+                      ${{ (item.price * item.quantity).toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+                    </span>
+                  </div>
+                </div>
+                <!-- 刪除按鈕 -->
+                <button
+                  @click="removeFromCart(item.id)"
+                  class="p-2 text-sm rounded-lg transition-colors duration-300 sm:rounded-xl sm:p-3 bg-stone-100 text-stone-500 sm:text-base hover:bg-stone-200"
+                >
+                  <SolarTrashBinTrashLinear />
+                </button>
+              </div>
+            </li>
+          </ul>
+          <!-- 總金額 -->
+          <div class="flex justify-between items-center mb-6 text-xl font-bold">
+              <span>
+                總金額：
+              </span>
+              <span class="text-stone-500">
+                ${{ cartTotal.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+              </span>
+            </div>
         </div>
 
-        <div class="mb-4">
-          <label for="email" class="block mb-1">Email</label>
-          <input
-            id="email"
-            v-model="form.email"
-            type="email"
-            class="p-2 w-full rounded border border-gray-300"
-            required
-          />
-        </div>
-
-        <!-- Phone Field -->
-        <div class="mb-4">
-          <label for="phone" class="block mb-1">Phone</label>
-          <input
-            id="phone"
-            v-model="form.phone"
-            type="tel"
-            class="p-2 w-full rounded border border-gray-300"
-            required
-          />
-        </div>
-
-        <!-- Payment Radio Group -->
-        <div class="mb-4">
-          <label class="block mb-1">Payment Method</label>
-          <div class="flex gap-4 items-center">
-            <label>
+        <!-- 結帳資訊 -->
+        <div v-if="!orderPlaced" class="checkout-form">
+          <h2 class="mb-4 text-xl font-bold sm:text-3xl sm:mb-6">
+            結帳資訊
+          </h2>
+          <form @submit.prevent="handleSubmit">
+            <!-- 姓名 -->
+            <div class="mb-4">
+              <label for="name" class="block mb-2">
+                姓名：
+              </label>
               <input
-                type="radio"
-                v-model="form.payment"
-                value="credit"
+                id="name"
+                v-model="form.name"
+                type="text"
+                class="p-2 w-full border-2 border-stone-900"
                 required
               />
-              Credit Card
-            </label>
-            <label>
+            </div>
+
+            <!-- 電話 -->
+            <div class="mb-4">
+              <label for="phone" class="block mb-2">
+                電話：
+              </label>
               <input
-                type="radio"
-                v-model="form.payment"
-                value="paypal"
+                id="phone"
+                v-model="form.phone"
+                type="tel"
+                class="p-2 w-full border-2 border-stone-900"
+                required
               />
-              PayPal
-            </label>
-            <label>
+            </div>
+
+            <!-- 電子郵件 -->
+            <div class="mb-4">
+              <label for="email" class="block mb-2">
+                電子郵件：
+              </label>
               <input
-                type="radio"
-                v-model="form.payment"
-                value="bank"
+                id="email"
+                v-model="form.email"
+                type="email"
+                class="p-2 w-full border-2 border-stone-900"
+                required
               />
-              Bank Transfer
-            </label>
+            </div>
+
+            <!-- 付款方式 -->
+            <div class="mb-4">
+              <label class="block mb-2">
+                付款方式：
+              </label>
+              <div class="flex gap-4 items-center">
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    v-model="form.payment"
+                    value="信用卡"
+                    required
+                    class="mr-2"
+                  />
+                  信用卡
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    v-model="form.payment"
+                    value="Paypal"
+                    class="mr-2"
+                  />
+                  PayPal
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    v-model="form.payment"
+                    value="線上轉帳"
+                    class="mr-2"
+                  />
+                  線上轉帳
+                </label>
+              </div>
+            </div>
+
+            <!-- 地址 -->
+            <div class="mb-6 md:mb-10">
+              <label for="address" class="block mb-2">
+                地址：
+              </label>
+              <input
+                id="address"
+                v-model="form.address"
+                type="text"
+                class="p-2 w-full border-2 border-stone-900"
+                required
+              />
+            </div>
+
+            <!-- 結帳按鈕 -->
+            <button
+              type="submit"
+              class="py-3 w-full text-white bg-stone-900 sm:py-4 hover:bg-stone-500"
+            >
+              結帳
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 完成訂單 -->
+      <div v-if="orderPlaced" class="mx-auto max-w-4xl order-card">
+        <!-- 訂單資訊 -->
+        <div class="p-6 border-2 border-stone-900">
+          <!-- 訂單編號 -->
+          <div class="flex flex-col gap-1 justify-between mb-2 font-bold sm:items-center sm:flex-row sm:mb-3">
+            <h2 class="text-lg md:text-xl">
+              Order #{{ orderInfo.orderNumber }}
+            </h2>
+            <p class="order-first text-sm sm:text-base sm:order-last">
+              {{ new Date(orderInfo.date).toLocaleDateString() }}
+            </p>
+          </div>
+          <!-- 訂購人資料 -->
+          <ul class="mb-5 list-disc list-inside text-stone-500 sm:mb-6">
+            <li class="mb-0.5">
+              姓名： 
+              <span>{{ orderInfo.name }}</span>
+            </li>
+            <li class="mb-0.5">
+              電話：
+              <span>{{ orderInfo.phone }}</span>
+            </li>
+            <li class="mb-0.5">
+              電子郵件：
+              <span>{{ orderInfo.email }}</span>
+            </li>
+            <li class="mb-0.5">
+              付款方式：
+              <span>{{ orderInfo.payment }}</span>
+            </li>
+            <li class="mb-0.5">
+              地址：
+              <strong>{{ orderInfo.address }}</strong>
+            </li>
+          </ul>
+
+          <hr class="mb-5 border-stone-300 sm:mb-6">
+
+          <h3 class="mb-2 text-lg font-bold sm:mb-3 sm:text-xl">
+            商品資訊
+          </h3>
+          <ul class="mb-5 sm:mb-6">
+            <li v-for="item in orderInfo.items" :key="item.id" class="flex gap-4 mb-2 sm:mb-3 sm:gap-6">
+              <!-- 圖片 -->
+              <img :src="item.image" :alt="item.name" class="object-cover w-14 border-2 aspect-square border-stone-900" />
+              <!-- 商品資訊 -->
+              <div class="flex flex-col gap-2 justify-between w-full sm:items-center sm:flex-row">
+                <!-- 商品名稱 -->
+                <span class="text-sm font-bold md:text-xl">
+                  {{ item.name }}
+                </span>
+                <!-- 數量＆價格 -->
+                <div class="flex justify-between items-center sm:gap-6 sm:justify-normal">
+                  <!-- 數量 -->
+                  <span>
+                    x{{ item.quantity }}
+                  </span> 
+                  <!-- 價格 -->
+                  <span class="text-stone-500">
+                    ${{ (item.price * item.quantity).toLocaleString('en-US') }}
+                  </span>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <hr class="mb-5 border-stone-300 sm:mb-6">
+          
+          <div class="flex justify-between text-lg font-bold">
+            <span>
+              總金額
+            </span> 
+            ${{ orderInfo.total.toLocaleString('en-US') }}
           </div>
         </div>
 
-        <div class="mb-4">
-          <label for="address" class="block mb-1">Address</label>
-          <input
-            id="address"
-            v-model="form.address"
-            type="text"
-            class="p-2 w-full rounded border border-gray-300"
-            required
-          />
+        <!-- 返回訂單頁面按鈕 -->
+        <div v-if="orderPlaced" class="mt-6">
+          <RouterLink to="/orders" class="flex gap-2 justify-center items-center p-4 text-xl font-bold text-white transition-colors duration-300 bg-stone-900 sm:gap-3 hover:bg-stone-500">
+            <SolarBillListLinear />
+            <p>我的訂單</p>
+          </RouterLink>
         </div>
-
-        <button
-          type="submit"
-          class="py-2 w-full text-white bg-blue-500 rounded hover:bg-blue-600"
-        >
-          Place Order
-        </button>
-      </form>
-    </div>
-
-    <!-- Order Confirmation Card -->
-    <div v-if="orderPlaced" class="p-6 bg-gray-100 rounded shadow-md order-card">
-      <h2 class="mb-4 text-2xl font-semibold">Order Confirmation</h2>
-      <p class="mb-4">Thank you, <strong>{{ orderInfo.name }}</strong>, for your order!</p>
-      <p class="mb-4">We will send a confirmation email to <strong>{{ orderInfo.email }}</strong> shortly.</p>
-      <p class="mb-4">Phone: <strong>{{ orderInfo.phone }}</strong></p>
-      <p class="mb-4">Payment Method: <strong>{{ orderInfo.payment }}</strong></p>
-      <p class="mb-4">Shipping to: <strong>{{ orderInfo.address }}</strong></p>
-      
-      <!-- Display the order date -->
-      <p class="mb-4"><strong>Order Date:</strong> {{ new Date(orderInfo.date).toLocaleDateString() }}</p> 
-
-      <p class="mb-4"><strong>Order Number:</strong> {{ orderInfo.orderNumber }}</p>
-
-      <h3 class="mb-2 text-xl font-semibold">Your Order:</h3>
-      <ul class="pl-5 mb-4 list-disc">
-        <li v-for="item in orderInfo.items" :key="item.id" class="mb-2">
-          <img :src="item.image" :alt="item.name" class="object-cover mr-4 w-16 h-16 rounded" />
-          <span>{{ item.name }} (x{{ item.quantity }})</span> - $
-          {{ (item.price * item.quantity).toFixed(2) }}
-        </li>
-      </ul>
-
-      <div class="text-lg font-bold">
-        <span>Total:</span> ${{ orderInfo.total.toFixed(2) }}
       </div>
-    </div>
 
-    <!-- Orders BTN -->
-    <div v-if="orderPlaced" class="">
-      <RouterLink to="/orders" class="flex gap-2 items-center p-4 text-xl bg-slate-300">
-        <SolarHeartLinear />
-        <p>我的訂單</p>
-      </RouterLink>
-    </div>
+      
     </template>
   </Layout>
 </template>
@@ -242,8 +337,7 @@ function removeFromCart(id) {
 </script>
 
 <style scoped>
-
-.order-card {
-  margin-top: 20px;
+.cart-summary::-webkit-scrollbar {
+  display: none; /* 隱藏滾動條 */
 }
 </style>

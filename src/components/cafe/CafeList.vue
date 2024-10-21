@@ -8,7 +8,7 @@
           id="city-select"
           v-model="selectedCity"
           @change="handleCityChange"
-          class="py-2.5 border-2 sm:py-4 border-stone-900 focus:border-stone-500 bg-B4"
+          class="py-2.5 border-2 sm:py-4 border-stone-900 bg-B4"
         >
           <option value="all">全部城市</option>
           <option v-for="city in cities" :key="city" :value="city">
@@ -19,7 +19,7 @@
           v-model="searchQuery"
           @input="filterCafes"
           placeholder="輸入關鍵字"
-          class="py-2.5 w-full bg-white border-2 border-l-0 sm:py-4 border-stone-900 focus:border-stone-500 placeholder:text-stone-400"
+          class="py-2.5 w-full bg-white border-2 border-l-0 sm:py-4 border-stone-900 placeholder:text-stone-400"
         />
       </div>
       <button type="button" class="px-3 py-2.5 text-white whitespace-nowrap border-2 sm:py-4 sm:px-6 bg-stone-900 border-stone-900">

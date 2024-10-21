@@ -1,49 +1,105 @@
 <template>
-    <div class="max-w-4xl py-8 mx-auto orders-container">
-      <h1 class="mb-6 text-3xl font-bold">Your Orders</h1>
+    <div class="py-8 mx-auto max-w-4xl">
+      <h1 class="mb-8 text-2xl font-bold text-center sm:text-4xl sm:mb-10">
+        我的訂單
+      </h1>
   
       <div v-if="orders.length > 0" class="grid grid-cols-1 gap-6">
         <div
           v-for="order in reversedOrders"
           :key="order.orderNumber"
-          class="p-6 bg-gray-100 rounded shadow-md order-card"
+          class="p-6 bg-white border-2 border-stone-900 order-card"
         >
-          <h2 class="mb-2 text-xl font-semibold">Order #{{ order.orderNumber }}</h2>
+          <!-- 訂單編號 -->
+          <div class="flex flex-col gap-1 justify-between mb-2 font-bold sm:items-center sm:flex-row sm:mb-3">
+            <h2 class="mb-2 text-xl font-semibold">
+              Order #{{ order.orderNumber }}
+            </h2>
+            <p class="order-first text-sm sm:text-base sm:order-last">
+              {{ new Date(order.date).toLocaleDateString() }}
+              </p>
+          </div>
           
-          <!-- Display the order date -->
-          <p class="mb-2"><strong>Date:</strong> {{ new Date(order.date).toLocaleDateString() }}</p>
-  
-          <p><strong>Name:</strong> {{ order.name }}</p>
-          <p><strong>Phone:</strong> {{ order.phone }}</p>
-          <p><strong>Email:</strong> {{ order.email }}</p>
-          <p><strong>Address:</strong> {{ order.address }}</p>
-          <p><strong>Payment Method:</strong> {{ order.payment }}</p> <!-- Display Payment Method -->
-  
-          <h3 class="mt-4 text-lg font-semibold">Items:</h3>
-          <ul class="pl-5 list-disc">
+          <!-- 訂購人資料 -->
+          <ul class="mb-5 list-disc list-inside text-stone-500 sm:mb-6">
+            <li class="mb-0.5">
+              姓名： 
+              <span>{{ order.name }}</span>
+            </li>
+            <li class="mb-0.5">
+              電話：
+              <span>{{ order.phone }}</span>
+            </li>
+            <li class="mb-0.5">
+              電子郵件：
+              <span>{{ order.email }}</span>
+            </li>
+            <li class="mb-0.5">
+              付款方式：
+              <span>{{ order.payment }}</span>
+            </li>
+            <li class="mb-0.5">
+              地址：
+              <strong>{{ order.address }}</strong>
+            </li>
+          </ul>
+          
+          <hr class="mb-5 border-stone-300 sm:mb-6">
+          
+          <h3 class="mb-2 text-lg font-bold sm:mb-3 sm:text-xl">
+            商品資訊
+          </h3>
+          <ul class="mb-5 sm:mb-6">
             <li
               v-for="item in order.items"
               :key="item.id"
-              class="flex items-center gap-4 mb-2"
+              class="flex gap-4 items-center mb-2"
             >
+              <!-- 圖片 -->
               <img
                 :src="item.image"
                 :alt="item.name"
-                class="object-cover w-16 h-16 rounded"
+                class="object-cover w-14 border-2 aspect-square border-stone-900"
               />
-              <div>
-                <span>{{ item.name }} (x{{ item.quantity }})</span> - $
-                {{ (item.price * item.quantity).toFixed(2) }}
+              <!-- 商品資訊 -->
+              <div class="flex flex-col gap-2 justify-between w-full sm:items-center sm:flex-row">
+                <!-- 商品名稱 -->
+                <span class="text-sm font-bold md:text-xl">
+                  {{ item.name }}
+                </span>
+                <!-- 數量＆價格 -->
+                <div class="flex justify-between items-center sm:gap-6 sm:justify-normal">
+                  <!-- 數量 -->
+                  <span>
+                    x{{ item.quantity }}
+                  </span> 
+                  <!-- 價格 -->
+                  <span class="text-stone-500">
+                    ${{ (item.price * item.quantity).toLocaleString('en-US') }}
+                  </span>
+                </div>
               </div>
             </li>
           </ul>
   
-          <p class="mt-4 font-bold">Total: ${{ order.total.toFixed(2) }}</p>
+          <hr class="mb-5 border-stone-300 sm:mb-6">
+          
+          <div class="flex justify-between text-lg font-bold">
+            <span>
+              總金額
+            </span> 
+            ${{ order.total.toLocaleString('en-US') }}
+          </div>
         </div>
       </div>
   
-      <div v-else>
-        <p>No orders yet. <router-link to="/">Go back to the shop</router-link>.</p>
+      <div v-else class="flex flex-col gap-4 justify-center font-bold text-center sm:text-xl" >
+        <p class="text-stone-400">
+          無訂單資料 
+        </p>
+        <router-link to="/" class="px-6 py-4 mx-auto text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 w-fit">
+          回到商品頁
+        </router-link>
       </div>
     </div>
   </template>
@@ -57,12 +113,5 @@
   // Create a reversedOrders computed property
   const reversedOrders = computed(() => [...orders.value].reverse());
   </script>
-  
-  <style scoped>
-  .orders-container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-  }
-  </style>
+
   
