@@ -1,6 +1,6 @@
 <template>
-    <div class="relative px-1 py-2 mb-2 text-left bg-B3 dark:bg-stone-700 chat-bubble rounded-3xl before:absolute before:w-0 before:h-0 before:-bottom-3.5 before:left-8  hover:-rotate-3 transition-all ease-in-out before:border-t-12">
-        <div class="w-full overflow-hidden dark:bg-transparent ">
+    <div class="relative px-1 py-2 mb-2 text-left bg-white rounded-3xl transition-all ease-in-out dark:bg-stone-700 chat-bubble before:absolute before:w-0 before:h-0 before:-bottom-3.5 before:left-8 hover:-rotate-3 before:border-t-12">
+        <div class="overflow-hidden w-full dark:bg-transparent">
         <div class="flex items-center p-1 sm:py-2 whitespace-nowrap marquee-content w-[200%]  font-semibold text-stone-900 dark:text-white text-base">
             <span class="inline-block">
                 {{ spacedText }}{{ spacedText }}
@@ -29,7 +29,7 @@
   .chat-bubble::before {
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-top: 16px solid #EFECE5;
+    border-top: 16px solid #ffffff;
   }
   .dark .chat-bubble::before {
     border-top: 16px solid #4a4a4a; /* Dark mode color */

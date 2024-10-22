@@ -23,7 +23,7 @@
           </p>
         </div>
         <!-- Img -->
-        <img v-if="selectedCafe?.imageUrl && selectedCafe.imageUrl !== 'https://via.placeholder.com/400'" :src="selectedCafe.imageUrl" alt="Cafe Image" class="object-cover mb-4 w-full border-2 aspect-video border-stone-900" />
+        <img v-if="selectedCafe?.imageUrl && selectedCafe.imageUrl !== 'https://via.placeholder.com/400'" :src="selectedCafe.imageUrl" alt="Cafe Image" class="object-cover w-full border-2 aspect-video border-stone-900" />
         <!-- BTN -->
         <a v-if="selectedCafe && selectedCafe.url" :href="selectedCafe.url" target="_blank" class="block py-4 w-full text-center text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500">
           更多資訊

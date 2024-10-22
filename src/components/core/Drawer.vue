@@ -14,9 +14,9 @@
       :class="{ 'translate-x-0': isOpen, 'translate-x-full': !isOpen }"
       @click.stop
     >
-      <div class="flex justify-between items-center px-6 py-6 text-white bg-stone-900">
+      <div class="flex gap-4 justify-between items-center px-6 py-6 text-white bg-stone-900">
         <slot name="header">
-          <h2 class="text-2xl font-bold">{{ header }}</h2>
+          <h2 class="text-2xl font-bold line-clamp-1">{{ header }}</h2>
         </slot>
         <button
           @click="$emit('close')"

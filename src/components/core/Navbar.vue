@@ -81,19 +81,8 @@
                     <SolarUserLinear class="text-xl" />
                   </div>
                 </button>
-                <!-- Resume -->
-                <li>
-                  <DefaultButton 
-                   :to="'/'"
-                   :showLeftIcon="false"
-                   :showRightIcon="true"
-                   :icon="icon"
-                   :text="$t('nav.item6')"
-                   class="border-stone-900 dark:border-white hover:bg-B3/80 dark:hover:bg-stone-600/50 dark:text-white"
-                  />
-                </li>
                 <!-- Language -->
-                <LanguageSwitcher />
+                <!-- <LanguageSwitcher /> -->
                 <!-- Dark Toggle -->
                 <DarkModeToggle />
               </ul>
@@ -145,15 +134,6 @@
               </RouterLink>
             </li>
             <li class="flex gap-2">
-              <!-- Resume -->
-              <DefaultButton 
-                   :to="'/'"
-                   :showLeftIcon="false"
-                   :showRightIcon="true"
-                   :icon="icon"
-                   :text="$t('nav.item6')"
-                   class="w-full border-white bg-stone-50 dark:border-stone-900 text-stone-800 hover:bg-B3/80 dark:hover:bg-stone-800/50 dark:hover:text-white"
-                  />
               <!-- Language -->
               <LanguageSwitcher class="border-2 border-stone-50" />
               <!-- Dark Toggle -->
@@ -204,11 +184,11 @@ export default {
 
     // Update main menu items based on your pages structure
     const menuItems = [
-      { to: '/', text: 'nav.item1' }, // Home page
-      { to: '/work/works', text: 'nav.item2' }, // Work page
+      { to: '/', text: 'Home' }, // Home page
+      { to: '/work', text: 'work' }, // Work page
       { to: '/blog/blog', text: 'nav.item3' }, // Blog listing page
-      { to: '/others', text: 'nav.item4' }, // Other page
-      { to: '/cafe', text: 'nav.item5' }, // Contact page
+      { to: '/shop', text: 'Shop' }, // Shop
+      { to: '/about', text: 'About' }, // Contact page
     ];
 
     const isActive = (path) => route.path === path;

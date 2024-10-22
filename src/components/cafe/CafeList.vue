@@ -2,7 +2,7 @@
 <template>
   <div>
     <!-- 搜尋欄 -->
-    <div class="flex items-center mb-4">
+    <div class="flex items-center mb-4 font-bold">
       <div class="flex w-full">
         <select
           id="city-select"
@@ -19,7 +19,7 @@
           v-model="searchQuery"
           @input="filterCafes"
           placeholder="輸入關鍵字"
-          class="py-2.5 w-full bg-white border-2 border-l-0 sm:py-4 border-stone-900 placeholder:text-stone-400"
+          class="py-2.5 w-full bg-white border-2 border-l-0 sm:py-4 border-stone-900 placeholder:text-stone-400 placeholder:font-medium"
         />
       </div>
       <button type="button" class="px-3 py-2.5 text-white whitespace-nowrap border-2 sm:py-4 sm:px-6 bg-stone-900 border-stone-900">
@@ -27,7 +27,7 @@
       </button>
     </div>
     <!-- Tab -->
-    <div class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-16 text-sm whitespace-nowrap sm:gap-4">
+    <div class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-16 text-sm font-bold whitespace-nowrap sm:gap-4">
       <button
         @click="fetchAllCafes"
         :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white city-button', { active: cityName === 'all' }]"

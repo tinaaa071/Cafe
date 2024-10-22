@@ -5,6 +5,7 @@
       </template>
       <template v-else>
         <div class="user-panel">
+          <!-- 個人資料 -->
           <div class="flex gap-4 mb-5 sm:mb-6">
             <!-- Avatar -->
             <img class="inline-block size-[62px] rounded-full border-2 border-stone-200" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80" alt="Avatar">
@@ -18,7 +19,7 @@
               </p>
             </div>
           </div>
-          <!-- 按鈕 -->
+
           <!-- 控制台按鈕 -->
           <div class="flex flex-col gap-3 sm:gap-4">
             <!-- Profile -->

@@ -1,14 +1,32 @@
 <template>
-    <div class="flex flex-col items-center justify-center min-h-screen text-gray-700 bg-gray-100">
-      <div class="text-center">
-        <h1 class="font-extrabold text-indigo-600 text-9xl">404</h1>
-        <p class="mt-4 text-2xl font-bold md:text-3xl">Oops! Page Not Found</p>
-        <p class="mt-2 text-lg text-gray-500">The page you are looking for does not exist or an error occurred.</p>
-        <RouterLink to="/" class="inline-block px-6 py-3 mt-6 text-white transition duration-300 ease-in-out rounded-md shadow-md bg-stone-800 hover:bg-stone-300">
-          Go Back Home
-        </RouterLink>
+  <div class="h-screen bg-B4">
+    <Layout>
+      <template #content>
+        <div class="flex flex-col gap-8 items-center lg:flex-row sm:gap-12">
+          <!-- Banner -->
+          <div class="w-full lg:w-1/2">
+            <div class="bg-cover bg-center border-2 border-stone-900 overflow-hidden mb-4 aspect-[3/2] bg-[url('https://i.pinimg.com/control/564x/b5/b4/f9/b5b4f9cad18a8a787c3dd9bd39fc2f5e.jpg')]">
+            </div>
+          </div>
+          <!-- Title -->
+          <div class="w-full text-center lg:w-1/2">
+            <h1 class="mb-5 text-3xl font-bold sm:mb-8 sm:text-4xl">
+              404
+            </h1>
+            <h2 class="mb-2 text-xl font-semibold sm:text-2xl">
+              Oops! Page Not Found
+            </h2>
+            <p class="mb-5 text-sm font-medium sm:text-base text-stone-800 sm:mb-8">
+              The page you are looking for does not exist or an error occurred.
+            </p>
+            <RouterLink to="/" class="inline-block px-6 py-3 text-white transition duration-300 ease-in-out bg-stone-900 hover:bg-stone-500">
+              回到首頁
+            </RouterLink>
+          </div>
       </div>
-    </div>
-  </template>
+      </template>
+    </Layout>
+  </div>
+</template>
 
   

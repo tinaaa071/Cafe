@@ -212,7 +212,7 @@ export default {
         // Auto close the modal after 2 seconds
         setTimeout(() => {
           this.isModalVisible = false;
-        }, 16000);
+        }, 2000);
       }
     },
     removeFromWishlist() {

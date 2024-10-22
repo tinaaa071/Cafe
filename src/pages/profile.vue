@@ -1,61 +1,106 @@
 <template>
-    <Navbar :cartItems="cartItems" @toggle-cart="toggleCart" />
-    <div class="container p-4 pt-32 mx-auto">
-      <h1 class="mb-4 text-2xl font-bold">User Profile</h1>
-  
-      <!-- Profile Information Section -->
-      <section class="mb-8">
-        <h2 class="mb-2 text-xl font-semibold">Profile Information</h2>
-        <form @submit.prevent="saveProfile">
-          <div class="mb-4">
-            <label for="account" class="block text-sm font-medium text-gray-700">Account</label>
-            <!-- Display UID here -->
-            <input v-model="uid" type="text" id="account" class="block w-full px-4 py-3 text-gray-500 bg-gray-200 border-gray-100 rounded-md disabled:opacity-50 disabled:pointer-events-none" disabled />
-          </div>
-          <div class="mb-4">
-            <label for="displayName" class="block text-sm font-medium text-gray-700">Display Name</label>
-            <input v-model="displayName" type="text" id="displayName" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm" required />
-          </div>
-          <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input v-model="email" type="email" id="email" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm" required />
-          </div>
-          <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-md">Save Profile</button>
-        </form>
-      </section>
-  
-      <!-- Change Password Section -->
-      <section class="mb-8">
-        <h2 class="mb-2 text-xl font-semibold">Change Password</h2>
-        <form @submit.prevent="changePassword">
-          <div class="mb-4">
-            <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
-            <input v-model="currentPassword" type="password" id="currentPassword" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm" required />
-          </div>
-          <div class="mb-4">
-            <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
-            <input v-model="newPassword" type="password" id="newPassword" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm" required />
-          </div>
-          <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-md">Change Password</button>
-          <p v-if="errorMessage" class="mt-2 text-red-500">{{ errorMessage }}</p>
-        </form>
-      </section>
-  
-      <!-- Modals -->
-      <Modal :show="showProfileModal" @close="showProfileModal = false">
-        <div class="p-4 bg-white rounded-lg">
-          <h2 class="text-lg font-semibold">Profile Saved</h2>
-          <p class="mt-2">Your profile information has been saved successfully!</p>
+  <div class="h-screen bg-B4 sm:pb-10 dark:bg-stone-900 text-stone-900">
+    <Layout>
+      <template #content>
+        <div class="grid grid-cols-1 gap-8 lg:gap-10 lg:grid-cols-2">      
+          <!-- 個人資料 -->
+          <section class="mb-8">
+            <h2 class="pb-4 text-xl font-bold sm:mb-6 sm:text-3xl">
+              個人資料
+            </h2>
+            <form @submit.prevent="saveProfile">
+              <!-- 帳號 -->
+              <div class="mb-4">
+                <label for="account" class="block mb-2">
+                  帳號：
+                </label>
+                <!-- Display UID here -->
+                <input v-model="uid" type="text" id="account" class="p-2 w-full border-2 cursor-not-allowed border-stone-900 disabled:opacity-30 disabled:pointer-events-none" disabled />
+              </div>
+              <!-- 姓名 -->
+              <div class="mb-4">
+                <label for="displayName" class="block mb-2">
+                  姓名：
+                </label>
+                <input v-model="displayName" type="text" id="displayName" class="p-2 w-full border-2 border-stone-900" required />
+              </div>
+              <!-- 電話 -->
+              <div class="mb-4">
+                <label for="phone" class="block mb-2">
+                  電話：
+                </label>
+                <input v-model="phone" type="tel" id="phone" class="p-2 w-full border-2 border-stone-900" required />
+              </div>
+              <!-- 電子郵件 -->
+              <div class="mb-6 md:mb-10">
+                <label for="email" class="block mb-2">
+                  電子郵件：
+                </label>
+                <input v-model="email" type="email" id="email" class="p-2 w-full border-2 border-stone-900" required />
+              </div>
+              <!-- 按鈕 -->
+              <button type="submit" class="py-3 w-full text-white transition-colors duration-300 bg-stone-900 sm:py-4 hover:bg-stone-500">
+                更新資料
+              </button>
+            </form>
+          </section>
+      
+          <!-- 修改密碼 -->
+          <section class="mb-8">
+            <h2 class="pb-4 text-xl font-bold sm:mb-6 sm:text-3xl">
+              修改密碼
+            </h2>
+            <form @submit.prevent="changePassword">
+              <!-- 現有密碼 -->
+              <div class="mb-4">
+                <label for="currentPassword" class="block mb-2">
+                  現有密碼：
+                </label>
+                <input v-model="currentPassword" type="password" id="currentPassword" class="p-2 w-full border-2 border-stone-900" required />
+              </div>
+              <!-- 更新密碼 -->
+              <div class="mb-6 md:mb-10">
+                <label for="newPassword" class="block mb-2">
+                  更新密碼：
+                </label>
+                <input v-model="newPassword" type="password" id="newPassword" class="p-2 w-full border-2 border-stone-900" required />
+              </div>
+              <!-- 按鈕 -->
+              <button type="submit" class="py-3 w-full text-white transition-colors duration-300 bg-stone-900 sm:py-4 hover:bg-stone-500">
+                變更密碼
+              </button>
+              <!-- 錯誤資訊 -->
+              <p v-if="errorMessage" class="mt-4 font-bold text-red-500">
+                {{ errorMessage }}
+              </p>
+            </form>
+          </section>
+      
+          <!-- 更新資訊 Modal -->
+          <Modal :show="showProfileModal" @close="showProfileModal = false">
+            <div class="p-5 text-base font-bold text-center md:text-xl">
+              <img src="https://i.pinimg.com/control/564x/b5/b4/f9/b5b4f9cad18a8a787c3dd9bd39fc2f5e.jpg" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+              <h2 class="text-lg font-semibold">
+                資料已更新
+              </h2>
+            </div>
+          </Modal>
+      
+          <!-- 成功變更密碼 Modal -->
+          <Modal :show="showPasswordModal" @close="showPasswordModal = false">
+            <div class="p-5 text-base font-bold text-center md:text-xl">
+              <img src="https://i.pinimg.com/control/564x/b5/b4/f9/b5b4f9cad18a8a787c3dd9bd39fc2f5e.jpg" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+              <h2 class="text-lg font-semibold">
+                密碼已變更
+              </h2>
+            </div>
+          </Modal>
         </div>
-      </Modal>
-  
-      <Modal :show="showPasswordModal" @close="showPasswordModal = false">
-        <div class="p-4 bg-white rounded-lg">
-          <h2 class="text-lg font-semibold">Success</h2>
-          <p class="mt-2">Your password has been updated successfully!</p>
-        </div>
-      </Modal>
-    </div>
+      </template>
+    </Layout>
+  </div>
+    
+    
   </template>
   
   <script setup>
@@ -65,6 +110,7 @@ import { reauthenticateWithCredential, updatePassword, EmailAuthProvider } from 
 
 // Reactive states
 const displayName = ref(localStorage.getItem('displayName') || '');
+const phone = ref(localStorage.getItem('phone') || '');
 const email = ref(localStorage.getItem('email') || '');
 const currentPassword = ref('');
 const newPassword = ref('');
@@ -100,12 +146,17 @@ onMounted(() => {
 const saveProfile = async () => {
   try {
     localStorage.setItem('displayName', displayName.value);
+    localStorage.setItem('phone', phone.value);
     localStorage.setItem('email', email.value);
 
     showProfileModal.value = true;
     errorMessage.value = '';
+    // Set a timeout to close the modal after 2 seconds
+    setTimeout(() => {
+      showProfileModal.value = false;
+    }, 2000); // 2 seconds
   } catch (error) {
-    errorMessage.value = 'Error saving profile: ' + error.message;
+    errorMessage.value = `無法儲存資料：${error.message}`;
   }
 };
 
@@ -121,18 +172,15 @@ const changePassword = async () => {
       await updatePassword(user, newPassword.value);
       showPasswordModal.value = true;
       errorMessage.value = '';
+      // Set a timeout to close the modal after 2 seconds
+      setTimeout(() => {
+        showPasswordModal.value = false;
+      }, 2000); // 2 seconds
     } catch (error) {
-      errorMessage.value = 'Error updating password: ' + error.message;
+      errorMessage.value = `密碼更新失敗，請再次檢查`;
     }
   } else {
-    errorMessage.value = 'User not authenticated.';
+    errorMessage.value = '使用者未登入。';
   }
 };
 </script>
-
-<style scoped>
-.container {
-  max-width: 600px;
-}
-</style>
-  
