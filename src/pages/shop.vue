@@ -13,6 +13,7 @@
     <!-- Shopping Cart Drawer -->
     <Cart :isOpen="isCartOpen" @close-cart="isCartOpen = false" />
   </div>
+  <Footer />
 </template>
 
 <script>

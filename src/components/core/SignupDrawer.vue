@@ -40,7 +40,7 @@
             <RouterLink to="/wishlist">
               <div class="flex gap-2 justify-center items-center py-3 w-full font-bold text-white transition-colors duration-300 sm:text-xl bg-stone-900 sm:py-4 hover:bg-stone-500">
                 <SolarHeartLinear />
-                <p>收藏清單</p>
+                <p>願望清單</p>
               </div>
             </RouterLink>
             <!-- 登出 -->

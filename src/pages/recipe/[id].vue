@@ -100,6 +100,7 @@
         </template>
       </Layout>
     </div>
+    <Footer />
   </template>
   
   <script>

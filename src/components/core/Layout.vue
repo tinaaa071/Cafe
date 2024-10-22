@@ -9,6 +9,7 @@
         <slot name="content"></slot>
       </div>
     </section>
+    <Footer />
   </template>
   
   <script>
