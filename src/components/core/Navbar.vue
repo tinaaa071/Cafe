@@ -185,8 +185,7 @@ export default {
     // Update main menu items based on your pages structure
     const menuItems = [
       { to: '/', text: 'Home' }, // Home page
-      { to: '/work', text: 'work' }, // Work page
-      { to: '/blog/blog', text: 'nav.item3' }, // Blog listing page
+      { to: '/recipe/recipe', text: 'Recipe' }, // Blog listing page
       { to: '/shop', text: 'Shop' }, // Shop
       { to: '/about', text: 'About' }, // Contact page
     ];

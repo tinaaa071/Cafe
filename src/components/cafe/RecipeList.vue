@@ -1,15 +1,21 @@
 <template>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 sm:gap-y-12 lg:gap-x-16">
       <!-- 食譜卡片 -->
-      <router-link :to="{ path: `/item/${item.id}` }" v-for="(item, index) in filteredItems" :key="index" class="flex flex-col items-center p-6 bg-white group">
+      <router-link :to="{ path: `/recipe/${item.id}` }" v-for="(item, index) in filteredItems" :key="index" class="flex flex-col items-center p-6 bg-white transition duration-300 hover:bg-amber-100 group">
         <!-- 圖片 -->
-        <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[3/2] border-stone-900 overflow-hidden">
-          <img :src="item.image" :alt="item.name" class="object-cover transition-all duration-300 group-hover:scale-110" />
-        </div>
+        <img 
+            :src="item.image" 
+            :alt="item.name" 
+            class="object-cover p-4 mb-5 w-2/3 transition-all duration-300 group-hover:translate-y-[-10px] sm:mb-6 aspect-square"
+        />
         <!-- 資訊 -->
-        <h3 class="mb-2 text-lg font-bold text-stone-900">
+        <h3 class="mb-3 text-xl font-bold text-stone-900">
             {{ item.name }}
         </h3>
+        <p class="flex gap-3 items-center text-stone-500">
+            <SolarClockCircleLinear />
+            {{ item.time }}
+        </p>
       </router-link>
     </div>
   </template>
