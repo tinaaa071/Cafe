@@ -2,7 +2,7 @@
   <div class="h-screen bg-B4">
     <Layout>
       <template #content>
-        <h1 class="mb-6 text-2xl font-bold text-center sm:text-4xl sm:mb-10">
+        <h1 class="mb-6 text-2xl font-bold text-center sm:text-4xl sm:mb-10 text-stone-900 dark:text-white">
           願望清單
         </h1>
         <!-- 願望清單無資料 -->
@@ -10,7 +10,7 @@
           <p class="text-stone-400">
             無收藏資料 
           </p>
-          <router-link to="/shop" class="px-6 py-4 mx-auto text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 w-fit">
+          <router-link to="/shop" class="px-6 py-4 mx-auto text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 w-fit dark:bg-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white">
             回到商品頁
           </router-link>
         </div>

@@ -6,41 +6,41 @@
         <li
           v-for="item in cartItems"
           :key="item.id"
-          class="flex flex-row gap-4 items-center py-8 border-b md:gap-6 border-stone-300"
+          class="flex flex-row gap-4 items-center py-4 border-b sm:py-6 md:gap-6 border-stone-300"
         >
           <!-- 圖片 -->
-          <img :src="item.image" :alt="item.name" class="object-cover w-24 border-2 aspect-square border-stone-900" />
+          <img :src="item.image" :alt="item.name" class="object-cover w-20 border-2 aspect-square border-stone-900 dark:border-white" />
           <!-- 商品 -->
           <div class="flex gap-10 items-start w-full">
             <!-- 商品資訊 -->
             <div class="flex flex-col gap-4 w-full">
               <!-- 商品名稱 -->
-              <span class="text-sm font-bold md:text-xl">
+              <span class="text-sm font-bold md:text-base">
                 {{ item.name }}
               </span>
               <!-- 數量按鈕 -->
-              <div class="flex items-center text-xs border-2 border-stone-900 text-stone-900 sm:text-sm w-fit">
-                  <button
-                    @click="updateQuantity(item.id, item.quantity - 1)"
-                    class="p-1.5 border-r-2 sm:py-2 sm:px-3 border-stone-900"
-                    :disabled="item.quantity <= 0"
-                  >
-                    <IcBaselineMinus />
-                  </button>
-                  <input
-                    v-model.number="item.quantity"
-                    @input="updateQuantity(item.id, item.quantity)"
-                    class="w-8 h-8 text-center border-none sm:w-10"
-                    type="text"
-                    min="1"
-                  />
-                  <button
-                    @click="updateQuantity(item.id, item.quantity + 1)"
-                    class="p-1.5 border-l-2 sm:py-2 sm:px-3 border-stone-900"
-                  >
-                    <IcBaselinePlus />
-                  </button>
-                </div>
+              <div class="flex items-center text-xs border-2 border-stone-900 text-stone-900 sm:text-sm w-fit dark:border-white dark:text-white">
+                <button
+                  @click="updateQuantity(item.id, item.quantity - 1)"
+                  class="p-1.5 border-r-2 sm:py-2 sm:px-3 border-stone-900 dark:border-white"
+                  :disabled="item.quantity <= 0"
+                >
+                  <IcBaselineMinus />
+                </button>
+                <input
+                  v-model.number="item.quantity"
+                  @input="updateQuantity(item.id, item.quantity)"
+                  class="w-8 h-8 text-center bg-transparent border-none appearance-none sm:w-10"
+                  type="text"
+                  min="1"
+                />
+                <button
+                  @click="updateQuantity(item.id, item.quantity + 1)"
+                  class="p-1.5 border-l-2 sm:py-2 sm:px-3 border-stone-900 dark:border-white"
+                >
+                  <IcBaselinePlus />
+                </button>
+              </div>
             </div>
             <!-- 刪除＆金額 -->
             <div class="flex flex-col gap-3 items-end md:gap-4">
@@ -52,7 +52,7 @@
                 <SolarTrashBinTrashLinear />
               </button>
               <!-- 價錢 -->
-              <span class="font-bold md:text-xl text-stone-500">
+              <span class="font-bold text-stone-500 dark:text-stone-400">
                 ${{ (item.price * item.quantity).toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
               </span>
             </div>
@@ -66,11 +66,11 @@
     <!-- 總金額區塊 -->
     <div class="sticky bottom-0 left-0 pt-6">
       <!-- 金額 -->
-      <div class="flex justify-between items-center mb-6 text-xl font-bold">
+      <div class="flex justify-between items-center mb-6 font-bold sm:text-lg">
         <span>
           總金額：
         </span>
-        <span class="text-stone-500">
+        <span class="text-stone-500 dark:text-stone-400">
           ${{ cartTotal.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
         </span>
       </div>

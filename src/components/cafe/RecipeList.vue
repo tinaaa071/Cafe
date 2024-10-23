@@ -12,7 +12,7 @@
         <h3 class="mb-3 text-xl font-bold">
             {{ item.name }}
         </h3>
-        <p class="flex gap-3 items-center text-stone-500">
+        <p class="flex gap-3 items-center text-stone-500 dark:text-stone-400 dark:hover:text-stone-500">
             <SolarClockCircleLinear />
             {{ item.time }}
         </p>
