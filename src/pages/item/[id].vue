@@ -11,7 +11,7 @@
         <!-- 圖片區塊 -->
         <div class="flex flex-col gap-2">
           <!-- 主圖 -->
-          <img :src="currentImage" :alt="item.name" class="object-cover w-full aspect-[3/2] border-2 border-stone-900" />
+          <img :src="currentImage" :alt="item.name" class="object-cover w-full aspect-[5/4] border-2 border-stone-900 object-center" />
           <!-- 切換圖 -->
           <div class="grid grid-cols-4 gap-2">
             <img 
@@ -20,7 +20,7 @@
               @click="changeImage(img)" 
               :src="img" 
               :alt="item.name" 
-              class="object-cover w-full border-2 transition-all duration-300 cursor-pointer aspect-square border-stone-900 hover:brightness-75" 
+              class="object-cover object-center w-full border-2 transition-all duration-75 cursor-pointer aspect-square border-stone-900 hover:brightness-75" 
             />
           </div>
         </div>
@@ -114,7 +114,7 @@
       <!-- 加入最愛 Modal -->
       <Modal :show="isModalVisible" @close="isModalVisible = false">
         <div class="p-5 text-base font-bold text-center md:text-xl">
-          <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+          <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-[5/4] border-stone-900 md:mb-6">
           <p class="mb-3 text-stone-500">
             {{ selectedItem.name }}
           </p>
@@ -127,7 +127,7 @@
       <!-- 移除收藏 Modal -->
       <Modal :show="isRemovalModalVisible" @close="isRemovalModalVisible = false">
         <div class="p-5 text-base font-bold text-center md:text-xl">
-          <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+          <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-[5/4] border-stone-900 md:mb-6">
           <p class="mb-3 text-stone-500">
             {{ selectedItem.name }}
           </p>

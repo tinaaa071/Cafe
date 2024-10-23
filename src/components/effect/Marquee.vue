@@ -1,5 +1,5 @@
 <template>
-    <div class="overflow-hidden w-full bg-white rounded-full dark:bg-transparent dark:border dark:border-stone-50">
+    <div class="overflow-hidden w-full bg-white rounded-full cursor-default dark:bg-transparent dark:border dark:border-stone-50">
         <div class="flex items-center p-1 sm:py-2 whitespace-nowrap marquee-content w-[200%] sm:text-xl font-semibold text-stone-900 dark:text-white text-base">
             <span class="inline-block">
               {{ spacedText }}{{ spacedText }}

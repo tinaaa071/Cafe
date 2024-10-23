@@ -10,17 +10,17 @@
   <transition name="slide">
     <div
       v-if="isOpen"
-      class="fixed top-0 right-0 z-50 w-full h-full bg-white shadow-lg transition-transform transform xl:w-2/5 lg:w-1/2 md:w-2/3"
+      class="fixed top-0 right-0 z-50 w-full h-full bg-white shadow-lg transition-transform transform xl:w-2/5 lg:w-1/2 md:w-2/3 dark:border-l-2 dark:border-white dark:bg-stone-900 dark:text-white"
       :class="{ 'translate-x-0': isOpen, 'translate-x-full': !isOpen }"
       @click.stop
     >
-      <div class="flex gap-4 justify-between items-center px-6 py-6 text-white bg-stone-900">
+      <div class="flex gap-4 justify-between items-center px-6 py-6 text-white bg-stone-900 sm:px-10 dark:bg-white dark:text-stone-900">
         <slot name="header">
           <h2 class="text-2xl font-bold line-clamp-1">{{ header }}</h2>
         </slot>
         <button
           @click="$emit('close')"
-          class="text-xl font-bold text-white transition-all duration-300 hover:rotate-90"
+          class="text-xl font-bold text-white transition-all duration-300 hover:rotate-90 dark:text-stone-900"
         >
           &times;
         </button>

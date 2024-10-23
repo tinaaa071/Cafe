@@ -21,7 +21,7 @@
             v-for="item in wishlistItems" :key="item.id"
             class="flex flex-col items-center p-6 bg-white group"
           >
-            <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[3/2] border-stone-900 overflow-hidden">
+            <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[5/4] border-stone-900 overflow-hidden">
               <!-- 圖片 -->
               <img :src="item.image" :alt="item.name" class="object-cover transition-all duration-300 group-hover:scale-110" />
               <!-- 加入最愛 -->
@@ -64,7 +64,7 @@
   <!-- 移除收藏 Modal -->
   <Modal :show="isRemovalModalVisible" @close="isRemovalModalVisible = false">
       <div class="p-5 text-base font-bold text-center md:text-xl">
-        <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+        <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-[5/4] border-stone-900 md:mb-6">
         <p class="mb-3 text-stone-500">
           {{ selectedItem.name }}
         </p>

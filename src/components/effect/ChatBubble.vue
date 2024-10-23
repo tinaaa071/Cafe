@@ -1,7 +1,7 @@
 <template>
     <div class="relative px-1 py-2 mb-2 text-left bg-white rounded-3xl transition-all ease-in-out dark:bg-stone-700 chat-bubble before:absolute before:w-0 before:h-0 before:-bottom-3.5 before:left-8 hover:-rotate-3 before:border-t-12">
         <div class="overflow-hidden w-full dark:bg-transparent">
-        <div class="flex items-center p-1 sm:py-2 whitespace-nowrap marquee-content w-[200%]  font-semibold text-stone-900 dark:text-white text-base">
+        <div class="flex items-center p-1 sm:py-2 whitespace-nowrap marquee-content w-[200%]  font-semibold text-stone-900 dark:text-white text-base cursor-default">
             <span class="inline-block">
                 {{ spacedText }}{{ spacedText }}
             </span>

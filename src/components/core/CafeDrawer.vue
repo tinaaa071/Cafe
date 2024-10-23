@@ -14,7 +14,7 @@
         <!-- 地址 -->
         <div class="flex flex-col gap-3 justify-center text-center md:flex-row">
           <div class="flex gap-3 justify-center" v-if="selectedCafe.mrt">
-            <p class="px-3 py-1 text-sm font-medium rounded-full bg-B3 text-stone-500">
+            <p class="px-3 py-1 text-sm font-medium whitespace-nowrap rounded-full bg-B3 text-stone-500 h-fit dark:bg-stone-500 dark:text-white">
               {{ selectedCafe.mrt }}
             </p>
           </div>
@@ -23,9 +23,9 @@
           </p>
         </div>
         <!-- Img -->
-        <img v-if="selectedCafe?.imageUrl && selectedCafe.imageUrl !== 'https://via.placeholder.com/400'" :src="selectedCafe.imageUrl" alt="Cafe Image" class="object-cover w-full border-2 aspect-video border-stone-900" />
+        <img v-if="selectedCafe?.imageUrl && selectedCafe.imageUrl !== 'https://via.placeholder.com/400'" :src="selectedCafe.imageUrl" alt="Cafe Image" class="object-cover w-full border-2 aspect-video border-stone-900 dark:border-white" />
         <!-- BTN -->
-        <a v-if="selectedCafe && selectedCafe.url" :href="selectedCafe.url" target="_blank" class="block py-4 w-full text-center text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500">
+        <a v-if="selectedCafe && selectedCafe.url" :href="selectedCafe.url" target="_blank" class="block py-4 w-full text-center text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 sm:text-xl dark:bg-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white">
           更多資訊
         </a>
         <!-- 其他資訊 -->
@@ -61,7 +61,7 @@
             價格便宜：⭐️&nbsp;{{ selectedCafe.cheap }}
           </li>
         </ul>
-        <div class="border-2 border-stone-900">
+        <div class="border-2 border-stone-900 dark:border-white">
           <Map :cafes="[selectedCafe]" />
         </div>
       </div>

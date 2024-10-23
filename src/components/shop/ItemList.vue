@@ -21,8 +21,8 @@
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 sm:gap-y-12 lg:gap-x-16">
     <div v-for="(item, index) in filteredItems" :key="index" class="flex flex-col items-center p-6 bg-white group">
       <!-- 圖片 -->
-      <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[3/2] border-stone-900 overflow-hidden">
-        <img :src="item.image" :alt="item.name" class="object-cover transition-all duration-300 group-hover:scale-110" />
+      <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[5/4] border-stone-900 overflow-hidden flex items-center justify-center">
+        <img :src="item.image" :alt="item.name" class="object-cover w-full h-full transition-all duration-300 group-hover:scale-110" />
         <!-- 加入最愛 -->
         <button @click="toggleWishlist(item)" 
         class="absolute top-0 right-0 p-4 text-white"
@@ -65,7 +65,7 @@
     <!-- 加入最愛 Modal -->
     <Modal :show="isModalVisible" @close="isModalVisible = false">
       <div class="p-5 text-base font-bold text-center md:text-xl">
-        <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+        <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-[5/4] border-stone-900 md:mb-6">
         <p class="mb-3 text-stone-500">
           {{ selectedItem.name }}
         </p>
@@ -78,7 +78,7 @@
     <!-- 移除收藏 Modal -->
     <Modal :show="isRemovalModalVisible" @close="isRemovalModalVisible = false">
       <div class="p-5 text-base font-bold text-center md:text-xl">
-        <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-video border-stone-900 md:mb-6">
+        <img :src="selectedItem ? selectedItem.image : ''" alt="" class="object-cover mb-4 border-2 aspect-[5/4] border-stone-900 md:mb-6">
         <p class="mb-3 text-stone-500">
           {{ selectedItem.name }}
         </p>

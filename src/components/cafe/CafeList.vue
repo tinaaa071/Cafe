@@ -1,4 +1,3 @@
-```src/components/cafe/CafeList.vue
 <template>
   <div>
     <!-- 搜尋欄 -->
@@ -8,7 +7,7 @@
           id="city-select"
           v-model="selectedCity"
           @change="handleCityChange"
-          class="py-2.5 border-2 sm:py-4 border-stone-900 bg-B4"
+          class="py-2.5 border-2 sm:py-4 border-stone-900 bg-B3 dark:border-white"
         >
           <option value="all">全部城市</option>
           <option v-for="city in cities" :key="city" :value="city">
@@ -19,36 +18,42 @@
           v-model="searchQuery"
           @input="filterCafes"
           placeholder="輸入關鍵字"
-          class="py-2.5 w-full bg-white border-2 border-l-0 sm:py-4 border-stone-900 placeholder:text-stone-400 placeholder:font-medium"
+          class="py-2.5 w-full bg-white border-2 border-l-0 sm:py-4 border-stone-900 placeholder:text-stone-400 placeholder:font-medium dark:border-white dark:bg-stone-900 dark:text-white"
         />
       </div>
-      <button type="button" class="px-3 py-2.5 text-white whitespace-nowrap border-2 sm:py-4 sm:px-6 bg-stone-900 border-stone-900">
+      <button type="button" class="px-3 py-2.5 text-white whitespace-nowrap border-2 sm:py-4 sm:px-6 bg-stone-900 border-stone-900 dark:bg-white dark:border-white dark:text-stone-900">
         搜尋
       </button>
     </div>
     <!-- Tab -->
     <div
-    ref="tabsContainer"
-    class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-8 text-sm font-bold whitespace-nowrap sm:mb-12 sm:gap-4"
-  >
-    <button
-      @click="fetchAllCafes"
-      :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white city-button ', { active: cityName === 'all' }]"
-      style="position: sticky; left: 0; z-index: 10;"
+      ref="tabsContainer"
+      class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-8 text-sm font-bold whitespace-nowrap sm:mb-12 sm:gap-4"
     >
-      全部城市
-    </button>
-    <button
-      v-for="city in cities"
-      :key="city"
-      @click="fetchCafes(city)"
-      :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white city-button', { active: city === cityName }]"
-    >
-      {{ city }}
-    </button>
-  </div>
+      <button
+        @click="fetchAllCafes"
+        :class="[
+          'px-3 py-2.5 sm:px-6 sm:py-4 border-2 transition-colors duration-300 hover:bg-stone-500 font-bold dark:border-white', 
+          cityName === 'all' ? 'bg-B3 border-stone-900 text-stone-900 dark:bg-stone-500 dark:text-white' : 'bg-B3 border-stone-900 text-stone-900   dark:border-white dark:hover:bg-stone-500 dark:hover:text-white'
+        ]"
+        style="position: sticky; left: 0; z-index: 10;"
+      >
+        全部城市
+      </button>
+      <button
+        v-for="city in cities"
+        :key="city"
+        @click="fetchCafes(city)"
+        :class="[
+          'px-3 py-2.5 sm:px-6 sm:py-4 border-2 transition-colors duration-300 hover:bg-stone-500 font-bold dark:border-white', 
+          city === cityName ? 'bg-B3 border-stone-900 text-stone-900 dark:bg-stone-500 dark:text-white' : 'bg-white border-stone-900 text-stone-900 dark:bg-transparent dark:text-white dark:border-white dark:hover:bg-stone-700'
+        ]"
+      >
+        {{ city }}
+      </button>
+    </div>
     <!-- Cafe 卡片 -->
-    <div class="mb-16">
+    <div class="mb-16 dark:text-white">
       <div v-if="error" class="error">{{ error }}</div>
       <div v-else-if="filteredCafes.length" class="grid grid-cols-1 gap-y-12 gap-x-16 sm:grid-cols-2 lg:grid-cols-3">
         <div
@@ -57,14 +62,14 @@
           class="text-center cafe-card"
           @click="selectCafe(cafe)"
         >
-          <div class="w-full rounded-full border-2 aspect-[3/2] border-stone-900 mb-4 overflow-hidden cursor-pointer">
+          <div class="w-full rounded-full border-2 aspect-[3/2] border-stone-900 mb-4 overflow-hidden cursor-pointer dark:border-white">
             <img
               :src="getImageUrl(index)"
               :alt="getImageAlt(index)"
-              class="object-cover transition-all duration-300 hover:scale-110"
+              class="object-cover w-full h-full transition-all duration-300 hover:scale-110"
             />
           </div>
-          <h2 class="text-lg font-bold">
+          <h2 class="text-lg font-bold cursor-default">
             {{ cafe.name }}
           </h2>
         </div>
@@ -85,7 +90,6 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, watch } from 'vue';
 import { getCafes } from '../../apiService.js';
 
 
