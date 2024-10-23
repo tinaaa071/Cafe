@@ -19,9 +19,9 @@
         <div v-else class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 sm:gap-y-12 lg:gap-x-16">
           <div
             v-for="item in wishlistItems" :key="item.id"
-            class="flex flex-col items-center p-6 bg-white group"
+            class="flex flex-col items-center p-6 bg-white group dark:bg-transparent dark:border-2 dark:border-white dark:text-white"
           >
-            <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[5/4] border-stone-900 overflow-hidden">
+            <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[5/4] border-stone-900 overflow-hidden dark:border-white text-stone-900">
               <!-- 圖片 -->
               <img :src="item.image" :alt="item.name" class="object-cover transition-all duration-300 group-hover:scale-110" />
               <!-- 加入最愛 -->
@@ -32,16 +32,16 @@
                 <SolarHeartBold class="text-xl text-pink-200" />
               </button>
               <!-- 標籤 -->
-              <p class="absolute right-4 bottom-4 px-3 py-1 text-sm font-medium rounded-full cursor-default bg-B3 text-stone-500">
+              <p class="absolute right-4 bottom-4 px-3 py-1 text-sm font-medium rounded-full cursor-default bg-B3 text-stone-500 dark:bg-stone-500 dark:text-white">
                 {{ item.type }}
               </p>
             </div>
             <!-- 資訊 -->  
             <div class="w-full text-center cursor-default">
-              <h3 class="mb-2 text-lg font-bold text-stone-900">
+              <h3 class="mb-2 text-lg font-bold">
                 {{ item.name }}
               </h3>
-              <p class="mb-4 font-bold text-stone-500">
+              <p class="mb-4 font-bold text-stone-500 dark:text-stone-400">
                 ${{ item.price.toLocaleString() }}
               </p>
               <!-- 按鈕 -->
@@ -50,7 +50,7 @@
                 class="w-full"
                 @click="confirmRemoveFromWishlist(item)"
                 >
-                  <button class="py-3 w-full text-sm text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500">
+                  <button class="py-3 w-full text-sm text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white">
                     查看更多
                   </button>
                 </RouterLink>
