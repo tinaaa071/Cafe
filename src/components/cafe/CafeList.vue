@@ -34,7 +34,7 @@
         @click="fetchAllCafes"
         :class="[
           'px-3 py-2.5 sm:px-6 sm:py-4 border-2 transition-colors duration-300 hover:bg-stone-500 font-bold dark:border-white', 
-          cityName === 'all' ? 'bg-B3 border-stone-900 text-stone-900 dark:bg-stone-500 dark:text-white' : 'bg-B3 border-stone-900 text-stone-900   dark:border-white dark:hover:bg-stone-500 dark:hover:text-white'
+          cityName === 'all' ? 'bg-stone-900 border-stone-900 text-white dark:bg-white dark:text-stone-900' : 'bg-B3 border-stone-900 text-stone-900   dark:border-white dark:hover:bg-stone-500 dark:hover:text-white'
         ]"
         style="position: sticky; left: 0; z-index: 10;"
       >
@@ -46,7 +46,7 @@
         @click="fetchCafes(city)"
         :class="[
           'px-3 py-2.5 sm:px-6 sm:py-4 border-2 transition-colors duration-300 hover:bg-stone-500 font-bold dark:border-white', 
-          city === cityName ? 'bg-B3 border-stone-900 text-stone-900 dark:bg-stone-500 dark:text-white' : 'bg-white border-stone-900 text-stone-900 dark:bg-transparent dark:text-white dark:border-white dark:hover:bg-stone-700'
+          city === cityName ? 'bg-stone-900 border-stone-900 text-white dark:bg-white dark:text-stone-900' : 'bg-white border-stone-900 text-stone-900 dark:bg-transparent dark:text-white dark:border-white dark:hover:bg-stone-700'
         ]"
       >
         {{ city }}

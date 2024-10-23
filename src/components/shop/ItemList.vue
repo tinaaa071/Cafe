@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-3 justify-end mb-8 sm:justify-between sm:flex-row sm:gap-4 sm:mb-12">
     <!-- Tab -->
     <div class="flex gap-3 text-sm font-bold sm:gap-4">
-      <button @click="resetFilter" :class="{'bg-stone-900 text-white dark:bg-stone-500 dark:text-white': isAllItemsActive(), 'bg-white dark:bg-transparent': !isAllItemsActive()}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:text-white dark:border-white dark:hover:bg-stone-700">
+      <button @click="resetFilter" :class="{'bg-stone-900 text-white dark:bg-white dark:text-stone-900': isAllItemsActive(), 'bg-white dark:bg-transparent dark:text-white': !isAllItemsActive()}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:border-white dark:hover:bg-stone-700 dark:hover:text-white">
         所有商品
       </button>
-      <button v-for="type in uniqueTypes" :key="type" @click="filterByType(type)" :class="{'bg-stone-900 text-white dark:bg-stone-500 dark:text-white': isTypeActive(type), 'bg-white dark:bg-transparent': !isTypeActive(type)}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:text-white dark:border-white dark:hover:bg-stone-700">
+      <button v-for="type in uniqueTypes" :key="type" @click="filterByType(type)" :class="{'bg-stone-900 text-white dark:bg-white dark:text-stone-900': isTypeActive(type), 'bg-white dark:bg-transparent dark:text-white': !isTypeActive(type)}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:border-white dark:hover:bg-stone-700 dark:hover:text-white">
         {{ type }}
       </button>
     </div>
