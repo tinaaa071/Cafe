@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 sm:gap-y-12 lg:gap-x-16">
       <!-- 食譜卡片 -->
-      <router-link :to="{ path: `/recipe/${item.id}` }" v-for="(item, index) in filteredItems" :key="index" class="flex flex-col items-center p-6 bg-white transition duration-300 hover:bg-amber-100 group">
+      <router-link :to="{ path: `/recipes/${item.id}` }" v-for="(item, index) in filteredItems" :key="index" class="flex flex-col items-center p-6 bg-white transition duration-300 hover:bg-amber-100 group">
         <!-- 圖片 -->
         <img 
             :src="item.image" 

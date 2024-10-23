@@ -1,5 +1,5 @@
 <template>
-    <div class="py-8 mx-auto max-w-4xl">
+    <div class="mx-auto max-w-4xl">
       <h1 class="mb-8 text-2xl font-bold text-center sm:text-4xl sm:mb-10">
         我的訂單
       </h1>
@@ -97,7 +97,7 @@
         <p class="text-stone-400">
           無訂單資料 
         </p>
-        <router-link to="/" class="px-6 py-4 mx-auto text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 w-fit">
+        <router-link to="/shop" class="px-6 py-4 mx-auto text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 w-fit">
           回到商品頁
         </router-link>
       </div>

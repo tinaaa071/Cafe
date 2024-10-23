@@ -27,22 +27,26 @@
       </button>
     </div>
     <!-- Tab -->
-    <div class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-16 text-sm font-bold whitespace-nowrap sm:gap-4">
-      <button
-        @click="fetchAllCafes"
-        :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white city-button', { active: cityName === 'all' }]"
-      >
-        全部城市
-      </button>
-      <button
-        v-for="city in cities"
-        :key="city"
-        @click="fetchCafes(city)"
-        :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white city-button', { active: city === cityName }]"
-      >
-        {{ city }}
-      </button>
-    </div>
+    <div
+    ref="tabsContainer"
+    class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-16 text-sm font-bold whitespace-nowrap sm:gap-4"
+  >
+    <button
+      @click="fetchAllCafes"
+      :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white city-button ', { active: cityName === 'all' }]"
+      style="position: sticky; left: 0; z-index: 10;"
+    >
+      全部城市
+    </button>
+    <button
+      v-for="city in cities"
+      :key="city"
+      @click="fetchCafes(city)"
+      :class="['px-3 py-2.5 sm:px-6 sm:py-4 bg-white border-2 border-stone-900 transition-colors duration-300 hover:bg-stone-500 text-stone-900 hover:text-white city-button', { active: city === cityName }]"
+    >
+      {{ city }}
+    </button>
+  </div>
     <!-- Cafe 卡片 -->
     <div class="mb-16">
       <div v-if="error" class="error">{{ error }}</div>
@@ -99,7 +103,7 @@ export default {
       isLoading: true,
       itemsPerPage: 6,
       hasSearched: false,
-      cities: ['台北市', '新竹市', '台中市', '高雄市', '台南市', '花蓮縣'],
+      cities: ['台北市', '新北市', '基隆市', '桃園市', '新竹市', '新竹縣', '宜蘭縣', '台中市', '苗栗縣', '彰化縣', '南投縣', '雲林縣', '高雄市', '台南市', '嘉義市', '嘉義縣', '屏東縣', '花蓮縣', '台東縣', '澎湖縣'],
       selectedCity: '台北市',
       currentPage: 1,
       isDrawerOpen: false, // 控制抽屜的開關
@@ -232,6 +236,12 @@ export default {
   },
   mounted() {
     this.fetchCafes(this.cityName);
+    const container = this.$refs.tabsContainer;
+
+    container.addEventListener('wheel', (e) => {
+      e.preventDefault(); // 禁止垂直滾動
+      container.scrollLeft += e.deltaY; // 讓滾輪控制水平滾動
+    });
   },
 };
 </script>
@@ -244,5 +254,12 @@ export default {
   background-color: #0c0a09;
   color: white;
 }
+.flex {
+  -ms-overflow-style: none;  /* IE 和 Edge */
+  scrollbar-width: none;     /* Firefox */
+}
 
+.flex::-webkit-scrollbar {
+  display: none; /* Chrome, Safari 和 Opera */
+}
 </style>

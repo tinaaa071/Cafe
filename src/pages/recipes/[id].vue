@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen bg-B4">
+    <div class="">
       <Layout>
         <template #content>
           <div class="flex flex-col md:flex-row text-stone-900">
@@ -100,7 +100,6 @@
         </template>
       </Layout>
     </div>
-    <Footer />
   </template>
   
   <script>

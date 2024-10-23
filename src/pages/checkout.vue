@@ -4,7 +4,7 @@
       <div class="grid grid-cols-1 gap-8 lg:gap-10 lg:grid-cols-2">
         <!-- 購物車總覽 -->
         <div v-if="!orderPlaced" class="cart-summary lg:overflow-y-auto lg:h-[calc(100vh-200px)]">
-          <h2 class="pb-4 text-xl font-bold bg-white lg:z-10 lg:top-0 lg:sticky sm:mb-6 sm:text-3xl">
+          <h2 class="pb-4 text-xl font-bold lg:z-10 lg:top-0 lg:sticky sm:text-3xl bg-B4">
             購物車總覽
           </h2>
           <!-- 商品卡 -->
@@ -20,10 +20,8 @@
                   <span class="text-sm font-bold lg:text-xl">
                     {{ item.name }}
                   </span>
-                  <!-- 數量＆價錢 -->
-                  <div class="flex gap-10 justify-between items-center w-full">
-                    <!-- 數量按鈕 -->
-                    <div class="flex items-center text-xs border-2 border-stone-900 text-stone-900 sm:text-sm">
+                  <!-- 數量按鈕 -->
+                  <div class="flex items-center text-xs border-2 border-stone-900 text-stone-900 sm:text-sm w-fit">
                       <button
                         @click="updateQuantity(item.id, item.quantity - 1)"
                         class="p-1.5 border-r-2 sm:py-2 sm:px-3 border-stone-900"
@@ -45,19 +43,21 @@
                         <IcBaselinePlus />
                       </button>
                     </div>
-                    <!-- 價錢 -->
-                    <span class="font-bold md:text-xl text-stone-500">
-                      ${{ (item.price * item.quantity).toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
-                    </span>
-                  </div>
                 </div>
-                <!-- 刪除按鈕 -->
-                <button
+                <!-- 刪除＆金額 -->
+                <div class="flex flex-col gap-3 items-end md:gap-4">
+                  <!-- 刪除按鈕 -->
+                  <button
                   @click="removeFromCart(item.id)"
-                  class="p-2 text-sm rounded-lg transition-colors duration-300 sm:rounded-xl sm:p-3 bg-stone-100 text-stone-500 sm:text-base hover:bg-stone-200"
-                >
-                  <SolarTrashBinTrashLinear />
-                </button>
+                  class="p-2 text-sm rounded-lg transition-colors duration-300 sm:rounded-xl sm:p-3 bg-stone-200 text-stone-500 sm:text-base hover:bg-stone-300"
+                  >
+                    <SolarTrashBinTrashLinear />
+                  </button>
+                  <!-- 價錢 -->
+                  <span class="font-bold md:text-xl text-stone-500">
+                    ${{ (item.price * item.quantity).toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+                  </span>
+                </div>
               </div>
             </li>
           </ul>
@@ -132,7 +132,7 @@
                     v-model="form.payment"
                     value="信用卡"
                     required
-                    class="mr-2"
+                    class="mr-2 border-2 appearance-none border-stone-300"
                   />
                   信用卡
                 </label>
@@ -141,7 +141,7 @@
                     type="radio"
                     v-model="form.payment"
                     value="Paypal"
-                    class="mr-2"
+                    class="mr-2 border-2 appearance-none border-stone-300"
                   />
                   PayPal
                 </label>
@@ -150,7 +150,7 @@
                     type="radio"
                     v-model="form.payment"
                     value="線上轉帳"
-                    class="mr-2"
+                    class="mr-2 border-2 appearance-none border-stone-300"
                   />
                   線上轉帳
                 </label>
@@ -185,7 +185,7 @@
       <!-- 完成訂單 -->
       <div v-if="orderPlaced" class="mx-auto max-w-4xl order-card">
         <!-- 訂單資訊 -->
-        <div class="p-6 border-2 border-stone-900">
+        <div class="p-6 bg-white border-2 border-stone-900">
           <!-- 訂單編號 -->
           <div class="flex flex-col gap-1 justify-between mb-2 font-bold sm:items-center sm:flex-row sm:mb-3">
             <h2 class="text-lg md:text-xl">

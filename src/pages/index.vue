@@ -1,5 +1,5 @@
 <template>
-  <div class="sm:pb-10 bg-B4 dark:bg-stone-900 text-stone-900">
+  <div class="bg-B4 dark:bg-stone-900 text-stone-900">
     <Layout :showProgress="false">
     <template #content>
       <!-- Hero 區塊 -->
@@ -25,7 +25,6 @@
     </template>
   </Layout>
   </div>
-  <Footer />
 </template>
 
 <script>
