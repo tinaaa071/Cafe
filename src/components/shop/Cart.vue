@@ -78,7 +78,7 @@
       <router-link to="/checkout">
         <button
           @click="navigateToCheckout"
-          class="py-3 w-full text-xl font-bold text-white transition-colors duration-300 md:py-4 bg-stone-900 hover:bg-stone-500"
+          class="button-main"
           :disabled="!cartItems.length"
         >
           結帳

@@ -2,15 +2,15 @@
   <div class="flex flex-col gap-3 justify-end mb-8 sm:justify-between sm:flex-row sm:gap-4 sm:mb-12">
     <!-- Tab -->
     <div class="flex gap-3 text-sm font-bold sm:gap-4">
-      <button @click="resetFilter" :class="{'bg-stone-900 text-white': isAllItemsActive(), 'bg-white': !isAllItemsActive()}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white">
+      <button @click="resetFilter" :class="{'bg-stone-900 text-white dark:bg-stone-500 dark:text-white': isAllItemsActive(), 'bg-white dark:bg-transparent': !isAllItemsActive()}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:text-white dark:border-white dark:hover:bg-stone-700">
         所有商品
       </button>
-      <button v-for="type in uniqueTypes" :key="type" @click="filterByType(type)" :class="{'bg-stone-900 text-white': isTypeActive(type), 'bg-white': !isTypeActive(type)}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white">
+      <button v-for="type in uniqueTypes" :key="type" @click="filterByType(type)" :class="{'bg-stone-900 text-white dark:bg-stone-500 dark:text-white': isTypeActive(type), 'bg-white dark:bg-transparent': !isTypeActive(type)}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:text-white dark:border-white dark:hover:bg-stone-700">
         {{ type }}
       </button>
     </div>
     <!-- 篩選金額 -->
-    <select @change="sortByPrice" class="px-3 py-2.5 w-full h-12 text-sm font-bold leading-none bg-white border-2 transition-colors duration-300 appearance-none sm:w-40 sm:h-16 sm:px-6 border-stone-900">
+    <select @change="sortByPrice" class="px-3 py-2.5 w-full h-12 text-sm font-bold leading-none bg-white border-2 transition-colors duration-300 appearance-none sm:w-40 sm:h-16 sm:px-6 border-stone-900 dark:border-white dark:bg-transparent dark:text-white">
       <option value="">價格篩選</option>
       <option value="asc">價格：由低到高</option>
       <option value="desc">價格：由高到低</option>
@@ -19,9 +19,9 @@
 
   <!-- 商品卡片 -->
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 sm:gap-y-12 lg:gap-x-16">
-    <div v-for="(item, index) in filteredItems" :key="index" class="flex flex-col items-center p-6 bg-white group">
+    <div v-for="(item, index) in filteredItems" :key="index" class="flex flex-col items-center p-6 bg-white group dark:bg-transparent dark:border-2 dark:border-white dark:text-white">
       <!-- 圖片 -->
-      <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[5/4] border-stone-900 overflow-hidden flex items-center justify-center">
+      <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[5/4] border-stone-900 overflow-hidden flex items-center justify-center dark:border-2 dark:border-white text-stone-900">
         <img :src="item.image" :alt="item.name" class="object-cover w-full h-full transition-all duration-300 group-hover:scale-110" />
         <!-- 加入最愛 -->
         <button @click="toggleWishlist(item)" 
@@ -34,28 +34,28 @@
         />
         </button>
         <!-- 標籤 -->
-        <p class="absolute right-4 bottom-4 px-3 py-1 text-sm font-medium rounded-full cursor-default bg-B3 text-stone-500">
+        <p class="absolute right-4 bottom-4 px-3 py-1 text-sm font-medium whitespace-nowrap rounded-full bg-B3 text-stone-500 h-fit dark:bg-stone-500 dark:text-white">
           {{ item.type }}
         </p>
       </div>
       <!-- 資訊 -->
       <div class="w-full text-center cursor-default">
-        <h3 class="mb-2 text-lg font-bold text-stone-900">
+        <h3 class="mb-2 text-lg font-bold">
           {{ item.name }}
         </h3>
-        <p class="mb-4 font-bold text-stone-500">
+        <p class="mb-4 font-bold text-stone-500 dark:text-stone-400">
           ${{ item.price.toLocaleString() }}
         </p>
         <!-- 按鈕 -->
         <div class="flex gap-2">
           <!-- 查看更多 -->
           <router-link :to="{ path: `/item/${item.id}` }" class="w-full">
-            <button class="py-3 w-full text-sm text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500">
+            <button class="text-sm button-main">
               查看更多
             </button>
           </router-link>
           <!-- 加入購物車 -->
-          <button @click="addToCart(item)" class="px-4 bg-white border-2 transition-colors duration-300 text-stone-900 border-stone-900 hover:bg-stone-200">
+          <button @click="addToCart(item)" class="px-4 bg-white border-2 transition-colors duration-300 border-stone-900 hover:bg-stone-200 dark:bg-transparent dark:border-2 dark:border-white dark:hover:bg-stone-700">
             <SolarCart3Linear class="text-xl" />
           </button>
         </div>

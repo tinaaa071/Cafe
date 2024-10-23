@@ -2,7 +2,7 @@
     <div class="">
       <Layout>
         <template #content>
-          <div class="flex flex-col md:flex-row text-stone-900">
+          <div class="flex flex-col md:flex-row text-stone-900 dark:text-white">
             <!-- 圖片區塊 -->
             <div class="p-12 w-full bg-amber-100 xl:p-16 md:w-1/3">
                 <img
@@ -13,12 +13,12 @@
             />
             </div>
             <!-- 資訊 -->
-            <div class="w-full bg-white md:w-2/3">
+            <div class="w-full bg-white md:w-2/3 dark:bg-transparent dark:border-2 dark:border-white">
               <!-- 商品資訊 -->
               <div class="flex flex-col">
                 <!-- 標題 -->
-                <div class="flex justify-between items-center px-6 py-4 text-white md:px-10 md:py-6 bg-stone-900">
-                  <h1 class="text-lg font-bold md:text-3xl md:mb-4">
+                <div class="flex justify-between items-center px-6 py-4 text-white dark:text-stone-900 dark:bg-white md:px-10 md:py-6 bg-stone-900">
+                  <h1 class="text-lg font-bold md:text-3xl">
                     {{ item ? item.name : 'Loading...' }}
                   </h1>
                   <p class="flex gap-3 items-center">
@@ -33,10 +33,10 @@
                     <p class="font-bold md:text-xl">
                         份數
                     </p>
-                    <div class="flex items-center w-36 border-2 border-stone-900 text-stone-900">
+                    <div class="flex items-center w-36 border-2 border-stone-900 text-stone-900 dark:border-white dark:text-white">
                       <button
                         @click="updateQuantity(-1)"
-                        class="px-3 py-2 border-r-2 border-stone-900"
+                        class="px-3 py-2 border-r-2 border-stone-900 dark:border-white"
                         :disabled="quantity <= 1"
                       >
                         <IcBaselineMinus />
@@ -45,12 +45,12 @@
                         v-model.number="quantity"
                         @input="handleInput"
                         type="text"
-                        class="w-full text-center border-none"
+                        class="w-full text-center bg-transparent border-none appearance-none"
                         min="1"
                       />
                       <button
                         @click="updateQuantity(1)"
-                        class="px-3 py-2 border-l-2 border-stone-900"
+                        class="px-3 py-2 border-l-2 border-stone-900 dark:border-white"
                       >
                         <IcBaselinePlus />
                       </button>

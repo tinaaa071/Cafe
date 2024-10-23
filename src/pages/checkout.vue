@@ -1,10 +1,10 @@
 <template>
   <Layout>
     <template #content>
-      <div class="grid grid-cols-1 gap-8 lg:gap-10 lg:grid-cols-2">
+      <div class="grid grid-cols-1 gap-8 lg:gap-10 lg:grid-cols-2 dark:text-white">
         <!-- 購物車總覽 -->
         <div v-if="!orderPlaced" class="cart-summary lg:overflow-y-auto lg:h-[calc(100vh-200px)]">
-          <h2 class="pb-4 text-xl font-bold lg:z-10 lg:top-0 lg:sticky sm:text-3xl bg-B4">
+          <h2 class="pb-4 text-xl font-bold lg:z-10 lg:top-0 lg:sticky sm:text-3xl bg-B4 dark:bg-stone-900">
             購物車總覽
           </h2>
           <!-- 商品卡 -->
@@ -87,7 +87,7 @@
                 id="name"
                 v-model="form.name"
                 type="text"
-                class="p-2 w-full border-2 border-stone-900"
+                class="input"
                 required
               />
             </div>
@@ -101,7 +101,7 @@
                 id="phone"
                 v-model="form.phone"
                 type="tel"
-                class="p-2 w-full border-2 border-stone-900"
+                class="input"
                 required
               />
             </div>
@@ -115,7 +115,7 @@
                 id="email"
                 v-model="form.email"
                 type="email"
-                class="p-2 w-full border-2 border-stone-900"
+                class="input"
                 required
               />
             </div>
@@ -132,7 +132,7 @@
                     v-model="form.payment"
                     value="信用卡"
                     required
-                    class="mr-2 border-2 appearance-none border-stone-300"
+                    class="radio"
                   />
                   信用卡
                 </label>
@@ -141,7 +141,7 @@
                     type="radio"
                     v-model="form.payment"
                     value="Paypal"
-                    class="mr-2 border-2 appearance-none border-stone-300"
+                    class="radio"
                   />
                   PayPal
                 </label>
@@ -150,7 +150,7 @@
                     type="radio"
                     v-model="form.payment"
                     value="線上轉帳"
-                    class="mr-2 border-2 appearance-none border-stone-300"
+                    class="radio"
                   />
                   線上轉帳
                 </label>
@@ -166,7 +166,7 @@
                 id="address"
                 v-model="form.address"
                 type="text"
-                class="p-2 w-full border-2 border-stone-900"
+                class="input"
                 required
               />
             </div>
@@ -174,7 +174,7 @@
             <!-- 結帳按鈕 -->
             <button
               type="submit"
-              class="py-3 w-full text-white bg-stone-900 sm:py-4 hover:bg-stone-500"
+              class="button-main"
             >
               結帳
             </button>

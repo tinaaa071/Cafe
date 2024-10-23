@@ -1,9 +1,9 @@
 <template>
     <div class="space-y-10 text-center">
-      <h2 class="text-xl font-bold sm:text-4xl">
+      <h2 class="text-xl font-bold sm:text-3xl">
         {{ isLogin ? '登入' : '註冊' }}
       </h2>
-      <form @submit.prevent="isLogin ? login() : register()" class="space-y-5 text-sm font-bold text-left sm:text-xl">
+      <form @submit.prevent="isLogin ? login() : register()" class="space-y-5 font-bold text-left sm:space-y-6">
         <!-- 信箱 -->
         <div class="flex flex-col">
           <label class="block mb-2">
@@ -13,7 +13,7 @@
           v-model="email" 
           type="email" 
           placeholder="Email" 
-          class="p-2 w-full border-2 border-stone-900"
+          class="input"
           required />
         </div>
         <!-- 密碼 -->
@@ -25,22 +25,26 @@
           v-model="password" 
           type="password" 
           placeholder="Password" 
-          class="p-2 w-full border-2 border-stone-900"
+          class="input"
           required />
         </div>
         <!-- 按鈕 -->
-        <button type="submit" class="py-3 w-full font-bold text-white transition-colors duration-300 sm:text-xl sm:py-4 bg-stone-900 hover:bg-stone-500">
+        <button type="submit" class="button-main">
           {{ isLogin ? '登入' : '註冊' }}
         </button>
       </form>
-      <!-- 錯誤訊息 -->
-      <p class="text-red-500">{{ error }}</p>
-      <p class="text-sm font-bold cursor-default sm:text-xl">
-        {{ isLogin ? '還沒有帳號？' : '已經有帳號？' }}
-        <button @click="toggleAuthMode" class="mt-4 transition duration-300 text-stone-500 hover:text-stone-400">
-          {{ isLogin ? '註冊' : '登入' }}
-        </button>
-      </p>
+      <!-- 提示＆切換 -->
+       <div>
+        <!-- 錯誤訊息 -->
+        <p class="text-red-500">{{ error }}</p>
+        <!-- 切換註冊 -->
+        <p class="font-bold cursor-default sm:text-lg">
+          {{ isLogin ? '還沒有帳號？' : '已經有帳號？' }}
+          <button @click="toggleAuthMode" class="mt-4 transition duration-300 text-stone-500 hover:text-stone-400 dark:text-stone-300 dark:hover:text-stone-200">
+            {{ isLogin ? '註冊' : '登入' }}
+          </button>
+        </p>
+       </div>
     </div>
   </template>
   

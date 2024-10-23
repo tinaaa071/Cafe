@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-B4 sm:pb-10 dark:bg-stone-900 text-stone-900">
+  <div class="bg-B4 sm:pb-10 dark:bg-stone-900 text-stone-900 dark:text-white">
     <Navbar :cartItems="cartItems" @toggle-cart="toggleCart" />
     <BackToTop class="z-20" />
     <div v-if="item" class="px-6 pt-28 pb-6 mx-auto min-h-screen sm:pt-32 sm:px-10 xl:px-28">
@@ -11,7 +11,7 @@
         <!-- 圖片區塊 -->
         <div class="flex flex-col gap-2">
           <!-- 主圖 -->
-          <img :src="currentImage" :alt="item.name" class="object-cover w-full aspect-[5/4] border-2 border-stone-900 object-center" />
+          <img :src="currentImage" :alt="item.name" class="object-cover w-full aspect-[5/4] border-2 border-stone-900 object-center dark:border-white" />
           <!-- 切換圖 -->
           <div class="grid grid-cols-4 gap-2">
             <img 
@@ -20,12 +20,12 @@
               @click="changeImage(img)" 
               :src="img" 
               :alt="item.name" 
-              class="object-cover object-center w-full border-2 transition-all duration-75 cursor-pointer aspect-square border-stone-900 hover:brightness-75" 
+              class="object-cover object-center w-full border-2 transition-all duration-75 cursor-pointer aspect-square border-stone-900 hover:brightness-75 dark:border-white" 
             />
           </div>
         </div>
         <!-- 資訊 -->
-        <div class="p-5 space-y-6 bg-white md:p-10 md:space-y-10">
+        <div class="p-5 space-y-6 bg-white md:p-10 md:space-y-10 dark:bg-transparent dark:border-2 dark:border-white">
           <!-- 商品資訊 -->
           <div class="flex justify-between items-start mb-3 md:mb-6">
             <!-- 資訊 -->
@@ -35,11 +35,11 @@
                 {{ item.name }}
               </h1>
               <!-- 標籤 -->
-              <p class="px-3 py-1 mb-3 text-sm font-medium rounded-full cursor-default bg-B3 text-stone-500 w-fit md:mb-6">
+              <p class="px-3 py-1 mb-3 text-sm font-medium rounded-full cursor-default bg-B3 text-stone-500 w-fit md:mb-6 dark:bg-stone-500 dark:text-white">
                 {{ item.type }}
               </p>
               <!-- 價格 -->
-              <p class="text-base font-bold md:text-3xl text-stone-500">
+              <p class="text-base font-bold md:text-3xl text-stone-500 dark:text-stone-400">
                 ${{ item.price.toLocaleString() }}
               </p>
             </div>
@@ -52,7 +52,7 @@
             </button>
           </div>
           <!-- 描述 -->
-          <ul class="text-xs font-medium list-disc list-inside md:text-xl text-stone-500">
+          <ul class="text-xs font-medium list-disc list-inside md:text-xl text-stone-500 dark:text-stone-300">
             <li v-for="(info, index) in item.info" :key="index">
               {{ info }}
             </li>
@@ -60,10 +60,10 @@
           <!-- 按鈕 -->
           <div class="flex flex-col gap-2 sm:gap-4 sm:flex-row">
             <!-- 數量 -->
-            <div class="flex items-center border-2 border-stone-900 text-stone-900">
+            <div class="flex items-center border-2 border-stone-900 text-stone-900 dark:border-white dark:text-white">
               <button
                 @click="updateQuantity(-1)"
-                class="px-3 py-2 border-r-2 border-stone-900"
+                class="px-3 py-2 border-r-2 dark:border-white border-stone-900"
                 :disabled="quantity <= 1"
               >
                 <IcBaselineMinus />
@@ -72,18 +72,18 @@
                 v-model.number="quantity"
                 @input="handleInput"
                 type="text"
-                class="w-full text-center border-none"
+                class="w-full text-center bg-transparent border-none appearance-none"
                 min="1"
               />
               <button
                 @click="updateQuantity(1)"
-                class="px-3 py-2 border-l-2 border-stone-900"
+                class="px-3 py-2 border-l-2 dark:border-white border-stone-900"
               >
                 <IcBaselinePlus />
               </button>
             </div>
             <!-- 加入購物車 -->
-            <button @click="addToCart" class="flex gap-2 justify-center items-center py-3 w-full text-sm text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500">
+            <button @click="addToCart" class="flex gap-2 justify-center items-center text-sm button-main">
               加入購物車
               <SolarCart3Linear />
             </button>
@@ -98,7 +98,7 @@
               <hr class="w-full border-[1.5px] border-stone-900 dark:border-white">
             </div>
             <!-- 資訊 -->
-            <ul class="text-xs font-medium list-disc list-inside md:text-xl text-stone-500">
+            <ul class="text-xs font-medium list-disc list-inside md:text-xl dark:text-stone-300 text-stone-500">
               <li v-for="(desc, index) in item.description" :key="index">
                 {{ desc }}
               </li>

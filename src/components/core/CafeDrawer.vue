@@ -8,7 +8,7 @@
       <div v-if="error" class="error">{{ error }}</div>
       <div v-else-if="selectedCafe" class="flex flex-col flex-grow gap-6">
         <!-- 標題 -->
-        <h2 class="text-4xl font-bold text-center">
+        <h2 class="text-xl font-bold text-center sm:text-3xl">
           {{ selectedCafe.name }}
         </h2>
         <!-- 地址 -->
@@ -25,7 +25,7 @@
         <!-- Img -->
         <img v-if="selectedCafe?.imageUrl && selectedCafe.imageUrl !== 'https://via.placeholder.com/400'" :src="selectedCafe.imageUrl" alt="Cafe Image" class="object-cover w-full border-2 aspect-video border-stone-900 dark:border-white" />
         <!-- BTN -->
-        <a v-if="selectedCafe && selectedCafe.url" :href="selectedCafe.url" target="_blank" class="block py-4 w-full text-center text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 sm:text-xl dark:bg-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white">
+        <a v-if="selectedCafe && selectedCafe.url" :href="selectedCafe.url" target="_blank" class="py-2 w-full font-bold text-center text-white transition-colors duration-300 sm:py-3 bg-stone-900 hover:bg-stone-500 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white">
           更多資訊
         </a>
         <!-- 其他資訊 -->

@@ -10,4 +10,16 @@
         -webkit-text-stroke-color: currentColor;
         -webkit-text-stroke-width: .03em;
     }
+    .input {
+        @apply p-2 w-full border-2 border-stone-900 dark:border-white dark:bg-stone-900 dark:text-white placeholder:font-medium placeholder:text-stone-400 disabled:opacity-30 disabled:pointer-events-none
+    }
+    .radio {
+        @apply mr-2 border-2 appearance-none border-stone-300  
+    }
+    .button-main {
+        @apply py-2 w-full font-bold text-center text-white transition-colors duration-300 sm:py-3 bg-stone-900 hover:bg-stone-500 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white
+    }
+    .button-sub {
+        @apply flex gap-2 justify-center items-center py-2 w-full font-bold text-white transition-colors duration-300 bg-stone-900 sm:py-3 hover:bg-stone-700 dark:border-2 dark:border-white
+    }
 }

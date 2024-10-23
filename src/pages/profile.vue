@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen bg-B4 sm:pb-10 dark:bg-stone-900 text-stone-900">
+  <div class="h-screen font-bold bg-B4 sm:pb-10 dark:bg-stone-900 text-stone-900 dark:text-white">
     <Layout>
       <template #content>
         <div class="grid grid-cols-1 gap-8 lg:gap-10 lg:grid-cols-2">      
@@ -15,31 +15,31 @@
                   帳號：
                 </label>
                 <!-- Display UID here -->
-                <input v-model="uid" type="text" id="account" class="p-2 w-full border-2 cursor-not-allowed border-stone-900 disabled:opacity-30 disabled:pointer-events-none" disabled />
+                <input v-model="uid" type="text" id="account" class="input dark:bg-stone-700" disabled />
               </div>
               <!-- 姓名 -->
               <div class="mb-4">
                 <label for="displayName" class="block mb-2">
                   姓名：
                 </label>
-                <input v-model="displayName" type="text" id="displayName" class="p-2 w-full border-2 border-stone-900" required />
+                <input v-model="displayName" type="text" id="displayName" class="input" required />
               </div>
               <!-- 電話 -->
               <div class="mb-4">
                 <label for="phone" class="block mb-2">
                   電話：
                 </label>
-                <input v-model="phone" type="tel" id="phone" class="p-2 w-full border-2 border-stone-900" required />
+                <input v-model="phone" type="tel" id="phone" class="input" required />
               </div>
               <!-- 電子郵件 -->
               <div class="mb-6 md:mb-10">
                 <label for="email" class="block mb-2">
                   電子郵件：
                 </label>
-                <input v-model="email" type="email" id="email" class="p-2 w-full border-2 border-stone-900" required />
+                <input v-model="email" type="email" id="email" class="input" required />
               </div>
               <!-- 按鈕 -->
-              <button type="submit" class="py-3 w-full text-white transition-colors duration-300 bg-stone-900 sm:py-4 hover:bg-stone-500">
+              <button type="submit" class="button-main">
                 更新資料
               </button>
             </form>
@@ -56,17 +56,17 @@
                 <label for="currentPassword" class="block mb-2">
                   現有密碼：
                 </label>
-                <input v-model="currentPassword" type="password" id="currentPassword" class="p-2 w-full border-2 border-stone-900" required />
+                <input v-model="currentPassword" type="password" id="currentPassword" class="input" required />
               </div>
               <!-- 更新密碼 -->
               <div class="mb-6 md:mb-10">
                 <label for="newPassword" class="block mb-2">
                   更新密碼：
                 </label>
-                <input v-model="newPassword" type="password" id="newPassword" class="p-2 w-full border-2 border-stone-900" required />
+                <input v-model="newPassword" type="password" id="newPassword" class="input" required />
               </div>
               <!-- 按鈕 -->
-              <button type="submit" class="py-3 w-full text-white transition-colors duration-300 bg-stone-900 sm:py-4 hover:bg-stone-500">
+              <button type="submit" class="button-main">
                 變更密碼
               </button>
               <!-- 錯誤資訊 -->

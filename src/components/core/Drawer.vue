@@ -16,7 +16,7 @@
     >
       <div class="flex gap-4 justify-between items-center px-6 py-6 text-white bg-stone-900 sm:px-10 dark:bg-white dark:text-stone-900">
         <slot name="header">
-          <h2 class="text-2xl font-bold line-clamp-1">{{ header }}</h2>
+          <h2 class="text-xl font-bold sm:text-2xl line-clamp-1">{{ header }}</h2>
         </slot>
         <button
           @click="$emit('close')"
@@ -27,7 +27,7 @@
       </div>
 
       <!-- 內容區塊 -->
-      <div class="overflow-y-auto px-6 sm:px-10 py-6 max-h-[calc(100vh-100px)] drawer-content h-full flex flex-col justify-between">
+      <div class="overflow-y-auto p-6 sm:px-10 y-6 max-h-[calc(100vh-100px)] drawer-content h-full flex flex-col justify-between">
         <slot>
           <!-- Default slot content goes here -->
           <p>Your drawer content goes here.</p>
