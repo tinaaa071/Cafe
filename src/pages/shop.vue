@@ -3,7 +3,7 @@
     <!-- Navbar with cart badge -->
     <Navbar :cartItems="cartItems" @toggle-cart="toggleCart" />
     <BackToTop class="z-20" />
-    <div class="px-6 pt-24 pb-6 mx-auto min-h-screen sm:pt-28 md:pt-32 sm:px-10 xl:px-28">
+    <div class="px-6 pt-28 pb-6 mx-auto min-h-screen sm:pt-32 sm:px-10 xl:px-28">
       <div class="">
         <ItemList @add-to-cart="showCart" />
       </div>

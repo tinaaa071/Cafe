@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-3 justify-end mb-8 sm:justify-between sm:flex-row sm:gap-4 md:mb-12 lg:mb-16">
+  <div class="flex flex-col gap-3 justify-end mb-8 sm:justify-between sm:flex-row sm:gap-4 sm:mb-12">
     <!-- Tab -->
     <div class="flex gap-3 text-sm font-bold sm:gap-4">
       <button @click="resetFilter" :class="{'bg-stone-900 text-white': isAllItemsActive(), 'bg-white': !isAllItemsActive()}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white">
@@ -27,10 +27,11 @@
         <button @click="toggleWishlist(item)" 
         class="absolute top-0 right-0 p-4 text-white"
         >
-          <component
-            :is="isInWishlist(item) ? 'SolarHeartBold' : 'SolarHeartLinear'"
-            class="text-xl text-white"
-          />
+        <component
+          :is="isInWishlist(item) ? 'SolarHeartBold' : 'SolarHeartLinear'"
+          :class="isInWishlist(item) ? 'text-pink-200' : 'text-white'"
+          class="text-xl transition-colors duration-300"
+        />
         </button>
         <!-- 標籤 -->
         <p class="absolute right-4 bottom-4 px-3 py-1 text-sm font-medium rounded-full cursor-default bg-B3 text-stone-500">
@@ -43,7 +44,7 @@
           {{ item.name }}
         </h3>
         <p class="mb-4 font-bold text-stone-500">
-          ${{ item.price }}
+          ${{ item.price.toLocaleString() }}
         </p>
         <!-- 按鈕 -->
         <div class="flex gap-2">

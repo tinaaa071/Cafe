@@ -232,17 +232,17 @@
               <div class="flex flex-col gap-2 justify-between w-full sm:items-center sm:flex-row">
                 <!-- 商品名稱 -->
                 <span class="text-sm font-bold md:text-xl">
-                  {{ item.name }}
-                </span>
+                    {{ item.name }}
+                  </span>
                 <!-- 數量＆價格 -->
-                <div class="flex justify-between items-center sm:gap-6 sm:justify-normal">
+                <div class="flex justify-between items-center w-full sm:w-fit sm:gap-6">
                   <!-- 數量 -->
                   <span>
                     x{{ item.quantity }}
                   </span> 
                   <!-- 價格 -->
-                  <span class="text-stone-500">
-                    ${{ (item.price * item.quantity).toLocaleString('en-US') }}
+                  <span class="text-right text-stone-500 sm:w-16">
+                  ${{ (item.price * item.quantity).toLocaleString('en-US') }}
                   </span>
                 </div>
               </div>

@@ -29,7 +29,7 @@
     <!-- Tab -->
     <div
     ref="tabsContainer"
-    class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-16 text-sm font-bold whitespace-nowrap sm:gap-4"
+    class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 mb-8 text-sm font-bold whitespace-nowrap sm:mb-12 sm:gap-4"
   >
     <button
       @click="fetchAllCafes"

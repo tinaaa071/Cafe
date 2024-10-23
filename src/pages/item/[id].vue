@@ -2,7 +2,7 @@
   <div class="bg-B4 sm:pb-10 dark:bg-stone-900 text-stone-900">
     <Navbar :cartItems="cartItems" @toggle-cart="toggleCart" />
     <BackToTop class="z-20" />
-    <div v-if="item" class="px-6 pt-24 pb-6 mx-auto min-h-screen sm:pt-28 md:pt-32 sm:px-10 xl:px-28">
+    <div v-if="item" class="px-6 pt-28 pb-6 mx-auto min-h-screen sm:pt-32 sm:px-10 xl:px-28">
       <!-- <button @click="$router.back()" class="px-4 py-2 mb-4 text-white bg-gray-500 rounded">
         Back to List
       </button> -->
@@ -40,14 +40,14 @@
               </p>
               <!-- 價格 -->
               <p class="text-base font-bold md:text-3xl text-stone-500">
-                ${{ item.price }}
+                ${{ item.price.toLocaleString() }}
               </p>
             </div>
             <!-- 我的最愛 -->
             <button @click="toggleWishlist" class="text-xl">
               <component
                 :is="isInWishlist ? 'SolarHeartBold' : 'SolarHeartLinear'"
-                class="text-stone-900"
+                :class="isInWishlist ? 'text-pink-200' : 'text-stone-900'"
               />
             </button>
           </div>

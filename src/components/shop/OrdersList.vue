@@ -1,6 +1,6 @@
 <template>
     <div class="mx-auto max-w-4xl">
-      <h1 class="mb-8 text-2xl font-bold text-center sm:text-4xl sm:mb-10">
+      <h1 class="mb-6 text-2xl font-bold text-center sm:text-4xl sm:mb-10">
         我的訂單
       </h1>
   
@@ -68,13 +68,13 @@
                   {{ item.name }}
                 </span>
                 <!-- 數量＆價格 -->
-                <div class="flex justify-between items-center sm:gap-6 sm:justify-normal">
+                <div class="flex justify-between items-center w-full sm:w-fit sm:gap-6">
                   <!-- 數量 -->
                   <span>
                     x{{ item.quantity }}
                   </span> 
                   <!-- 價格 -->
-                  <span class="text-stone-500">
+                  <span class="text-right text-stone-500 sm:w-16">
                     ${{ (item.price * item.quantity).toLocaleString('en-US') }}
                   </span>
                 </div>

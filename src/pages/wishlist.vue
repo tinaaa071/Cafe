@@ -2,7 +2,7 @@
   <div class="h-screen bg-B4">
     <Layout>
       <template #content>
-        <h1 class="mb-8 text-2xl font-bold text-center sm:text-4xl sm:mb-10">
+        <h1 class="mb-6 text-2xl font-bold text-center sm:text-4xl sm:mb-10">
           願望清單
         </h1>
         <!-- 願望清單無資料 -->
@@ -26,10 +26,10 @@
               <img :src="item.image" :alt="item.name" class="object-cover transition-all duration-300 group-hover:scale-110" />
               <!-- 加入最愛 -->
               <button
-                class="absolute top-0 right-0 p-4 text-white"
+                class="absolute top-0 right-0 p-4"
                 @click="confirmRemoveFromWishlist(item)"
               >
-                <SolarHeartBold class="text-xl text-white" />
+                <SolarHeartBold class="text-xl text-pink-200" />
               </button>
               <!-- 標籤 -->
               <p class="absolute right-4 bottom-4 px-3 py-1 text-sm font-medium rounded-full cursor-default bg-B3 text-stone-500">
@@ -42,7 +42,7 @@
                 {{ item.name }}
               </h3>
               <p class="mb-4 font-bold text-stone-500">
-                ${{ item.price }}
+                ${{ item.price.toLocaleString() }}
               </p>
               <!-- 按鈕 -->
               <RouterLink
