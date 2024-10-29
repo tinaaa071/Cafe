@@ -37,7 +37,7 @@
         />
         </button>
         <!-- 標籤 -->
-        <p class="absolute right-4 bottom-4 px-3 py-1 text-sm font-medium whitespace-nowrap rounded-full bg-B3 text-stone-500 h-fit dark:bg-stone-500 dark:text-white">
+        <p class="absolute right-4 bottom-4 px-3 py-1 text-sm font-medium whitespace-nowrap rounded-full cursor-default bg-B3 text-stone-500 h-fit dark:bg-stone-500 dark:text-white">
           {{ item.type }}
         </p>
       </div>

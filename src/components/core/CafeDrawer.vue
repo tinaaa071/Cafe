@@ -14,7 +14,7 @@
         <!-- 地址 -->
         <div class="flex flex-col gap-3 justify-center text-center md:flex-row">
           <div class="flex gap-3 justify-center" v-if="selectedCafe.mrt">
-            <p class="px-3 py-1 text-sm font-medium whitespace-nowrap rounded-full bg-B3 text-stone-500 h-fit dark:bg-stone-500 dark:text-white">
+            <p class="px-3 py-1 text-sm font-medium whitespace-nowrap rounded-full cursor-default bg-B3 text-stone-500 h-fit dark:bg-stone-500 dark:text-white">
               {{ selectedCafe.mrt }}
             </p>
           </div>
