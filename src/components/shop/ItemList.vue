@@ -1,12 +1,14 @@
 <template>
   <div class="flex flex-col gap-3 justify-end mb-8 sm:justify-between sm:flex-row sm:gap-4 sm:mb-12">
     <!-- Tab -->
-    <div class="flex gap-3 text-sm font-bold sm:gap-4">
-      <button @click="resetFilter" :class="{'bg-stone-900 text-white dark:bg-white dark:text-stone-900': isAllItemsActive(), 'bg-white dark:bg-transparent dark:text-white': !isAllItemsActive()}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:border-white dark:hover:bg-stone-700 dark:hover:text-white">
+    <div 
+    ref="tabsContainer"
+    class="flex overflow-hidden overflow-x-auto flex-nowrap gap-3 text-sm font-bold sm:gap-4">
+      <button @click="resetFilter" :class="{'bg-stone-900 text-white dark:bg-white dark:text-stone-900': isAllItemsActive(), 'bg-white dark:bg-transparent dark:text-white': !isAllItemsActive()}" class="px-3 py-3 whitespace-nowrap border-2 transition-colors duration-300 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:border-white dark:hover:bg-stone-700 dark:hover:text-white">
         所有商品
       </button>
       <button v-for="type in uniqueTypes" :key="type" @click="filterByType(type)" :class="{'bg-stone-900 text-white dark:bg-white dark:text-stone-900': isTypeActive(type), 'bg-white dark:bg-transparent dark:text-white': !isTypeActive(type)}" 
-      class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:border-white dark:hover:bg-stone-700 dark:hover:text-white">
+      class="px-3 py-3 whitespace-nowrap border-2 transition-colors duration-300 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:border-white dark:hover:bg-stone-700 dark:hover:text-white">
         {{ type }}
       </button>
     </div>
@@ -139,6 +141,13 @@ export default {
       this.filteredItems = this.items; // 初始化篩選項目
       this.uniqueTypes = [...new Set(this.items.map(item => item.type))]; // 獲取唯一的 type
     });
+    
+    const container = this.$refs.tabsContainer;
+
+    container.addEventListener('wheel', (e) => {
+      e.preventDefault(); // 禁止垂直滾動
+      container.scrollLeft += e.deltaY; // 讓滾輪控制水平滾動
+    });
   },
   methods: {
     addToCart(item) {
@@ -190,3 +199,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.flex {
+  -ms-overflow-style: none;  /* IE 和 Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.flex::-webkit-scrollbar {
+  display: none; /* Chrome, Safari 和 Opera */
+}
+</style>

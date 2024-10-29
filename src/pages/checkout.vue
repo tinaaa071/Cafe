@@ -185,7 +185,7 @@
       <!-- 完成訂單 -->
       <div v-if="orderPlaced" class="mx-auto max-w-4xl order-card">
         <!-- 訂單資訊 -->
-        <div class="p-6 bg-white border-2 border-stone-900">
+        <div class="p-6 bg-white border-2 cursor-default dark:border-white border-stone-900 dark:bg-transparent dark:text-white">
           <!-- 訂單編號 -->
           <div class="flex flex-col gap-1 justify-between mb-2 font-bold sm:items-center sm:flex-row sm:mb-3">
             <h2 class="text-lg md:text-xl">
@@ -196,7 +196,7 @@
             </p>
           </div>
           <!-- 訂購人資料 -->
-          <ul class="mb-5 list-disc list-inside text-stone-500 sm:mb-6">
+          <ul class="mb-5 list-disc list-inside text-stone-500 sm:mb-6 dark:text-stone-400">
             <li class="mb-0.5">
               姓名： 
               <span>{{ orderInfo.name }}</span>
@@ -227,7 +227,7 @@
           <ul class="mb-5 sm:mb-6">
             <li v-for="item in orderInfo.items" :key="item.id" class="flex gap-4 mb-2 sm:mb-3 sm:gap-6">
               <!-- 圖片 -->
-              <img :src="item.image" :alt="item.name" class="object-cover w-14 border-2 aspect-square border-stone-900" />
+              <img :src="item.image" :alt="item.name" class="object-cover w-14 border-2 aspect-square border-stone-900 dark:border-white" />
               <!-- 商品資訊 -->
               <div class="flex flex-col gap-2 justify-between w-full sm:items-center sm:flex-row">
                 <!-- 商品名稱 -->
@@ -241,7 +241,7 @@
                     x{{ item.quantity }}
                   </span> 
                   <!-- 價格 -->
-                  <span class="text-right text-stone-500 sm:w-16">
+                  <span class="text-right text-stone-500 sm:w-16 dark:text-stone-400">
                   ${{ (item.price * item.quantity).toLocaleString('en-US') }}
                   </span>
                 </div>
@@ -261,7 +261,7 @@
 
         <!-- 返回訂單頁面按鈕 -->
         <div v-if="orderPlaced" class="mt-6">
-          <RouterLink to="/orders" class="flex gap-2 justify-center items-center p-4 text-xl font-bold text-white transition-colors duration-300 bg-stone-900 sm:gap-3 hover:bg-stone-500">
+          <RouterLink to="/orders" class="button-main">
             <SolarBillListLinear />
             <p>我的訂單</p>
           </RouterLink>

@@ -34,7 +34,7 @@
         @click="fetchAllCafes"
         :class="[
           'px-3 py-2.5 sm:px-6 sm:py-4 border-2 transition-colors duration-300 hover:bg-stone-700 font-bold dark:border-white hover:text-white', 
-          cityName === 'all' ? 'bg-stone-900 border-stone-900 text-white dark:bg-white dark:text-stone-900' : 'bg-B3 border-stone-900 text-stone-900   dark:border-white dark:hover:bg-stone-500 dark:hover:text-white'
+          cityName === 'all' ? 'bg-stone-900 border-stone-900 text-white dark:bg-white dark:text-stone-900' : 'bg-B3 border-stone-900 text-stone-900   dark:border-white dark:hover:bg-stone-700 dark:hover:text-white'
         ]"
         style="position: sticky; left: 0; z-index: 10;"
       >
@@ -251,9 +251,6 @@ export default {
 </script>
 
 <style scoped>
-.error {
-  color: red;
-}
 .city-button.active {
   background-color: #0c0a09;
   color: white;

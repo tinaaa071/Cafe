@@ -8,7 +8,7 @@
         <div
           v-for="order in reversedOrders"
           :key="order.orderNumber"
-          class="p-6 bg-white border-2 border-stone-900 order-card"
+          class="p-6 bg-white border-2 cursor-default border-stone-900 order-card dark:border-white dark:bg-transparent dark:text-white"
         >
           <!-- 訂單編號 -->
           <div class="flex flex-col gap-1 justify-between mb-2 font-bold sm:items-center sm:flex-row sm:mb-3">
@@ -21,7 +21,7 @@
           </div>
           
           <!-- 訂購人資料 -->
-          <ul class="mb-5 list-disc list-inside text-stone-500 sm:mb-6">
+          <ul class="mb-5 list-disc list-inside text-stone-500 sm:mb-6 dark:text-stone-400">
             <li class="mb-0.5">
               姓名： 
               <span>{{ order.name }}</span>
@@ -59,7 +59,7 @@
               <img
                 :src="item.image"
                 :alt="item.name"
-                class="object-cover w-14 border-2 aspect-square border-stone-900"
+                class="object-cover w-14 border-2 aspect-square border-stone-900 dark:border-white"
               />
               <!-- 商品資訊 -->
               <div class="flex flex-col gap-2 justify-between w-full sm:items-center sm:flex-row">
@@ -74,7 +74,7 @@
                     x{{ item.quantity }}
                   </span> 
                   <!-- 價格 -->
-                  <span class="text-right text-stone-500 sm:w-16">
+                  <span class="text-right text-stone-500 sm:w-16 dark:text-stone-400">
                     ${{ (item.price * item.quantity).toLocaleString('en-US') }}
                   </span>
                 </div>
