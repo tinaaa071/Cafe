@@ -5,7 +5,8 @@
       <button @click="resetFilter" :class="{'bg-stone-900 text-white dark:bg-white dark:text-stone-900': isAllItemsActive(), 'bg-white dark:bg-transparent dark:text-white': !isAllItemsActive()}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:border-white dark:hover:bg-stone-700 dark:hover:text-white">
         所有商品
       </button>
-      <button v-for="type in uniqueTypes" :key="type" @click="filterByType(type)" :class="{'bg-stone-900 text-white dark:bg-white dark:text-stone-900': isTypeActive(type), 'bg-white dark:bg-transparent dark:text-white': !isTypeActive(type)}" class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:border-white dark:hover:bg-stone-700 dark:hover:text-white">
+      <button v-for="type in uniqueTypes" :key="type" @click="filterByType(type)" :class="{'bg-stone-900 text-white dark:bg-white dark:text-stone-900': isTypeActive(type), 'bg-white dark:bg-transparent dark:text-white': !isTypeActive(type)}" 
+      class="px-3 py-2.5 border-2 transition-colors duration-300 sm:py-4 sm:px-6 border-stone-900 hover:bg-stone-500 hover:text-white dark:border-white dark:hover:bg-stone-700 dark:hover:text-white">
         {{ type }}
       </button>
     </div>

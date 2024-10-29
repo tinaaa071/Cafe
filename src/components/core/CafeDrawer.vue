@@ -25,7 +25,7 @@
         <!-- Img -->
         <img v-if="selectedCafe?.imageUrl && selectedCafe.imageUrl !== 'https://via.placeholder.com/400'" :src="selectedCafe.imageUrl" alt="Cafe Image" class="object-cover w-full border-2 aspect-video border-stone-900 dark:border-white" />
         <!-- BTN -->
-        <a v-if="selectedCafe && selectedCafe.url" :href="selectedCafe.url" target="_blank" class="py-2 w-full font-bold text-center text-white transition-colors duration-300 sm:py-3 bg-stone-900 hover:bg-stone-500 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white">
+        <a v-if="selectedCafe && selectedCafe.url" :href="selectedCafe.url" target="_blank" class="button-main">
           更多資訊
         </a>
         <!-- 其他資訊 -->

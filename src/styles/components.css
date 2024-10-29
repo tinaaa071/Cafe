@@ -17,9 +17,9 @@
         @apply mr-2 border-2 appearance-none border-stone-300  
     }
     .button-main {
-        @apply py-2 w-full font-bold text-center text-white transition-colors duration-300 sm:py-3 bg-stone-900 hover:bg-stone-500 dark:bg-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white
+        @apply flex gap-2 justify-center items-center py-3 w-full font-bold text-center border-2 border-stone-900 text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 dark:bg-white dark:border-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white 
     }
     .button-sub {
-        @apply flex gap-2 justify-center items-center py-2 w-full font-bold text-white transition-colors duration-300 bg-stone-900 sm:py-3 hover:bg-stone-700 dark:border-2 dark:border-white
+        @apply flex gap-2 justify-center items-center py-3 w-full font-bold border-2 border-stone-900 text-stone-900 bg-transparent transition-colors duration-300 hover:bg-stone-700 hover:text-white dark:border-white dark:text-white
     }
 }

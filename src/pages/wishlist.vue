@@ -10,7 +10,7 @@
           <p class="text-stone-400">
             無收藏資料 
           </p>
-          <router-link to="/shop" class="px-6 py-4 mx-auto text-white transition-colors duration-300 bg-stone-900 hover:bg-stone-500 w-fit dark:bg-white dark:text-stone-900 dark:hover:bg-stone-500 dark:hover:text-white">
+          <router-link to="/shop" class="px-6 mx-auto button-main w-fit">
             回到商品頁
           </router-link>
         </div>

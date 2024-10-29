@@ -24,27 +24,27 @@
           <div class="flex flex-col gap-3 sm:gap-4">
             <!-- Profile -->
             <RouterLink to="/profile">
-              <div class="button-sub">
+              <div class="button-main">
                 <SolarUserLinear />
                 <p>個人資料</p>
               </div>
             </RouterLink>
             <!-- Bill -->
             <RouterLink to="/orders">
-              <div class="button-sub">
+              <div class="button-main">
                 <SolarBillListLinear />
                 <p>我的訂單</p>
               </div>
             </RouterLink>
             <!-- Wishlist -->
             <RouterLink to="/wishlist">
-              <div class="button-sub">
+              <div class="button-main">
                 <SolarHeartLinear />
                 <p>願望清單</p>
               </div>
             </RouterLink>
             <!-- 登出 -->
-            <button @click="handleLogoutClick" class="button-main">
+            <button @click="handleLogoutClick" class="button-sub">
               登出
             </button>
           </div>
