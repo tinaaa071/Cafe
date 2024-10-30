@@ -21,7 +21,7 @@
             v-for="item in wishlistItems" :key="item.id"
             class="flex flex-col items-center p-6 bg-white group dark:bg-transparent dark:border-2 dark:border-white dark:text-white"
           >
-            <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[5/4] border-stone-900 overflow-hidden dark:border-white text-stone-900">
+            <div class="relative mb-5 sm:mb-6 w-full border-2 aspect-[5/4] border-stone-900 overflow-hidden dark:border-white text-stone-900 flex items-center justify-center">
               <!-- 圖片 -->
               <img :src="item.image" :alt="item.name" class="object-cover transition-all duration-300 group-hover:scale-110" />
               <!-- 加入最愛 -->
