@@ -184,10 +184,10 @@ export default {
 
     // Update main menu items based on your pages structure
     const menuItems = [
-      { to: '/', text: 'Home' }, // Home page
-      { to: '/recipe', text: 'Recipe' }, // Blog listing page
-      { to: '/shop', text: 'Shop' }, // Shop
-      { to: '/about', text: 'About' }, // Contact page
+      { to: '/', text: '找咖啡廳' }, // Home page
+      { to: '/recipe', text: '咖啡食譜' }, // Blog listing page
+      { to: '/shop', text: '所有商品' }, // Shop
+      { to: '/about', text: '關於我' }, // Contact page
     ];
 
     const isActive = (path) => route.path === path;

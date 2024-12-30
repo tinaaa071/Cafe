@@ -62,9 +62,14 @@
                         食材
                     </p>
                     <ul class="text-sm font-medium list-disc list-inside md:text-lg">
-                        <li v-for="(ingredient, index) in adjustedIngredients" :key="index">
-                            {{ ingredient.quantity }} {{ ingredient.name }}
-                        </li>
+                      <li v-for="(ingredient, index) in adjustedIngredients" :key="index">
+                        <template v-if="ingredient.quantity">
+                          {{ ingredient.quantity }} {{ ingredient.unit || '' }} {{ ingredient.name }}
+                        </template>
+                        <template v-else>
+                          {{ ingredient.name }}
+                        </template>
+                      </li>
                     </ul>
                   </div>
                   <!-- 如何製作 -->
@@ -116,16 +121,18 @@
     },
     computed: {
       adjustedIngredients() {
-        // 根據當前的數量動態調整食材的份量
-        return this.item
-          ? this.item.ingredients.map((ingredient) => {
-              return {
-                name: ingredient.name,
-                quantity: ingredient.quantity * this.quantity, // 動態計算份量
-                unit: ingredient.unit,
-              };
-            })
-          : [];
+        if (!this.item) return [];
+        
+        return this.item.ingredients
+          .filter((ingredient) => ingredient.name?.trim()) // 確保有名稱的食材才顯示
+          .map((ingredient) => {
+            const quantity = ingredient.quantity != null ? ingredient.quantity * this.quantity : null; // 如果 quantity 為空，設為 null
+            return {
+              name: ingredient.name,
+              quantity, // 安全處理後的 quantity
+              unit: ingredient.unit,
+            };
+          });
       },
     },
     methods: {

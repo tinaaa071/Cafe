@@ -6,10 +6,10 @@
         <!-- Title -->
         <div class="w-1/2">
           <h1 class="mb-3 text-2xl font-bold sm:mb-6 sm:text-5xl lg:text-6xl">
-            Paw Cafe
+            哈囉！
           </h1>
-          <p class="text-sm font-light sm:text-xl">
-            Welcome to 
+          <p class="text-sm font-normal sm:text-xl">
+            歡迎來到 Paw Cafe
           </p>
         </div>
         <!-- Banner -->
