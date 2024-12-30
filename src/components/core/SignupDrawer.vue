@@ -8,7 +8,7 @@
           <!-- 個人資料 -->
           <div class="flex gap-4 mb-5 sm:mb-6 dark:text-white">
             <!-- Avatar -->
-            <img class="inline-block size-[62px] rounded-full border-2 border-stone-200" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80" alt="Avatar">
+            <img class="inline-block size-[62px] rounded-full border-2 border-stone-200" src="https://i.imgur.com/93zadWo.pngnpm " alt="Avatar">
             <!-- 個人資料 -->
             <div>
               <p class="text-lg font-bold text-stone-900 sm:text-3xl dark:text-white">
